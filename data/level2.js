@@ -1040,5 +1040,4 @@ const level2Data = [
   { id: 1999, unit: 40, word: "greet", phonetic: "[ ɡrit ]", pos: "v.", trans: "問候；迎接", collocation: "greet warmly (熱情問候)", synonym: "welcome, salute", enEx: "Host stood at front entry door to <mark>greet</mark> guests warmly.", chEx: "主人站在前門處熱情問候抵達的客人。" },
   { id: 2000, unit: 40, word: "greeting", phonetic: "[ `gritɪŋ ]", pos: "n.", trans: "問候；祝賀", collocation: "seasonal greetings (節日問候)", synonym: "welcome, message", enEx: "She sent a friendly written <mark>greeting</mark> card to overseas friends.", chEx: "她向海外朋友寄送了一張友好的手寫問候卡。" }
 
-
 ];
