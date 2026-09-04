@@ -49,7 +49,7 @@ const level1Data = [
   { id: 47, unit: 1, word: "airplane", phonetic: "[ `ɛrˌplen ]", pos: "n.", trans: "飛機", collocation: "by airplane (搭乘飛機)", synonym: "aircraft, plane", enEx: "The <mark>airplane</mark> landed safely at midnight.", chEx: "飛機於半夜安全降落。" },
   { id: 48, unit: 1, word: "airport", phonetic: "[ `ɛrˌpɔrt ]", pos: "n.", trans: "機場", collocation: "international airport (國際機場)", synonym: "airfield", enEx: "We arrived at the <mark>airport</mark> two hours early.", chEx: "我們提前兩小時到達機場。" },
   { id: 49, unit: 1, word: "alarm", phonetic: "[ ə`lɑrm ]", pos: "n./v.", trans: "警報；鬧鐘", collocation: "set an alarm (設定鬧鐘)", synonym: "alert, warning", enEx: "My <mark>alarm</mark> goes off at six every morning.", chEx: "我的鬧鐘每天早上六點響。" },
-  { id: 50, unit: 1, word: "alike", phonetic: "[ ə`laɪk ]", pos: "a./adv.", trans: "相似的；同樣地", collocation: "look alike (看起來很像)", synonym: "similar, identical", enEx: "The twin sisters look remarkably <mark>alike</mark>.", chEx: "這對雙胞胎姐妹看起來非常相似。" }
+  { id: 50, unit: 1, word: "alike", phonetic: "[ ə`laɪk ]", pos: "a./adv.", trans: "相似的；同樣地", collocation: "look alike (看起來很像)", synonym: "similar, identical", enEx: "The twin sisters look remarkably <mark>alike</mark>.", chEx: "這對雙胞胎姐妹看起來非常相似。" },
 
     // ==================== Unit 2 (51 ~ 100) ====================
   { id: 51, unit: 2, word: "alive", phonetic: "[ ə`laɪv ]", pos: "a.", trans: "活著的；有生氣的", collocation: "keep alive (保持存活)", synonym: "living, active", enEx: "The doctor saved his life, and he is still <mark>alive</mark>.", chEx: "醫生救了他一命，他現在依然活著。" },
@@ -101,7 +101,7 @@ const level1Data = [
   { id: 97, unit: 2, word: "argue", phonetic: "[ `ɑrɡju ]", pos: "v.", trans: "爭論；主張", collocation: "argue with sb (與某人爭論)", synonym: "dispute, debate", enEx: "It is useless to <mark>argue</mark> about minor details.", chEx: "爭論微小的細節是沒有用的。" },
   { id: 98, unit: 2, word: "argument", phonetic: "[ `ɑrɡjəmənt ]", pos: "n.", trans: "爭論；論點", collocation: "have an argument (爭吵)", synonym: "debate, quarrel", enEx: "They had a heated <mark>argument</mark> about politics.", chEx: "他們對政治話題展開了激烈的爭論。" },
   { id: 99, unit: 2, word: "arise", phonetic: "[ ə`raɪz ]", pos: "v.", trans: "出現；發生", collocation: "problems arise (問題出現)", synonym: "occur, emerge", enEx: "Unexpected difficulties may <mark>arise</mark> during the trip.", chEx: "旅途中可能會出現意想不到的困難。" },
-  { id: 100, unit: 2, word: "arm", phonetic: "[ ɑrm ]", pos: "n./v.", trans: "手臂；武器；裝備", collocation: "arm in arm (臂彎牽著臂彎)", synonym: "limb, weapon", enEx: "He injured his right <mark>arm</mark> in the basketball match.", chEx: "他在籃球賽中弄傷了右手手臂。" }
+  { id: 100, unit: 2, word: "arm", phonetic: "[ ɑrm ]", pos: "n./v.", trans: "手臂；武器；裝備", collocation: "arm in arm (臂彎牽著臂彎)", synonym: "limb, weapon", enEx: "He injured his right <mark>arm</mark> in the basketball match.", chEx: "他在籃球賽中弄傷了右手手臂。" },
 
   // ==================== Unit 3 (101 ~ 150) ====================
   { id: 101, unit: 3, word: "army", phonetic: "[ `ɑrmɪ ]", pos: "n.", trans: "陸軍；軍隊", collocation: "join the army (參軍)", synonym: "military, force", enEx: "He joined the <mark>army</mark> after graduating from high school.", chEx: "他高中畢業後就參軍了。" },
@@ -153,7 +153,7 @@ const level1Data = [
   { id: 147, unit: 3, word: "awful", phonetic: "[ `ɔfəl ]", pos: "a.", trans: "極糟糕的；可怕的", collocation: "awful weather (糟糕的天氣)", synonym: "terrible, horrible", enEx: "The food tasted <mark>awful</mark>, so we didn't finish it.", chEx: "食物味道太糟糕了，所以我們沒有吃完。" },
   { id: 148, unit: 3, word: "baby", phonetic: "[ `bebɪ ]", pos: "n.", trans: "嬰兒；幼童", collocation: "baby care (嬰兒照顧)", synonym: "infant, child", enEx: "The <mark>baby</mark> started crying when she got hungry.", chEx: "嬰兒餓的時候開始哭泣。" },
   { id: 149, unit: 3, word: "back", phonetic: "[ bæk ]", pos: "n./adv./a.", trans: "背部；向後；後面的", collocation: "back and forth (來回地)", synonym: "rear, reverse", enEx: "He hurt his <mark>back</mark> while lifting heavy boxes.", chEx: "他在搬重箱子時弄傷了背部。" },
-  { id: 150, unit: 3, word: "background", phonetic: "[ `bækˌɡraʊnd ]", pos: "n.", trans: "背景；經歷", collocation: "family background (家庭背景)", synonym: "context, experience", enEx: "Applicants come from diverse educational <mark>background</mark>s.", chEx: "申請者來自多元的教育背景。" }
+  { id: 150, unit: 3, word: "background", phonetic: "[ `bækˌɡraʊnd ]", pos: "n.", trans: "背景；經歷", collocation: "family background (家庭背景)", synonym: "context, experience", enEx: "Applicants come from diverse educational <mark>background</mark>s.", chEx: "申請者來自多元的教育背景。" },
 
   // ==================== Unit 4 (151 ~ 200) ====================
   { id: 151, unit: 4, word: "backward", phonetic: "[ `bækwɚd ]", pos: "a./adv.", trans: "向後的；落後的", collocation: "look backward (回頭看)", synonym: "rearward, behind", enEx: "He took a step <mark>backward</mark> in surprise.", chEx: "他驚訝地往後退了一步。" },
@@ -205,7 +205,7 @@ const level1Data = [
   { id: 197, unit: 4, word: "beat", phonetic: "[ bit ]", pos: "v./n.", trans: "打擊；擊敗；節拍", collocation: "beat the opponent (擊敗對手)", synonym: "defeat, hit", enEx: "Our team played well and <mark>beat</mark> the rivals.", chEx: "我們隊發揮出色，擊敗了對手。" },
   { id: 198, unit: 4, word: "beautiful", phonetic: "[ `bjutəfəl ]", pos: "a.", trans: "美麗的；漂亮的", collocation: "beautiful scenery (美麗的風景)", synonym: "pretty, gorgeous", enEx: "We watched a <mark>beautiful</mark> sunset at the seaside.", chEx: "我們在海邊觀賞了美麗的日落。" },
   { id: 199, unit: 4, word: "beauty", phonetic: "[ `bjutɪ ]", pos: "n.", trans: "美麗；美人", collocation: "natural beauty (自然美)", synonym: "attractiveness, charm", enEx: "The island is famous for its natural <mark>beauty</mark>.", chEx: "這座島嶼以其自然美景而聞名。" },
-  { id: 200, unit: 4, word: "because", phonetic: "[ bɪ`kɔz ]", pos: "conj.", trans: "因為", collocation: "because of... (因為...)", synonym: "since, as", enEx: "We stayed indoors <mark>because</mark> it was raining heavily.", chEx: "因為雨下得很大，我們留在了室內。" }
+  { id: 200, unit: 4, word: "because", phonetic: "[ bɪ`kɔz ]", pos: "conj.", trans: "因為", collocation: "because of... (因為...)", synonym: "since, as", enEx: "We stayed indoors <mark>because</mark> it was raining heavily.", chEx: "因為雨下得很大，我們留在了室內。" },
 
   // ==================== Unit 5 (201 ~ 250) ====================
   { id: 201, unit: 5, word: "become", phonetic: "[ bɪ`kʌm ]", pos: "v.", trans: "變成；成為", collocation: "become popular (變得受歡迎)", synonym: "turn into, grow", enEx: "She worked hard to <mark>become</mark> a licensed doctor.", chEx: "她努力工作以成為一名執業醫生。" },
@@ -309,7 +309,7 @@ const level1Data = [
   { id: 297, unit: 6, word: "brand", phonetic: "[ brænd ]", pos: "n.", trans: "品牌", collocation: "brand name (品牌名稱)", synonym: "label, trademark", enEx: "This clothing <mark>brand</mark> is popular among teenagers.", chEx: "這個服裝品牌在青少年中很受歡迎。" },
   { id: 298, unit: 6, word: "brave", phonetic: "[ brev ]", pos: "a.", trans: "勇敢的", collocation: "brave soldier (勇敢的士兵)", synonym: "courageous, bold", enEx: "The <mark>brave</mark> firefighter saved the dog from the fire.", chEx: "勇敢的消防員從大火中救出了那隻狗。" },
   { id: 299, unit: 6, word: "bread", phonetic: "[ brɛd ]", pos: "n.", trans: "麵包", collocation: "slice of bread (一片麵包)", synonym: "food", enEx: "I had toast <mark>bread</mark> and coffee for breakfast.", chEx: "我早餐吃了烤麵包和咖啡。" },
-  { id: 300, unit: 6, word: "break", phonetic: "[ brek ]", pos: "v./n.", trans: "打碎；休息", collocation: "take a break (休息一下)", synonym: "fracture, pause", enEx: "Let me take a short <mark>break</mark> after studying.", chEx: "讀書後讓我稍微休息一下。" }
+  { id: 300, unit: 6, word: "break", phonetic: "[ brek ]", pos: "v./n.", trans: "打碎；休息", collocation: "take a break (休息一下)", synonym: "fracture, pause", enEx: "Let me take a short <mark>break</mark> after studying.", chEx: "讀書後讓我稍微休息一下。" },
 
   // ==================== Unit 7 (301 ~ 350) ====================
   { id: 301, unit: 7, word: "breakfast", phonetic: "[ `brɛkfəst ]", pos: "n.", trans: "早餐", collocation: "have breakfast (吃早餐)", synonym: "morning meal", enEx: "Eating a healthy <mark>breakfast</mark> gives you energy.", chEx: "吃一份健康的早餐能給你能量。" },
@@ -413,7 +413,7 @@ const level1Data = [
   { id: 397, unit: 8, word: "category", phonetic: "[ `ætəˌɡɔrɪ ]", pos: "n.", trans: "類別；範疇", collocation: "product category (產品類別)", synonym: "group, class", enEx: "Books are sorted into different <mark>category</mark>ies.", chEx: "書籍被分類整理成不同的類別。" },
   { id: 398, unit: 8, word: "caterpillar", phonetic: "[ `kætɚˌpɪlɚ ]", pos: "n.", trans: "毛毛蟲", collocation: "green caterpillar (綠色毛毛蟲)", synonym: "larva", enEx: "The <mark>caterpillar</mark> eventually turned into a butterfly.", chEx: "這隻毛毛蟲最終變成了蝴蝶。" },
   { id: 399, unit: 8, word: "cause", phonetic: "[ kɔz ]", pos: "n./v.", trans: "原因；導致", collocation: "cause trouble (引起麻煩)", synonym: "reason, induce", enEx: "Heavy rain can <mark>cause</mark> severe traffic delays.", chEx: "大雨可能會導致嚴重的交通延誤。" },
-  { id: 400, unit: 8, word: "cave", phonetic: "[ kev ]", pos: "n.", trans: "洞穴", collocation: "dark cave (黑暗的洞穴)", synonym: "cavern, grotto", enEx: "Explorers discovered ancient paintings inside the <mark>cave</mark>.", chEx: "探險家們在洞穴內發現了古代壁畫。" }
+  { id: 400, unit: 8, word: "cave", phonetic: "[ kev ]", pos: "n.", trans: "洞穴", collocation: "dark cave (黑暗的洞穴)", synonym: "cavern, grotto", enEx: "Explorers discovered ancient paintings inside the <mark>cave</mark>.", chEx: "探險家們在洞穴內發現了古代壁畫。" },
 
   // ==================== Unit 9 (401 ~ 450) ====================
   { id: 401, unit: 9, word: "cease", phonetic: "[ sis ]", pos: "v.", trans: "停止；終止", collocation: "cease fire (停火)", synonym: "stop, end", enEx: "The rain has <mark>cease</mark>d, and the sun is coming out.", chEx: "雨已經停了，太陽正露出來。" },
@@ -517,7 +517,7 @@ const level1Data = [
   { id: 497, unit: 10, word: "click", phonetic: "[ klɪk ]", pos: "v./n.", trans: "點擊；發出喀噠聲", collocation: "double click (雙擊/連點兩下)", synonym: "press, tap", enEx: "<mark>Click</mark> here to download the file directly.", chEx: "點擊這裡可以直接下載檔案。" },
   { id: 498, unit: 10, word: "client", phonetic: "[ `klaɪənt ]", pos: "n.", trans: "客戶；委託人", collocation: "important client (重要客戶)", synonym: "customer, buyer", enEx: "We have a business meeting with an important <mark>client</mark>.", chEx: "我們和一位重要客戶有一個商務會議。" },
   { id: 499, unit: 10, word: "cliff", phonetic: "[ klɪf ]", pos: "n.", trans: "懸崖", collocation: "edge of the cliff (懸崖邊緣)", synonym: "precipice, bluff", enEx: "They stood on the steep <mark>cliff</mark> looking at the ocean.", chEx: "他們站在陡峭的懸崖上俯瞰大海。" },
-  { id: 500, unit: 10, word: "climate", phonetic: "[ `klaɪmət ]", pos: "n.", trans: "氣候", collocation: "climate change (氣候變遷)", synonym: "weather, environment", enEx: "Global <mark>climate</mark> change affects weather patterns worldwide.", chEx: "全球氣候變遷影響著全世界的天氣型態。" }
+  { id: 500, unit: 10, word: "climate", phonetic: "[ `klaɪmət ]", pos: "n.", trans: "氣候", collocation: "climate change (氣候變遷)", synonym: "weather, environment", enEx: "Global <mark>climate</mark> change affects weather patterns worldwide.", chEx: "全球氣候變遷影響著全世界的天氣型態。" },
 
   // ==================== Unit 11 (501 ~ 550) ====================
   { id: 501, unit: 11, word: "climb", phonetic: "[ klaɪm ]", pos: "v./n.", trans: "攀爬", collocation: "climb a mountain (爬山)", synonym: "ascend, scale", enEx: "We plan to <mark>climb</mark> the hill before sunset.", chEx: "我們計畫在日落前爬上這座山丘。" },
@@ -621,7 +621,7 @@ const level1Data = [
   { id: 597, unit: 12, word: "compliment", phonetic: "[ `kɑmpləmənt ]", pos: "n./v.", trans: "稱讚；恭維", collocation: "pay a compliment (給予稱讚)", synonym: "praise, flattery", enEx: "He paid her a nice <mark>compliment</mark> on her new hairstyle.", chEx: "他稱讚了她的新發型。" },
   { id: 598, unit: 12, word: "comply", phonetic: "[ kəm`plaɪ ]", pos: "v.", trans: "順從；遵守", collocation: "comply with rules (遵守規定)", synonym: "obey, conform", enEx: "All citizens must <mark>comply</mark> with the local laws.", chEx: "所有公民都必須遵守當地法律。" },
   { id: 599, unit: 12, word: "component", phonetic: "[ kəm`ponənt ]", pos: "n.", trans: "零件；成分", collocation: "key component (關鍵元件)", synonym: "part, element", enEx: "Trust is a key <mark>component</mark> of a healthy relationship.", chEx: "信任是健康關係的關鍵要素。" },
-  { id: 600, unit: 12, word: "compose", phonetic: "[ kəm`poz ]", pos: "v.", trans: "組成；創作", collocation: "compose music (作曲)", synonym: "create, constitute", enEx: "Mozart started to <mark>compose</mark> music at a very young age.", chEx: "莫札特在很小的時候就開始作曲。" }
+  { id: 600, unit: 12, word: "compose", phonetic: "[ kəm`poz ]", pos: "v.", trans: "組成；創作", collocation: "compose music (作曲)", synonym: "create, constitute", enEx: "Mozart started to <mark>compose</mark> music at a very young age.", chEx: "莫札特在很小的時候就開始作曲。" },
 
   // ==================== Unit 13 (601 ~ 650) ====================
   { id: 601, unit: 13, word: "composer", phonetic: "[ kəm`pozɚ ]", pos: "n.", trans: "作曲家", collocation: "famous composer (著名作曲家)", synonym: "musician, creator", enEx: "Beethoven is one of the world's greatest <mark>composer</mark>s.", chEx: "貝多芬是世界上最偉大的作曲家之一。" },
@@ -725,7 +725,7 @@ const level1Data = [
   { id: 697, unit: 14, word: "cookie", phonetic: "[ `kʊkɪ ]", pos: "n.", trans: "餅乾", collocation: "chocolate chip cookie (巧克力餅乾)", synonym: "biscuit, treat", enEx: "She baked fresh chocolate chip <mark>cookie</mark>s.", chEx: "她烘焙了新鮮的巧克力餅乾。" },
   { id: 698, unit: 14, word: "cool", phonetic: "[ kul ]", pos: "a./v.", trans: "涼爽的；酷的；變涼", collocation: "cool down (冷卻下來)", synonym: "chilly, calm", enEx: "A <mark>cool</mark> breeze blew through the open window.", chEx: "一陣涼爽的微風吹過敞開的窗戶。" },
   { id: 699, unit: 14, word: "cooperate", phonetic: "[ ko`ɑpəˌret ]", pos: "v.", trans: "合作", collocation: "cooperate with... (與...合作)", synonym: "collaborate, assist", enEx: "We must <mark>cooperate</mark> to solve this common problem.", chEx: "我們必須合作來解決這個共同的問題。" },
-  { id: 700, unit: 14, word: "cooperation", phonetic: "[ koˌɑpə`reʃən ]", pos: "n.", trans: "合作", collocation: "international cooperation (國際合作)", synonym: "collaboration, teamwork", enEx: "Thank you for your help and <mark>cooperation</mark>.", chEx: "感謝您的協助與合作。" }
+  { id: 700, unit: 14, word: "cooperation", phonetic: "[ koˌɑpə`reʃən ]", pos: "n.", trans: "合作", collocation: "international cooperation (國際合作)", synonym: "collaboration, teamwork", enEx: "Thank you for your help and <mark>cooperation</mark>.", chEx: "感謝您的協助與合作。" },
 
   // ==================== Unit 15 (701 ~ 750) ====================
   { id: 701, unit: 15, word: "coordinate", phonetic: "[ ko`ɔrdnˌet ]", pos: "v.", trans: "協調；配合", collocation: "coordinate efforts (協調努力)", synonym: "integrate, organize", enEx: "We need to <mark>coordinate</mark> our schedules for the meeting.", chEx: "我們需要協調會議的時間安排。" },
@@ -829,7 +829,7 @@ const level1Data = [
   { id: 797, unit: 16, word: "crust", phonetic: "[ krʌst ]", pos: "n.", trans: "外殼；麵包皮", collocation: "earth's crust (地殼)", synonym: "shell, layer", enEx: "The earth's <mark>crust</mark> is made up of several tectonic plates.", chEx: "地殼由幾個板塊組成。" },
   { id: 798, unit: 16, word: "cry", phonetic: "[ kraɪ ]", pos: "v./n.", trans: "哭泣；大喊", collocation: "cry for help (呼救)", synonym: "weep, shout", enEx: "The little girl began to <mark>cry</mark> when she lost her toy.", chEx: "小女孩失去玩具時開始哭泣。" },
   { id: 799, unit: 16, word: "crystal", phonetic: "[ `krɪstḷ ]", pos: "n./a.", trans: "水晶；結晶的", collocation: "crystal clear (水水晶般清澈/極為清楚)", synonym: "glass, transparent", enEx: "The water in the lake was <mark>crystal</mark> clear.", chEx: "湖裡的水晶瑩剔透。" },
-  { id: 800, unit: 16, word: "cube", phonetic: "[ kjub ]", pos: "n.", trans: "立方體；冰塊", collocation: "ice cube (冰塊)", synonym: "block, die", enEx: "Add a couple of ice <mark>cube</mark>s to my drink, please.", chEx: "請在我的飲料裡加幾個冰塊。" }
+  { id: 800, unit: 16, word: "cube", phonetic: "[ kjub ]", pos: "n.", trans: "立方體；冰塊", collocation: "ice cube (冰塊)", synonym: "block, die", enEx: "Add a couple of ice <mark>cube</mark>s to my drink, please.", chEx: "請在我的飲料裡加幾個冰塊。" },
 
   // ==================== Unit 17 (801 ~ 850) ====================
   { id: 801, unit: 17, word: "cucumber", phonetic: "[ `kjukʌmbɚ ]", pos: "n.", trans: "黃瓜", collocation: "cucumber salad (小黃瓜沙拉)", synonym: "vegetable", enEx: "Fresh <mark>cucumber</mark> adds a nice crunch to the salad.", chEx: "新鮮黃瓜給沙拉增加了爽脆口感。" },
@@ -933,7 +933,7 @@ const level1Data = [
   { id: 897, unit: 18, word: "defy", phonetic: "[ dɪ`faɪ ]", pos: "v.", trans: "違抗；蔑視", collocation: "defy orders (違抗命令)", synonym: "resist, challenge", enEx: "He chose to <mark>defy</mark> authority and stand up for justice.", chEx: "他選擇違抗權威並挺身捍衛正義。" },
   { id: 898, unit: 18, word: "degree", phonetic: "[ dɪ`gri ]", pos: "n.", trans: "度數；學位；程度", collocation: "college degree (大學學位)", synonym: "level, rank", enEx: "She earned a bachelor's <mark>degree</mark> in computer science.", chEx: "她獲得了電腦科學學士學位。" },
   { id: 899, unit: 18, word: "delay", phonetic: "[ dɪ`le ]", pos: "v./n.", trans: "延遲；延誤", collocation: "flight delay (航班延誤)", synonym: "postpone, lag", enEx: "Flight <mark>delay</mark>s were caused by bad weather conditions.", chEx: "航班延誤是由惡劣的天氣狀況引起的。" },
-  { id: 900, unit: 18, word: "delegate", phonetic: "[ `dɛləˌget ]", pos: "n./v.", trans: "代表；委派", collocation: "send delegates (派遣代表)", synonym: "representative, assign", enEx: "Each country sent a <mark>delegate</mark> to the conference.", chEx: "每個國家都派遣了一名代表參加會議。" }
+  { id: 900, unit: 18, word: "delegate", phonetic: "[ `dɛləˌget ]", pos: "n./v.", trans: "代表；委派", collocation: "send delegates (派遣代表)", synonym: "representative, assign", enEx: "Each country sent a <mark>delegate</mark> to the conference.", chEx: "每個國家都派遣了一名代表參加會議。" },
   
   // ==================== Unit 19 (901 ~ 950) ====================
   { id: 901, unit: 19, word: "delegation", phonetic: "[ ˌdɛlə`geʃən ]", pos: "n.", trans: "代表團；委任", collocation: "trade delegation (貿易代表團)", synonym: "deputation, mission", enEx: "The foreign <mark>delegation</mark> arrived at the airport this morning.", chEx: "外國代表團今早抵達機場。" },
