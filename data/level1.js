@@ -1,5 +1,3 @@
-// 請在專案中建立 data/level1.js 檔案，並貼上以下內容：
-
 const level1Data = [
   // ==================== Unit 1 (1 ~ 50) ====================
   { id: 1, unit: 1, word: "abandon", phonetic: "[ ə`bændən ]", pos: "v.", trans: "放棄；拋棄", collocation: "abandon hope (放棄希望)", synonym: "desert, leave", enEx: "He had to <mark>abandon</mark> his car in the snow.", chEx: "他不得不把車子棄置在雪地裡。" },
