@@ -1,6 +1,6 @@
 // 請在專案中建立 data/level1.js 檔案，並貼上以下內容：
 
-window.VOCAB_LEVEL_1 = [
+const level1data= [
   // ==================== Unit 1 (1 ~ 50) ====================
   { id: 1, unit: 1, word: "abandon", phonetic: "[ ə`bændən ]", pos: "v.", trans: "放棄；拋棄", collocation: "abandon hope (放棄希望)", synonym: "desert, leave", enEx: "He had to <mark>abandon</mark> his car in the snow.", chEx: "他不得不把車子棄置在雪地裡。" },
   { id: 2, unit: 1, word: "ability", phonetic: "[ ə`bɪlətɪ ]", pos: "n.", trans: "能力；才能", collocation: "have the ability to... (有能力...)", synonym: "capacity, skill", enEx: "She has the <mark>ability</mark> to solve complex problems.", chEx: "她有能力解決複雜的問題。" },
