@@ -51,7 +51,7 @@ const level1Data = [
   { id: 49, unit: 1, word: "alarm", phonetic: "[ ə`lɑrm ]", pos: "n./v.", trans: "警報；鬧鐘", collocation: "set an alarm (設定鬧鐘)", synonym: "alert, warning", enEx: "My <mark>alarm</mark> goes off at six every morning.", chEx: "我的鬧鐘每天早上六點響。" },
   { id: 50, unit: 1, word: "alike", phonetic: "[ ə`laɪk ]", pos: "a./adv.", trans: "相似的；同樣地", collocation: "look alike (看起來很像)", synonym: "similar, identical", enEx: "The twin sisters look remarkably <mark>alike</mark>.", chEx: "這對雙胞胎姐妹看起來非常相似。" },
 
-    // ==================== Unit 2 (51 ~ 100) ====================
+  // ==================== Unit 2 (51 ~ 100) ====================
   { id: 51, unit: 2, word: "alive", phonetic: "[ ə`laɪv ]", pos: "a.", trans: "活著的；有生氣的", collocation: "keep alive (保持存活)", synonym: "living, active", enEx: "The doctor saved his life, and he is still <mark>alive</mark>.", chEx: "醫生救了他一命，他現在依然活著。" },
   { id: 52, unit: 2, word: "allow", phonetic: "[ ə`laʊ ]", pos: "v.", trans: "允許；准許", collocation: "allow sb to do sth (允許某人做某事)", synonym: "permit, let", enEx: "Smoking is not <mark>allow</mark>ed in this building.", chEx: "這棟大樓內禁止吸菸。" },
   { id: 53, unit: 2, word: "almost", phonetic: "[ `ɔlˌmost ]", pos: "adv.", trans: "幾乎；差不多", collocation: "almost done (快要完成了)", synonym: "nearly, practically", enEx: "It is <mark>almost</mark> time for dinner.", chEx: "幾乎到了吃晚餐的時間了。" },
