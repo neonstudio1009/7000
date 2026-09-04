@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>7000單字</title>
+  <style>
+    :root {
+      --bg-main: #121212;
+      --card-bg: #1e1e1e;
+      --card-inner-bg: #252525;
+      --accent-yellow: #ffb74d;
+      --accent-blue: #3b82f6;
+      --accent-orange: #f59e0b;
+      --text-primary: #ffffff;
+      --text-secondary: #9e9e9e;
+      --border-color: #2c2c2c;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    body { background-color: #000; color: var(--text-primary); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
+
+    .app-container { width: 100%; max-width: 480px; background-color: var(--bg-main); min-height: 100vh; display: flex; flex-direction: column; position: relative; }
+    .page { display: none; flex-direction: column; height: 100vh; overflow-y: auto; padding: 16px; }
+    .page.active { display: flex; }
+
+    /* 頂部導覽列 */
+    .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 12px; }
+    .back-btn { background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; padding: 0 8px; }
+    .bar-title { font-size: 0.95rem; font-weight: bold; color: var(--text-secondary); text-align: center; }
+
+    /* 大廳與選單 */
+    .lobby-header { text-align: center; margin: 24px 0 20px 0; }
+    .lobby-header h1 { font-size: 1.6rem; color: var(--accent-yellow); font-weight: bold; }
+    .lobby-header p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
+    .menu-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-top: 12px; }
+
+    /* 網格清單 */
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
+    .grid-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; transition: opacity 0.2s; }
+    .grid-item:active { background: #2a2a2a; }
+    .grid-item.empty-unit { opacity: 0.5; }
+    .grid-item .title { font-size: 0.95rem; font-weight: bold; color: var(--accent-yellow); }
+    .grid-item .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+
+    /* 單字列表 */
+    .word-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+    .word-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
+    .word-item .w-title { font-size: 1.1rem; font-weight: bold; color: var(--text-primary); }
+    .word-item .w-trans { font-size: 0.85rem; color: var(--text-secondary); }
+
+    /* 空白狀態提示 */
+    .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
+    .empty-state div { font-size: 2.5rem; margin-bottom: 10px; }
+
+    /* 單字卡頁面 */
+    .card-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
+    .card-progress { font-size: 1.2rem; font-weight: bold; color: #ffffff; text-align: center; }
+    .card-unit-name { font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-top: 2px; }
+
+    .card-body { padding: 20px 0; flex: 1; }
+    .card-word-title { font-size: 2.5rem; font-weight: bold; color: var(--accent-yellow); margin-bottom: 6px; }
+    .card-phonetic { font-size: 1.1rem; color: var(--text-secondary); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .audio-icon { background: none; border: none; font-size: 1.2rem; cursor: pointer; color: var(--accent-blue); }
+    .card-meaning { font-size: 1.2rem; color: #ffffff; font-weight: bold; margin-bottom: 20px; }
+
+    .rel-section { background: var(--card-inner-bg); border-radius: 10px; padding: 14px; margin-bottom: 24px; border-left: 4px solid var(--accent-blue); display: flex; flex-direction: column; gap: 10px; }
+    .rel-row { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; }
+    .tag-blue { color: var(--accent-blue); font-weight: bold; }
+    .tag-orange { color: var(--accent-orange); font-weight: bold; }
+    .rel-text { color: #e5e7eb; }
+
+    .example-block { display: flex; flex-direction: column; gap: 12px; }
+    .example-en { font-size: 1.05rem; color: #ffffff; line-height: 1.5; }
+    .example-en mark { background: none; color: var(--accent-yellow); font-weight: bold; }
+    .example-ch { font-size: 0.95rem; color: var(--text-secondary); margin-top: 4px; }
+
+    .card-nav { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; margin-top: auto; }
+    .card-nav-btn { flex: 1; padding: 14px; background: var(--card-bg); border: 1px solid var(--border-color); color: #ffffff; border-radius: 24px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: center; }
+    .card-nav-btn:active { background: #2a2a2a; }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+
+    <!-- 1. 主大廳 -->
+    <div id="pageLobby" class="page active">
+      <div class="lobby-header">
+        <h1>📚 學測 7000 單字庫</h1>
+        <p id="dbStatus">資料庫整合就緒</p>
+      </div>
+
+      <div class="menu-card" onclick="openLevelCategory()">
+        <div style="font-size: 2rem;">🎴</div>
+        <div>
+          <h2 style="font-size: 1.2rem;">7000 單字卡本</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">7大等級 / 140個單元 / 真實KK音標</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. 等級選擇 -->
+    <div id="pageLevelCategory" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
+        <div class="bar-title">選擇單字範圍 (Level)</div>
+        <div style="width: 24px;"></div>
+      </div>
+      <div class="grid-container" id="levelGrid"></div>
+    </div>
+
+    <!-- 3. 單元選擇 -->
+    <div id="pageUnitList" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageLevelCategory')">‹</button>
+        <div class="bar-title" id="unitListTitle">Level 選擇</div>
+        <div style="width: 24px;"></div>
+      </div>
+      <div class="grid-container" id="unitGrid"></div>
+    </div>
+
+    <!-- 4. 單字清單 -->
+    <div id="pageWordList" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageUnitList')">‹</button>
+        <div class="bar-title" id="wordListTitle">Unit 單字列表</div>
+        <div style="width: 24px;"></div>
+      </div>
+      <div class="word-list" id="wordListContainer"></div>
+    </div>
+
+    <!-- 5. 單字卡片頁面 -->
+    <div id="pageCardDetail" class="page">
+      <div class="card-header">
+        <button class="back-btn" onclick="showPage('pageWordList')">‹</button>
+        <div>
+          <div class="card-progress" id="cardProgress">1/50</div>
+          <div class="card-unit-name" id="cardUnitName">7000單字 Level 1 - Unit 1</div>
+        </div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="card-body">
+        <div class="card-word-title" id="cardWord"></div>
+        <div class="card-phonetic">
+          <span id="cardPhonetic"></span>
+          <button class="audio-icon" onclick="speakCurrentWord()">🔊</button>
+        </div>
+        <div class="card-meaning" id="cardMeaning"></div>
+
+        <div class="rel-section">
+          <div class="rel-row">
+            <span class="tag-blue">搭配</span>
+            <span class="rel-text" id="cardCollocation"></span>
+          </div>
+          <div class="rel-row">
+            <span class="tag-orange">相似</span>
+            <span class="rel-text" id="cardSynonym"></span>
+          </div>
+        </div>
+
+        <div class="example-block" id="cardExamples"></div>
+      </div>
+
+      <div class="card-nav">
+        <button class="card-nav-btn" onclick="prevCard()">◄ 上一個</button>
+        <button class="card-nav-btn" onclick="nextCard()">下一個 ►</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 在此處載入你的資料檔，例如： -->
+  <!-- <script src="level1.js"></script> -->
+  <!-- <script src="level2.js"></script> -->
+  <!-- <script src="level3.js"></script> -->
+
+<script>
+  const LEVEL_NAMES = {
+    1: "Level 1 - 初級基礎單字",
+    2: "Level 2 - 中初級進階單字",
+    3: "Level 3 - 學測中級核心單字",
+    4: "Level 4 - 學測中高級高頻單字",
+    5: "Level 5 - 學測頂標衝刺單字",
+    6: "Level 6 - 指考/分科高階單字",
+    7: "Level 7 - 7000單字大滿貫"
+  };
+
+  // 1. 安全檢查並取得 `const level1data` ~ `const level7data`
+  function getLevelData(levelNum) {
+    const varName = `level${levelNum}data`;
+    if (window[varName] && typeof window[varName] === 'object') {
+      return window[varName];
+    }
+    return {}; // 若尚未定義，回傳空白物件殼
+  }
+
+  // 2. 讀取指定 Level 與 Unit 的單字陣列（相容 Unit 1~20 格式）
+  function getUnitWords(levelNum, unitNum) {
+    const levelData = getLevelData(levelNum);
+    // 支援 level1data[1] 或 level1data['1']
+    return levelData[unitNum] || levelData[String(unitNum)] || [];
+  }
+
+  let currentLevel = 1;
+  let currentUnit = 1;
+  let currentWords = [];
+  let currentCardIndex = 0;
+
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(pageId).classList.add('active');
+  }
+
+  function openLevelCategory() {
+    showPage('pageLevelCategory');
+    const grid = document.getElementById('levelGrid');
+    grid.innerHTML = '';
+    
+    for (let i = 1; i <= 7; i++) {
+      const item = document.createElement('div');
+      item.className = 'grid-item';
+      item.onclick = () => openUnitList(i);
+      item.innerHTML = `
+        <div class="title">${LEVEL_NAMES[i]}</div>
+        <div class="subtitle">${(i - 1) * 1000 + 1} - ${i * 1000} 字</div>
+      `;
+      grid.appendChild(item);
+    }
+  }
+
+  function openUnitList(level) {
+    currentLevel = level;
+    showPage('pageUnitList');
+    document.getElementById('unitListTitle').innerText = `${LEVEL_NAMES[level]} - 單元選擇`;
+    const grid = document.getElementById('unitGrid');
+    grid.innerHTML = '';
+
+    // 固定生成 Unit 1 ~ Unit 20 (若為連續單元如 Level 4 為 61~80，也可在此調整)
+    const startUnit = (level - 1) * 20 + 1;
+    const endUnit = level * 20;
+
+    for (let u = startUnit; u <= endUnit; u++) {
+      const words = getUnitWords(level, u);
+      const wordCount = words.length;
+      const isEmpty = wordCount === 0;
+
+      const item = document.createElement('div');
+      item.className = `grid-item ${isEmpty ? 'empty-unit' : ''}`;
+      item.onclick = () => openWordList(u);
+      item.innerHTML = `
+        <div class="title">Unit ${u}</div>
+        <div class="subtitle">${isEmpty ? '🚧 建置中' : wordCount + ' 個單字'}</div>
+      `;
+      grid.appendChild(item);
+    }
+  }
+
+  function openWordList(unit) {
+    currentUnit = unit;
+    showPage('pageWordList');
+    document.getElementById('wordListTitle').innerText = `Unit ${unit} 單字列表`;
+    
+    currentWords = getUnitWords(currentLevel, unit);
+    const container = document.getElementById('wordListContainer');
+    container.innerHTML = '';
+
+    if (currentWords.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div>🚧</div>
+          <p>Unit ${unit} 內容尚未載入或建置中</p>
+          <p style="font-size:0.8rem; margin-top:6px;">填入 level${currentLevel}data 後即可自動顯示</p>
+        </div>
+      `;
+      return;
+    }
+
+    currentWords.forEach((item, idx) => {
+      const div = document.createElement('div');
+      div.className = 'word-item';
+      div.onclick = () => openCardDetail(idx);
+      div.innerHTML = `
+        <div class="w-title">${item.word}</div>
+        <div class="w-trans">${item.pos || ''} ${item.trans || ''}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function openCardDetail(index) {
+    currentCardIndex = index;
+    showPage('pageCardDetail');
+    renderCard();
+  }
+
+  function renderCard() {
+    const item = currentWords[currentCardIndex];
+    if (!item) return;
+
+    document.getElementById('cardProgress').innerText = `${currentCardIndex + 1}/${currentWords.length}`;
+    document.getElementById('cardUnitName').innerText = `7000單字 Level ${currentLevel} - Unit ${currentUnit}`;
+    document.getElementById('cardWord').innerText = item.word || '';
+    document.getElementById('cardPhonetic').innerText = item.phonetic || '';
+    document.getElementById('cardMeaning').innerText = `${item.pos || ''} ${item.trans || ''}`;
+    document.getElementById('cardCollocation').innerText = item.collocation || '無';
+    document.getElementById('cardSynonym').innerText = item.synonym || '無';
+
+    document.getElementById('cardExamples').innerHTML = `
+      <div>
+        <div class="example-en">${item.enEx || '暫無例句'}</div>
+        <div class="example-ch">${item.chEx || ''}</div>
+      </div>
+    `;
+    speakCurrentWord();
+  }
+
+  function prevCard() {
+    if (currentCardIndex > 0) {
+      currentCardIndex--;
+      renderCard();
+    }
+  }
+
+  function nextCard() {
+    if (currentCardIndex < currentWords.length - 1) {
+      currentCardIndex++;
+      renderCard();
+    }
+  }
+
+  function speakCurrentWord() {
+    const item = currentWords[currentCardIndex];
+    if (item && item.word && 'speechSynthesis' in window) {
+      window.speechSynthesis.cancel(); // 停止先前的發音
+      const u = new SpeechSynthesisUtterance(item.word);
+      u.lang = 'en-US';
+      window.speechSynthesis.speak(u);
+    }
+  }
+
+  window.onload = () => {
+    openLevelCategory();
+  };
+</script>
+</body>
+</html>
