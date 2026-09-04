@@ -102,7 +102,7 @@ const level2Data = [
   { id: 1097, unit: 22, word: "diversification", phonetic: "[ daɪˌvɝsəfə`keʃən ]", pos: "n.", trans: "多角化；多樣化", collocation: "product diversification (產品多角化)", synonym: "variation, expansion", enEx: "Business <mark>diversification</mark> reduces risk during market drop.", chEx: "企業多角化經營能在市場下跌時降低風險。" },
   { id: 1098, unit: 22, word: "diversify", phonetic: "[ daɪ`vɝsəˌfaɪ ]", pos: "v.", trans: "使多樣化；多角化經營", collocation: "diversify investment (分散投資)", synonym: "vary, branch out", enEx: "It is wise to <mark>diversify</mark> your financial investment portfolio.", chEx: "分散你的財務投資組合是明智之舉。" },
   { id: 1099, unit: 22, word: "diversity", phonetic: "[ daɪ`vɝsətɪ ]", pos: "n.", trans: "多樣性；多元", collocation: "cultural diversity (文化多樣性)", synonym: "variety, mixture", enEx: "The university values cultural <mark>diversity</mark> on campus.", chEx: "該大學重視校園內的文化多樣性。" },
-  { id: 1100, unit: 22, word: "divert", phonetic: "[ daɪ`vɝt ]", pos: "v.", trans: "轉移；使改道", collocation: "divert traffic (使交通改道)", synonym: "reroute, redirect", enEx: "Police had to <mark>divert</mark> traffic due to an accident.", chEx: "由於發生事故，警方不得不使交通改道。" }
+  { id: 1100, unit: 22, word: "divert", phonetic: "[ daɪ`vɝt ]", pos: "v.", trans: "轉移；使改道", collocation: "divert traffic (使交通改道)", synonym: "reroute, redirect", enEx: "Police had to <mark>divert</mark> traffic due to an accident.", chEx: "由於發生事故，警方不得不使交通改道。" },
   
   // ==================== Unit 23 (1101 ~ 1150) ====================
   { id: 1101, unit: 23, word: "divide", phonetic: "[ dɪ`vaɪd ]", pos: "v.", trans: "劃分；分開；除", collocation: "divide into... (分成...)", synonym: "separate, split", enEx: "We can <mark>divide</mark> the project into three distinct stages.", chEx: "我們可以將專案劃分為三個不同的階段。" },
@@ -206,7 +206,7 @@ const level2Data = [
   { id: 1197, unit: 24, word: "dwell", phonetic: "[ dwɛl ]", pos: "v.", trans: "居住；棲息；老是想著", collocation: "dwell on... (老是想著/糾結於...)", synonym: "reside, live", enEx: "Don't <mark>dwell</mark> on past mistakes; focus on your future.", chEx: "不要老是糾結於過去的錯誤，專注於你的未來。" },
   { id: 1198, unit: 24, word: "dweller", phonetic: "[ `dwɛlɚ ]", pos: "n.", trans: "居民；居住者", collocation: "city dweller (城市居民)", synonym: "resident, inhabitant", enEx: "Many city <mark>dweller</mark>s enjoy weekend trips to nature.", chEx: "許多城市居民喜歡在週末去大自然旅遊。" },
   { id: 1199, unit: 24, word: "dwelling", phonetic: "[ `dwɛlɪŋ ]", pos: "n.", trans: "住處；住宅", collocation: "private dwelling (私人住宅)", synonym: "residence, home", enEx: "Ancient cave <mark>dwelling</mark>s were discovered by archaeologists.", chEx: "考古學家發現了古代洞穴住處。" },
-  { id: 2000, unit: 24, word: "dye", phonetic: "[ daɪ ]", pos: "n./v.", trans: "染料；染色", collocation: "hair dye (染髮劑)", synonym: "color, stain", enEx: "She decided to <mark>dye</mark> her dark hair bright red.", chEx: "她決定將黑髮染成鮮紅色。" }
+  { id: 2000, unit: 24, word: "dye", phonetic: "[ daɪ ]", pos: "n./v.", trans: "染料；染色", collocation: "hair dye (染髮劑)", synonym: "color, stain", enEx: "She decided to <mark>dye</mark> her dark hair bright red.", chEx: "她決定將黑髮染成鮮紅色。" },
 
   // ==================== Unit 25 (1201 ~ 1250) ====================
   { id: 1201, unit: 25, word: "dynamic", phonetic: "[ daɪ`næmɪk ]", pos: "a.", trans: "有活力的；動態的", collocation: "dynamic market (充滿活力的市場)", synonym: "energetic, lively", enEx: "We need a <mark>dynamic</mark> leader to inspire the whole team.", chEx: "我們需要一位充滿活力的領導者來激勵整個團隊。" },
@@ -310,7 +310,7 @@ const level2Data = [
   { id: 1297, unit: 26, word: "empathy", phonetic: "[ `ɛmpəθɪ ]", pos: "n.", trans: "同理心；共鳴", collocation: "show empathy (展現同理心)", synonym: "compassion, understanding", enEx: "A good counselor shows deep <mark>empathy</mark> toward clients.", chEx: "優秀的心理諮商師對諮商者表現出深刻的同理心。" },
   { id: 1298, unit: 26, word: "emperor", phonetic: "[ `ɛmpərɚ ]", pos: "n.", trans: "皇帝", collocation: "Roman emperor (羅馬皇帝)", synonym: "ruler, monarch", enEx: "The ancient <mark>emperor</mark> ruled over a vast territorial empire.", chEx: "這位古代皇帝統治著一個領土遼闊的帝國。" },
   { id: 1299, unit: 26, word: "emphasis", phonetic: "[ `ɛmfəsɪs ]", pos: "n.", trans: "強調；重點", collocation: "place emphasis on... (強調...)", synonym: "stress, focus", enEx: "Our school places strong <mark>emphasis</mark> on creative thinking.", chEx: "我們學校非常強調創造性思維。" },
-  { id: 1300, unit: 26, word: "emphasize", phonetic: "[ `ɛmfəˌsaɪz ]", pos: "v.", trans: "強調", collocation: "emphasize importance (強調重要性)", synonym: "stress, highlight", enEx: "Doctors continuously <mark>emphasize</mark> the need for sufficient sleep.", chEx: "醫生不斷強調充足睡眠的重要性。" }
+  { id: 1300, unit: 26, word: "emphasize", phonetic: "[ `ɛmfəˌsaɪz ]", pos: "v.", trans: "強調", collocation: "emphasize importance (強調重要性)", synonym: "stress, highlight", enEx: "Doctors continuously <mark>emphasize</mark> the need for sufficient sleep.", chEx: "醫生不斷強調充足睡眠的重要性。" },
 
   // ==================== Unit 27 (1301 ~ 1350) ====================
   { id: 1301, unit: 27, word: "empirical", phonetic: "[ ɪm`pɪrɪkḷ ]", pos: "a.", trans: "經驗上的；實證的", collocation: "empirical data (實證數據)", synonym: "experimental, observational", enEx: "The theory is supported by solid <mark>empirical</mark> evidence.", chEx: "該理論得到了堅實的實證證據支持。" },
@@ -414,7 +414,7 @@ const level2Data = [
   { id: 1397, unit: 28, word: "evaporate", phonetic: "[ ɪ`væpəˌret ]", pos: "v.", trans: "蒸發；消失", collocation: "water evaporates (水蒸發)", synonym: "vaporize, vanish", enEx: "Water drops on hot pavement will <mark>evaporate</mark> quickly in seconds.", chEx: "熱路面上的水滴會在幾秒鐘內快速蒸發。" },
   { id: 1398, unit: 28, word: "eve", phonetic: "[ iv ]", pos: "n.", trans: "前夕", collocation: "Christmas Eve (聖誕夜/平安夜)", synonym: "vigil, prior night", enEx: "Families gather together to feast on Christmas <mark>eve</mark>.", chEx: "家人在聖誕前夕聚在一起享用盛宴。" },
   { id: 1399, unit: 28, word: "even", phonetic: "[ `ivən ]", pos: "adv./a.", trans: "甚至；平坦的；偶數的", collocation: "even number (偶數)", synonym: "level, smooth", enEx: "He worked tirelessly, <mark>even</mark> through the cold rainy weekends.", chEx: "他不知疲倦地工作，甚至在寒冷下雨的週末也不例外。" },
-  { id: 1400, unit: 28, word: "evening", phonetic: "[ `ivnɪŋ ]", pos: "n.", trans: "傍晚；晚上", collocation: "good evening (晚上好)", synonym: "nightfall, dusk", enEx: "They enjoyed a quiet stroll along the beach in the <mark>evening</mark>.", chEx: "他們在傍晚時分沿著海灘安靜散步。" }
+  { id: 1400, unit: 28, word: "evening", phonetic: "[ `ivnɪŋ ]", pos: "n.", trans: "傍晚；晚上", collocation: "good evening (晚上好)", synonym: "nightfall, dusk", enEx: "They enjoyed a quiet stroll along the beach in the <mark>evening</mark>.", chEx: "他們在傍晚時分沿著海灘安靜散步。" },
 
   // ==================== Unit 29 (1401 ~ 1450) ====================
   { id: 1401, unit: 29, word: "event", phonetic: "[ ɪ`vɛnt ]", pos: "n.", trans: "事件；活動", collocation: "sporting event (體育賽事)", synonym: "occurrence, incident", enEx: "The annual sports <mark>event</mark> was held at the city stadium.", chEx: "一年一度的體育賽事在市立體育場舉行。" },
@@ -518,7 +518,7 @@ const level2Data = [
   { id: 1497, unit: 30, word: "explosion", phonetic: "[ ɪks`ploʒən ]", pos: "n.", trans: "爆炸；劇增", collocation: "population explosion (人口劇增)", synonym: "blast, outburst", enEx: "The factory fire triggered a loud chemical <mark>explosion</mark>.", chEx: "工廠火災引發了劇烈的化學爆炸。" },
   { id: 1498, unit: 30, word: "explosive", phonetic: "[ ɪks`plosɪv ]", pos: "a./n.", trans: "爆炸性的；炸藥", collocation: "explosive growth (爆炸性成長)", synonym: "volatile, dangerous", enEx: "The company experienced <mark>explosive</mark> user growth this past year.", chEx: "該公司在過去一年中經歷了爆炸性的用戶成長。" },
   { id: 1499, unit: 30, word: "export", phonetic: "[ ɪks`pɔrt ]", pos: "v./n.", trans: "出口；外銷", collocation: "export goods (出口貨物)", synonym: "ship, sell abroad", enEx: "Taiwan is known to <mark>export</mark> high-tech electronics globally.", chEx: "台灣以向全球出口高科技電子產品而聞名。" },
-  { id: 1500, unit: 30, word: "expose", phonetic: "[ ɪks`poz ]", pos: "v.", trans: "暴露；揭露", collocation: "expose truth (揭露真相)", synonym: "reveal, uncover", enEx: "Investigative journalists worked hard to <mark>expose</mark> political corruption.", chEx: "調查記者努力工作以揭露政治腐敗。" }
+  { id: 1500, unit: 30, word: "expose", phonetic: "[ ɪks`poz ]", pos: "v.", trans: "暴露；揭露", collocation: "expose truth (揭露真相)", synonym: "reveal, uncover", enEx: "Investigative journalists worked hard to <mark>expose</mark> political corruption.", chEx: "調查記者努力工作以揭露政治腐敗。" },
 
   // ==================== Unit 31 (1501 ~ 1550) ====================
   { id: 1501, unit: 31, word: "exposition", phonetic: "[ ˌɛkspə`zɪʃən ]", pos: "n.", trans: "博覽會；詳細闡述", collocation: "trade exposition (貿易博覽會)", synonym: "exhibition, explanation", enEx: "The international tech <mark>exposition</mark> attracted companies worldwide.", chEx: "國際科技博覽會吸引了來自世界各地的公司。" },
@@ -622,7 +622,7 @@ const level2Data = [
   { id: 1597, unit: 32, word: "feminine", phonetic: "[ `fɛmənɪn ]", pos: "a.", trans: "女性化的；溫柔的", collocation: "feminine charm (女性魅力)", synonym: "womanly, delicate", enEx: "The room design reflected soft pastel colors and <mark>feminine</mark> touch.", chEx: "房間設計展現出柔和的粉彩色調與女性氣息。" },
   { id: 1598, unit: 32, word: "fence", phonetic: "[ fɛns ]", pos: "n./v.", trans: "籬笆；圍欄", collocation: "wooden fence (木籬笆)", synonym: "barrier, border", enEx: "A sturdy wooden <mark>fence</mark> surrounds the quiet backyard garden.", chEx: "一道堅固的木籬笆圍繞著安靜的後院花園。" },
   { id: 1599, unit: 32, word: "ferry", phonetic: "[ `fɛrɪ ]", pos: "n./v.", trans: "渡輪；運送", collocation: "passenger ferry (客運渡輪)", synonym: "boat, shuttle", enEx: "The commuter <mark>ferry</mark> operates daily between two harbors.", chEx: "這班通勤渡輪每天在兩個港口之間往返運作。" },
-  { id: 1600, unit: 32, word: "fertile", phonetic: "[ `fɝtḷ ]", pos: "a.", trans: "肥沃的；多產的", collocation: "fertile soil (肥沃的土壤)", synonym: "fruitful, productive", enEx: "The river valley provides extremely <mark>fertile</mark> soil for agriculture.", chEx: "這座河谷為農業提供了極其肥沃的土壤。" }
+  { id: 1600, unit: 32, word: "fertile", phonetic: "[ `fɝtḷ ]", pos: "a.", trans: "肥沃的；多產的", collocation: "fertile soil (肥沃的土壤)", synonym: "fruitful, productive", enEx: "The river valley provides extremely <mark>fertile</mark> soil for agriculture.", chEx: "這座河谷為農業提供了極其肥沃的土壤。" },
 
   // ==================== Unit 33 (1601 ~ 1650) ====================
   { id: 1601, unit: 33, word: "fertilizer", phonetic: "[ `fɝtḷˌaɪzɚ ]", pos: "n.", trans: "肥料", collocation: "organic fertilizer (有機肥料)", synonym: "compost, manure", enEx: "Farmers use natural <mark>fertilizer</mark> to enrich crop soil health.", chEx: "農民使用天然肥料來增加作物土壤的健康。" },
@@ -726,7 +726,7 @@ const level2Data = [
   { id: 1697, unit: 34, word: "flow", phonetic: "[ flo ]", pos: "v./n.", trans: "流動；串流", collocation: "cash flow (現金流)", synonym: "stream, run", enEx: "Rivers <mark>flow</mark> continuously downstream toward wide ocean.", chEx: "河流源源不絕地向下游奔流駛向廣闊的海洋。" },
   { id: 1698, unit: 34, word: "flower", phonetic: "[ `flaʊɚ ]", pos: "n./v.", trans: "花朵；開花", collocation: "in full flower (盛開中)", synonym: "blossom, bloom", enEx: "Spring gardens display bright colorful <mark>flower</mark>s in full bloom.", chEx: "春天的花園展示著盛開的鮮豔花朵。" },
   { id: 1699, unit: 34, word: "fluctuate", phonetic: "[ `flʌktʃʊˌet ]", pos: "v.", trans: "波動；起伏", collocation: "prices fluctuate (價格波動)", synonym: "vary, waver", enEx: "Gasoline prices <mark>fluctuate</mark> depending on global oil supplies.", chEx: "汽油價格根據全球石油供應情況而波動。" },
-  { id: 1700, unit: 34, word: "fluctuation", phonetic: "[ ˌflʌktʃʊ`eʃən ]", pos: "n.", trans: "波動；變動", collocation: "currency fluctuation (貨幣波動)", synonym: "variation, shift", enEx: "Investors monitor stock market <mark>fluctuation</mark>s very closely.", chEx: "投資者非常密切地監測股票市場的波動。" }
+  { id: 1700, unit: 34, word: "fluctuation", phonetic: "[ ˌflʌktʃʊ`eʃən ]", pos: "n.", trans: "波動；變動", collocation: "currency fluctuation (貨幣波動)", synonym: "variation, shift", enEx: "Investors monitor stock market <mark>fluctuation</mark>s very closely.", chEx: "投資者非常密切地監測股票市場的波動。" },
 
   // ==================== Unit 35 (1701 ~ 1750) ====================
   { id: 1701, unit: 35, word: "fluency", phonetic: "[ `fluənsɪ ]", pos: "n.", trans: "流利；流暢", collocation: "fluency in English (英語流利度)", synonym: "eloquence, articulateness", enEx: "Achieving high <mark>fluency</mark> in a second language requires daily practice.", chEx: "要在第二語言達到高度流利需要每天練習。" },
@@ -830,7 +830,7 @@ const level2Data = [
   { id: 1797, unit: 36, word: "fracture", phonetic: "[ `fræktʃɚ ]", pos: "n./v.", trans: "骨折；斷裂", collocation: "bone fracture (骨折)", synonym: "break, crack", enEx: "X-ray revealed a minor bone <mark>fracture</mark> in right arm.", chEx: "X光檢查顯示右臂有微小的骨折。" },
   { id: 1798, unit: 36, word: "fragile", phonetic: "[ `frædʒəl ]", pos: "a.", trans: "易碎的；脆弱的", collocation: "fragile glass (易碎玻璃)", synonym: "delicate, breakable", enEx: "Handle cardboard box carefully because contents inside are <mark>fragile</mark>.", chEx: "小心搬運紙箱，因為裡面的物品易碎。" },
   { id: 1799, unit: 36, word: "fragility", phonetic: "[ frə`dʒɪlətɪ ]", pos: "n.", trans: "脆弱；易碎性", collocation: "fragility of life (生命的脆弱)", synonym: "delicacy, weakness", enEx: "Pandemic highlighted vulnerability and global economic <mark>fragility</mark>.", chEx: "這場疫情突顯了全球經濟的脆弱性。" },
-  { id: 1800, unit: 36, word: "fragment", phonetic: "[ `fræɡmənt ]", pos: "n./v.", trans: "碎片；分裂", collocation: "glass fragment (玻璃碎片)", synonym: "piece, part", enEx: "Archeologists discovered ancient ceramic <mark>fragment</mark>s in soil.", chEx: "考古學家在土壤中發現了古代陶瓷碎片。" }
+  { id: 1800, unit: 36, word: "fragment", phonetic: "[ `fræɡmənt ]", pos: "n./v.", trans: "碎片；分裂", collocation: "glass fragment (玻璃碎片)", synonym: "piece, part", enEx: "Archeologists discovered ancient ceramic <mark>fragment</mark>s in soil.", chEx: "考古學家在土壤中發現了古代陶瓷碎片。" },
 
   // ==================== Unit 37 (1801 ~ 1850) ====================
   { id: 1801, unit: 37, word: "fragrant", phonetic: "[ `freɡrənt ]", pos: "a.", trans: "芳香的；香的", collocation: "fragrant flowers (芳香的花朵)", synonym: "aromatic, scented", enEx: "Freshly brewed coffee filled kitchen with a <mark>fragrant</mark> aroma.", chEx: "現煮的咖啡讓廚房瀰漫著芳香。" },
@@ -935,7 +935,7 @@ const level2Data = [
   { id: 1897, unit: 38, word: "gender", phonetic: "[ `dʒɛndɚ ]", pos: "n.", trans: "性別", collocation: "gender equality (性別平等)", synonym: "sex", enEx: "Company promotes workplace policy supporting fair <mark>gender</mark> equality.", chEx: "公司推廣支持公平性別平等的職場政策。" },
   { id: 1898, unit: 38, word: "gene", phonetic: "[ dʒin ]", pos: "n.", trans: "基因", collocation: "gene mutation (基因突變)", synonym: "dna", enEx: "Scientists study human <mark>gene</mark> structure to understand inherited diseases.", chEx: "科學家研究人類基因結構以瞭解遺傳疾病。" },
   { id: 1899, unit: 38, word: "general", phonetic: "[ `dʒɛnərəl ]", pos: "a./n.", trans: "一般的；概括的；將軍", collocation: "in general (總體而言)", synonym: "broad, universal", enEx: "The <mark>general</mark> opinion favors adopting renewable solar energy.", chEx: "普遍意見贊成採用可再生的太陽能。" },
-  { id: 1900, unit: 38, word: "generalize", phonetic: "[ `dʒɛnərəˌlaɪz ]", pos: "v.", trans: "歸納；概括", collocation: "generalize from (從...進行概括)", synonym: "extrapolate, summarize", enEx: "It is dangerous to <mark>generalize</mark> based on a single isolated case.", chEx: "根據單一孤立的案例進行概括是危險的。" }
+  { id: 1900, unit: 38, word: "generalize", phonetic: "[ `dʒɛnərəˌlaɪz ]", pos: "v.", trans: "歸納；概括", collocation: "generalize from (從...進行概括)", synonym: "extrapolate, summarize", enEx: "It is dangerous to <mark>generalize</mark> based on a single isolated case.", chEx: "根據單一孤立的案例進行概括是危險的。" },
 
   // ==================== Unit 39 (1901 ~ 1950) ====================
   { id: 1901, unit: 39, word: "generally", phonetic: "[ `dʒɛnərəlɪ ]", pos: "adv.", trans: "通常；一般而言", collocation: "generally speaking (一般而言)", synonym: "usually, typically", enEx: "<mark>Generally</mark> speaking, regular exercise improves overall body health.", chEx: "一般而言，定期運動能改善整體身體健康。" },
