@@ -102,7 +102,7 @@ const level3Data = [
   { id: 2097, unit: 42, word: "head", phonetic: "[ hɛd ]", pos: "n./v.", trans: "頭部；前進", collocation: "head towards (朝...前進)", synonym: "mind, lead", enEx: "Tourists decided to <mark>head</mark> towards beach before noon.", chEx: "遊客們決定在中午前朝海灘前進。" },
   { id: 2098, unit: 42, word: "headache", phonetic: "[ `hɛdˌek ]", pos: "n.", trans: "頭痛；令人頭痛的事", collocation: "severe headache (劇烈頭痛)", synonym: "migraine, problem", enEx: "Taking brief rest helps relieve mild tension <mark>headache</mark>.", chEx: "短暫休息有助於緩解輕微的緊張性頭痛。" },
   { id: 2099, unit: 42, word: "heading", phonetic: "[ `hɛdɪŋ ]", pos: "n.", trans: "標題；航向", collocation: "section heading (章節標題)", synonym: "title, caption", enEx: "Read main chapter <mark>heading</mark> to grasp overview topic.", chEx: "閱讀主要章節標題以掌握概覽主題。" },
-  { id: 2100, unit: 42, word: "headline", phonetic: "[ `hɛdˌlaɪn ]", pos: "n.", trans: "新聞標題", collocation: "front-page headline (頭版新聞標題)", synonym: "title, header", enEx: "Major breaking news dominated national newspaper front-page <mark>headline</mark>.", chEx: "重大突發新聞占據了全國報紙的頭版新聞標題。" }
+  { id: 2100, unit: 42, word: "headline", phonetic: "[ `hɛdˌlaɪn ]", pos: "n.", trans: "新聞標題", collocation: "front-page headline (頭版新聞標題)", synonym: "title, header", enEx: "Major breaking news dominated national newspaper front-page <mark>headline</mark>.", chEx: "重大突發新聞占據了全國報紙的頭版新聞標題。" },
 
   // ==================== Unit 43 (2101 ~ 2150) ====================
   { id: 2101, unit: 43, word: "headquarters", phonetic: "[ `hɛdˌkwɔrtɚz ]", pos: "n.", trans: "總部；司令部", collocation: "corporate headquarters (公司總部)", synonym: "head office, base", enEx: "Company moved its corporate <mark>headquarters</mark> to capital city.", chEx: "公司將其企業總部搬遷到了首都。" },
@@ -206,7 +206,7 @@ const level3Data = [
   { id: 2197, unit: 44, word: "house", phonetic: "[ haʊs ]", pos: "n./v.", trans: "房屋；容納", collocation: "build a house (蓋房子)", synonym: "home, building", enEx: "Family built a cozy brick <mark>house</mark> with garden.", chEx: "這家人蓋了一棟帶花園的舒適磚房。" },
   { id: 2198, unit: 44, word: "household", phonetic: "[ `haʊsˌhold ]", pos: "n./a.", trans: "家庭；戶；家用的", collocation: "household chores (家務雜事)", synonym: "family, domestic", enEx: "Smart home appliances simplify routine <mark>household</mark> chores.", chEx: "智慧家電簡化了日常家務雜事。" },
   { id: 2199, unit: 44, word: "housewife", phonetic: "[ `haʊsˌwaɪf ]", pos: "n.", trans: "家庭主婦", collocation: "busy housewife (忙碌的家庭主婦)", synonym: "homemaker", enEx: "Busy <mark>housewife</mark> managed family budget and daily grocery cooking.", chEx: "忙碌的家庭主婦管理著家庭預算與日常買菜做飯。" },
-  { id: 2200, unit: 44, word: "housework", phonetic: "[ `haʊsˌwɝk ]", pos: "n.", trans: "家事；家務", collocation: "do housework (做家事)", synonym: "chores, cleaning", enEx: "Family members share responsibility of doing weekend <mark>housework</mark>.", chEx: "家庭成員分擔做週末家事的責任。" }
+  { id: 2200, unit: 44, word: "housework", phonetic: "[ `haʊsˌwɝk ]", pos: "n.", trans: "家事；家務", collocation: "do housework (做家事)", synonym: "chores, cleaning", enEx: "Family members share responsibility of doing weekend <mark>housework</mark>.", chEx: "家庭成員分擔做週末家事的責任。" },
 
   // ==================== Unit 45 (2201 ~ 2250) ====================
   { id: 2201, unit: 45, word: "housing", phonetic: "[ `haʊzɪŋ ]", pos: "n.", trans: "住房；住宅", collocation: "housing market (房地產市場)", synonym: "residence, shelter", enEx: "Government launched new affordable <mark>housing</mark> project for families.", chEx: "政府為家庭啟動了新的平價住宅計畫。" },
@@ -310,7 +310,7 @@ const level3Data = [
   { id: 2297, unit: 46, word: "impressive", phonetic: "[ ɪm`prɛsɪv ]", pos: "a.", trans: "令人印象深刻的", collocation: "impressive achievement (令人印象深刻的成就)", synonym: "remarkable, striking", enEx: "Candidate had an <mark>impressive</mark> work history record background.", chEx: "該應徵者擁有令人印象深刻的工作經歷背景。" },
   { id: 2298, unit: 46, word: "imprison", phonetic: "[ ɪm`prɪzṇ ]", pos: "v.", trans: "監禁；關押", collocation: "be imprisoned for (因...而被監禁)", synonym: "jail, detain", enEx: "Criminal was <mark>imprison</mark>ed for ten years after trial verdict.", chEx: "罪犯在審判判決後被監禁十年。" },
   { id: 2299, unit: 46, word: "imprisonment", phonetic: "[ ɪm`prɪzṇmənt ]", pos: "n.", trans: "監禁；關押", collocation: "sentence to imprisonment (判處監禁)", synonym: "custody, detention", enEx: "Judge sentenced defendant to life <mark>imprisonment</mark> penalty.", chEx: "法官判處被告終身監禁刑罰。" },
-  { id: 3000, unit: 46, word: "improve", phonetic: "[ ɪm`pruv ]", pos: "v.", trans: "改善；提高", collocation: "improve quality (提高品質)", synonym: "enhance, upgrade", enEx: "Regular review helps students <mark>improve</mark> test scores steadily.", chEx: "定期複習有助於學生穩定提高考試分數。" }
+  { id: 3000, unit: 46, word: "improve", phonetic: "[ ɪm`pruv ]", pos: "v.", trans: "改善；提高", collocation: "improve quality (提高品質)", synonym: "enhance, upgrade", enEx: "Regular review helps students <mark>improve</mark> test scores steadily.", chEx: "定期複習有助於學生穩定提高考試分數。" },
 
   // ==================== Unit 47 (2301 ~ 2350) ====================
   { id: 2301, unit: 47, word: "improvement", phonetic: "[ ɪm`pruvmənt ]", pos: "n.", trans: "改善；改進", collocation: "show improvement (展現進步)", synonym: "progress, enhancement", enEx: "Student showed significant <mark>improvement</mark> in English writing skills.", chEx: "該生在英文寫作技巧上展現了顯著的進步。" },
@@ -414,7 +414,7 @@ const level3Data = [
   { id: 2397, unit: 48, word: "inside", phonetic: "[ ɪn`saɪd ]", pos: "prep./adv./n.", trans: "在...裡面；內部", collocation: "inside the building (在建築物內部)", synonym: "interior, within", enEx: "Please wait <mark>inside</mark> the lobby until your name is called.", chEx: "請在大廳內等待直到被叫到名字。" },
   { id: 2398, unit: 48, word: "insight", phonetic: "[ `ɪnˌsaɪt ]", pos: "n.", trans: "洞察力；深刻見解", collocation: "valuable insight (寶貴的見解)", synonym: "understanding, vision", enEx: "Book offers deep <mark>insight</mark> into human psychology behavior.", chEx: "這本書對人類心理行為提供了深刻的見解。" },
   { id: 2399, unit: 48, word: "insist", phonetic: "[ ɪn`sɪst ]", pos: "v.", trans: "堅持", collocation: "insist on (堅持...)", synonym: "persist, demand", enEx: "Manager <mark>insist</mark>ed on verifying all numbers before submission.", chEx: "經理堅持在提交前核對所有數字。" },
-  { id: 2400, unit: 48, word: "insistence", phonetic: "[ ɪn`sɪstəns ]", pos: "n.", trans: "堅持", collocation: "at the insistence of (在...的堅持下)", synonym: "urging, persistence", enEx: "At his mother's <mark>insistence</mark>, he went to visit doctor.", chEx: "在他母親的堅持下，他去看醫生了。" }
+  { id: 2400, unit: 48, word: "insistence", phonetic: "[ ɪn`sɪstəns ]", pos: "n.", trans: "堅持", collocation: "at the insistence of (在...的堅持下)", synonym: "urging, persistence", enEx: "At his mother's <mark>insistence</mark>, he went to visit doctor.", chEx: "在他母親的堅持下，他去看醫生了。" },
 
   // ==================== Unit 49 (2401 ~ 2450) ====================
   { id: 2401, unit: 49, word: "inspect", phonetic: "[ ɪn`spɛkt ]", pos: "v.", trans: "檢查；視察", collocation: "inspect closely (仔細檢查)", synonym: "examine, check", enEx: "Safety officer will <mark>inspect</mark> factory equipment tomorrow.", chEx: "安全官明天將檢查工廠設備。" },
@@ -518,7 +518,7 @@ const level3Data = [
   { id: 2497, unit: 50, word: "inward", phonetic: "[ `ɪnwɚd ]", pos: "a./adv.", trans: "向內的；向內", collocation: "inward direction (向內的方向)", synonym: "internal, inside", enEx: "Door opens with an <mark>inward</mark> movement.", chEx: "這扇門是以向內的方式開啟。" },
   { id: 2498, unit: 50, word: "iron", phonetic: "[ `aɪɚn ]", pos: "n./v.", trans: "鐵；熨斗；熨平", collocation: "cast iron (鑄鐵)", synonym: "metal, press", enEx: "Use hot steam <mark>iron</mark> to remove shirt wrinkles.", chEx: "使用熱蒸汽熨斗撫平襯衫皺褶。" },
   { id: 2499, unit: 50, word: "irony", phonetic: "[ `aɪrənɪ ]", pos: "n.", trans: "諷刺；反諷", collocation: "tragic irony (悲劇性的諷刺)", synonym: "sarcasm, paradox", enEx: "It was pure <mark>irony</mark> that fire station caught fire.", chEx: "消防局竟然失火了，這真是純粹的諷刺。" },
-  { id: 2500, unit: 50, word: "irrational", phonetic: "[ ɪ`ræʃənḷ ]", pos: "a.", trans: "不合理的；盲目的", collocation: "irrational fear (不合理的恐懼)", synonym: "unreasonable, absurd", enEx: "There is no point in making <mark>irrational</mark> panic decisions.", chEx: "做出不合理的恐慌決定是毫無意義的。" }
+  { id: 2500, unit: 50, word: "irrational", phonetic: "[ ɪ`ræʃənḷ ]", pos: "a.", trans: "不合理的；盲目的", collocation: "irrational fear (不合理的恐懼)", synonym: "unreasonable, absurd", enEx: "There is no point in making <mark>irrational</mark> panic decisions.", chEx: "做出不合理的恐慌決定是毫無意義的。" },
 
   // ==================== Unit 51 (2501 ~ 2550) ====================
   { id: 2501, unit: 51, word: "irregular", phonetic: "[ ɪ`rɛgjəlɚ ]", pos: "a.", trans: "不規則的；非規律的", collocation: "irregular schedule (不規律的時間表)", synonym: "uneven, variable", enEx: "Working <mark>irregular</mark> hours affected his sleep quality.", chEx: "不規律的工作時間影響了他的睡眠品質。" },
@@ -622,7 +622,7 @@ const level3Data = [
   { id: 2597, unit: 52, word: "lamp", phonetic: "[ læmp ]", pos: "n.", trans: "檯燈；燈", collocation: "desk lamp (檯燈)", synonym: "light, lantern", enEx: "Turned on desk <mark>lamp</mark> to read late into night.", chEx: "打開檯燈讀書讀到深夜。" },
   { id: 2598, unit: 52, word: "land", phonetic: "[ lænd ]", pos: "n./v.", trans: "土地；降落", collocation: "land safely (安全降落)", synonym: "ground, touch down", enEx: "Airplane managed to <mark>land</mark> safely on runway in storm.", chEx: "飛機在暴風雨中成功安全降落在跑道上。" },
   { id: 2599, unit: 52, word: "landing", phonetic: "[ `lændɪŋ ]", pos: "n.", trans: "降落；登陸", collocation: "emergency landing (緊急降落)", synonym: "touchdown, arrival", enEx: "Pilot performed successful emergency <mark>landing</mark> on field.", chEx: "飛行員在田野裡成功進行了緊急降落。" },
-  { id: 2600, unit: 52, word: "landmark", phonetic: "[ `lændˌmɑrk ]", pos: "n.", trans: "地標；里程碑", collocation: "historic landmark (歷史地標)", synonym: "milestone, sight", enEx: "Eiffel Tower is a famous global tourist <mark>landmark</mark>.", chEx: "艾菲爾鐵塔是全球著名的觀光地標。" }
+  { id: 2600, unit: 52, word: "landmark", phonetic: "[ `lændˌmɑrk ]", pos: "n.", trans: "地標；里程碑", collocation: "historic landmark (歷史地標)", synonym: "milestone, sight", enEx: "Eiffel Tower is a famous global tourist <mark>landmark</mark>.", chEx: "艾菲爾鐵塔是全球著名的觀光地標。" },
 
   // ==================== Unit 53 (2601 ~ 2650) ====================
   { id: 2601, unit: 53, word: "landscape", phonetic: "[ `lændˌskep ]", pos: "n.", trans: "風景；地貌", collocation: "natural landscape (自然景觀)", synonym: "scenery, view", enEx: "We stopped to enjoy beautiful mountain <mark>landscape</mark> view.", chEx: "我們停下來欣賞美麗的山脈景觀。" },
@@ -726,7 +726,7 @@ const level3Data = [
   { id: 2697, unit: 54, word: "license", phonetic: "[ `laɪsəns ]", pos: "n./v.", trans: "執照；許可", collocation: "driver's license (駕照)", synonym: "permit, legal pass", enEx: "He passed driving test and received driver's <mark>license</mark>.", chEx: "他通過了駕駛考試並拿到了駕駛執照。" },
   { id: 2698, unit: 54, word: "lick", phonetic: "[ lɪk ]", pos: "v./n.", trans: "舔", collocation: "lick ice cream (舔冰淇淋)", synonym: "lap, taste", enEx: "Dog began to <mark>lick</mark> owner's hand in affection.", chEx: "狗開始親暱地舔主人的手。" },
   { id: 2699, unit: 54, word: "lid", phonetic: "[ lɪd ]", pos: "n.", trans: "蓋子；眼瞼", collocation: "tight lid (緊密的蓋子)", synonym: "cover, cap", enEx: "Close coffee cup <mark>lid</mark> tightly to prevent liquid spilling.", chEx: "蓋緊咖啡杯蓋以防止液體溢出。" },
-  { id: 2700, unit: 54, word: "lie", phonetic: "[ laɪ ]", pos: "v./n.", trans: "躺；位於；說謊", collocation: "tell a lie (說謊)", synonym: "recline, fib, falsehood", enEx: "Patient was asked to <mark>lie</mark> down on examination bed.", chEx: "病人被要求躺在檢查床上。" }
+  { id: 2700, unit: 54, word: "lie", phonetic: "[ laɪ ]", pos: "v./n.", trans: "躺；位於；說謊", collocation: "tell a lie (說謊)", synonym: "recline, fib, falsehood", enEx: "Patient was asked to <mark>lie</mark> down on examination bed.", chEx: "病人被要求躺在檢查床上。" },
 
   // ==================== Unit 55 (2701 ~ 2750) ====================
   { id: 2701, unit: 55, word: "life", phonetic: "[ laɪf ]", pos: "n.", trans: "生命；生活", collocation: "daily life (日常生活)", synonym: "existence, living", enEx: "He dedicated his entire <mark>life</mark> to medical research work.", chEx: "他將畢生精力奉獻給醫學研究工作。" },
@@ -830,7 +830,7 @@ const level3Data = [
   { id: 2797, unit: 56, word: "lovely", phonetic: "[ `lʌvlɪ ]", pos: "a.", trans: "可愛的；愉快的", collocation: "lovely day (美好的一天)", synonym: "charming, beautiful", enEx: "We had a <mark>lovely</mark> picnic day under warm sunlight.", chEx: "我們在溫暖的陽光下度過了愉快的一天野餐。" },
   { id: 2798, unit: 56, word: "lover", phonetic: "[ `lʌvɚ ]", pos: "n.", trans: "愛人；愛好者", collocation: "music lover (音樂愛好者)", synonym: "sweetheart, fan", enEx: "Concert attracted thousands of passionate music <mark>lover</mark>s.", chEx: "音樂會吸引了數千名熱情的音樂愛好者。" },
   { id: 2799, unit: 56, word: "low", phonetic: "[ lo ]", pos: "a./adv.", trans: "低的；低地", collocation: "low price (低價格)", synonym: "bottom, cheap", enEx: "Supermarket offers high quality goods at a <mark>low</mark> price.", chEx: "超市以低廉的價格提供高品質商品。" },
-  { id: 2800, unit: 56, word: "lower", phonetic: "[ `loɚ ]", pos: "v./a.", trans: "降低；較低的", collocation: "lower costs (降低成本)", synonym: "reduce, decrease", enEx: "New technology helps factories <mark>lower</mark> operational energy costs.", chEx: "新技術幫助工廠降低營運能源成本。" }
+  { id: 2800, unit: 56, word: "lower", phonetic: "[ `loɚ ]", pos: "v./a.", trans: "降低；較低的", collocation: "lower costs (降低成本)", synonym: "reduce, decrease", enEx: "New technology helps factories <mark>lower</mark> operational energy costs.", chEx: "新技術幫助工廠降低營運能源成本。" },
 
   // ==================== Unit 57 (2801 ~ 2850) ====================
   { id: 2801, unit: 57, word: "loyal", phonetic: "[ `lɔɪəl ]", pos: "a.", trans: "忠誠的；忠實的", collocation: "loyal customer (忠實顧客)", synonym: "faithful, devoted", enEx: "A <mark>loyal</mark> customer continues supporting brand products.", chEx: "忠實顧客會持續支持該品牌產品。" },
@@ -934,7 +934,7 @@ const level3Data = [
   { id: 2897, unit: 58, word: "market", phonetic: "[ `mɑrkɪt ]", pos: "n./v.", trans: "市場；行銷", collocation: "stock market (股票市場)", synonym: "bazaar, trade", enEx: "Investors analyze global financial stock <mark>market</mark> trends.", chEx: "投資者分析全球金融股票市場趨勢。" },
   { id: 2898, unit: 58, word: "marketing", phonetic: "[ `mɑrkɪtɪŋ ]", pos: "n.", trans: "行銷", collocation: "marketing strategy (行銷策略)", synonym: "promotion, advertising", enEx: "Team designed a creative digital content <mark>marketing</mark> strategy.", chEx: "團隊設計了一套創意的數位內容行銷策略。" },
   { id: 2899, unit: 58, word: "marketplace", phonetic: "[ `mɑrkɪtˌples ]", pos: "n.", trans: "市集；市場", collocation: "global marketplace (全球市場)", synonym: "forum, exchange", enEx: "Company competes aggressively in global online <mark>marketplace</mark>.", chEx: "該公司在全球線上市場中展開激烈競爭。" },
-  { id: 2900, unit: 58, word: "marriage", phonetic: "[ `mærɪdʒ ]", pos: "n.", trans: "婚姻", collocation: "happy marriage (幸福的婚姻)", synonym: "wedding, matrimony", enEx: "Couple celebrated twenty years of happy <mark>marriage</mark> togetherness.", chEx: "這對夫婦慶祝了二十年的幸福婚姻生活。" }
+  { id: 2900, unit: 58, word: "marriage", phonetic: "[ `mærɪdʒ ]", pos: "n.", trans: "婚姻", collocation: "happy marriage (幸福的婚姻)", synonym: "wedding, matrimony", enEx: "Couple celebrated twenty years of happy <mark>marriage</mark> togetherness.", chEx: "這對夫婦慶祝了二十年的幸福婚姻生活。" },
 
   // ==================== Unit 59 (2901 ~ 2950) ====================
   { id: 2901, unit: 59, word: "married", phonetic: "[ `mærɪd ]", pos: "a.", trans: "已婚的", collocation: "married couple (已婚夫婦)", synonym: "wedded", enEx: "The happy <mark>married</mark> couple celebrated their anniversary.", chEx: "這對幸福的已婚夫婦慶祝了他們的紀念日。" },
