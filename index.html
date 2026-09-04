@@ -171,11 +171,11 @@
 
   </div>
 
-  <!-- 在此處載入你的資料檔，例如： -->
   <!-- 在此處載入你的資料檔： -->
-  <script src="data/level1.js"></script>
-  <script src="data/level2.js"></script>
-  <script src="data/level3.js"></script>
+  <script src="level1.js"></script>
+  <script src="level2.js"></script>
+  <script src="level3.js"></script>
+  <script src="level3_2.js"></script>
 
 <script>
   const LEVEL_NAMES = {
@@ -188,19 +188,24 @@
     7: "Level 7 - 7000單字大滿貫"
   };
 
-  // 1. 安全檢查並取得 `const level1data` ~ `const level7data`
+  // 1. 安全檢查並取得 levelXdata 或 levelXData（全小寫或駝峰命名皆支援）
   function getLevelData(levelNum) {
-    const varName = `level${levelNum}data`;
-    if (window[varName] && typeof window[varName] === 'object') {
-      return window[varName];
-    }
-    return {}; // 若尚未定義，回傳空白物件殼
+    const varLower = `level${levelNum}data`;
+    const varCamel = `level${levelNum}Data`;
+    return window[varLower] || window[varCamel] || null;
   }
 
-  // 2. 讀取指定 Level 與 Unit 的單字陣列（相容 Unit 1~20 格式）
+  // 2. 讀取指定 Level 與 Unit 的單字陣列（相容「物件以 Unit 為 Key」與「全平坦陣列」兩種格式）
   function getUnitWords(levelNum, unitNum) {
     const levelData = getLevelData(levelNum);
-    // 支援 level1data[1] 或 level1data['1']
+    if (!levelData) return [];
+
+    // 若 levelData 是陣列 (如 level3_2.js)，自動過濾出 unit 相同的單字
+    if (Array.isArray(levelData)) {
+      return levelData.filter(item => Number(item.unit) === Number(unitNum));
+    }
+
+    // 若 levelData 是物件 (如 level1data[1] 或 level1data['1'])
     return levelData[unitNum] || levelData[String(unitNum)] || [];
   }
 
@@ -238,7 +243,6 @@
     const grid = document.getElementById('unitGrid');
     grid.innerHTML = '';
 
-    // 固定生成 Unit 1 ~ Unit 20 (若為連續單元如 Level 4 為 61~80，也可在此調整)
     const startUnit = (level - 1) * 20 + 1;
     const endUnit = level * 20;
 
@@ -279,12 +283,14 @@
     }
 
     currentWords.forEach((item, idx) => {
+      const pos = item.pos || item.partOfSpeech || '';
+      const trans = item.trans || item.translation || item.meaning || item.ch || '';
       const div = document.createElement('div');
       div.className = 'word-item';
       div.onclick = () => openCardDetail(idx);
       div.innerHTML = `
-        <div class="w-title">${item.word}</div>
-        <div class="w-trans">${item.pos || ''} ${item.trans || ''}</div>
+        <div class="w-title">${item.word || ''}</div>
+        <div class="w-trans">${pos} ${trans}</div>
       `;
       container.appendChild(div);
     });
@@ -300,18 +306,26 @@
     const item = currentWords[currentCardIndex];
     if (!item) return;
 
+    const pos = item.pos || item.partOfSpeech || '';
+    const trans = item.trans || item.translation || item.meaning || item.ch || '';
+    const phonetic = item.phonetic || item.kk || item.phoneticSymbol || '';
+    const collocation = item.collocation || item.collocations || item.combo || '無';
+    const synonym = item.synonym || item.synonyms || '無';
+    const enEx = item.enEx || item.exampleEn || item.example_en || item.sentenceEn || item.example || '暫無例句';
+    const chEx = item.chEx || item.exampleCh || item.example_ch || item.sentenceCh || '';
+
     document.getElementById('cardProgress').innerText = `${currentCardIndex + 1}/${currentWords.length}`;
     document.getElementById('cardUnitName').innerText = `7000單字 Level ${currentLevel} - Unit ${currentUnit}`;
     document.getElementById('cardWord').innerText = item.word || '';
-    document.getElementById('cardPhonetic').innerText = item.phonetic || '';
-    document.getElementById('cardMeaning').innerText = `${item.pos || ''} ${item.trans || ''}`;
-    document.getElementById('cardCollocation').innerText = item.collocation || '無';
-    document.getElementById('cardSynonym').innerText = item.synonym || '無';
+    document.getElementById('cardPhonetic').innerText = phonetic;
+    document.getElementById('cardMeaning').innerText = `${pos} ${trans}`.trim();
+    document.getElementById('cardCollocation').innerText = collocation;
+    document.getElementById('cardSynonym').innerText = synonym;
 
     document.getElementById('cardExamples').innerHTML = `
       <div>
-        <div class="example-en">${item.enEx || '暫無例句'}</div>
-        <div class="example-ch">${item.chEx || ''}</div>
+        <div class="example-en">${enEx}</div>
+        <div class="example-ch">${chEx}</div>
       </div>
     `;
     speakCurrentWord();
@@ -334,7 +348,7 @@
   function speakCurrentWord() {
     const item = currentWords[currentCardIndex];
     if (item && item.word && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel(); // 停止先前的發音
+      window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(item.word);
       u.lang = 'en-US';
       window.speechSynthesis.speak(u);
