@@ -1038,6 +1038,4 @@ const level1Data = [
   { id: 998, unit: 20, word: "differ", phonetic: "[ `dɪfɚ ]", pos: "v.", trans: "不同；相異", collocation: "differ from... (與...不同)", synonym: "vary, contrast", enEx: "Opinions <mark>differ</mark> on how best to tackle climate change.", chEx: "關於如何最好地解決氣候變遷問題，意見各有不同。" },
   { id: 999, unit: 20, word: "difference", phonetic: "[ `dɪfərəns ]", pos: "n.", trans: "差別；差異", collocation: "make a difference (有影響/有所不同)", synonym: "distinction, gap", enEx: "Can you tell the <mark>difference</mark> between these two photos?", chEx: "你能找出這兩張照片之間的差異嗎？" },
   { id: 1000, unit: 20, word: "different", phonetic: "[ `dɪfərənt ]", pos: "a.", trans: "不同的", collocation: "be different from... (與...不同)", synonym: "distinct, diverse", enEx: "Everyone has a <mark>different</mark> perspective on life.", chEx: "每個人對人生都有不同的看待角度。" }
-  
-
 ];
