@@ -37,7 +37,7 @@
     }
     .page.active { display: flex; opacity: 1; transform: translateY(0); }
 
-    /* 全局按鈕點擊動畫與微互動 */
+    /* 按鈕微互動動畫 */
     button, .menu-card, .grid-item, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn {
       transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -51,17 +51,17 @@
     .bar-title { font-size: 0.95rem; font-weight: bold; color: var(--text-secondary); text-align: center; }
 
     /* 大廳與選單 */
-    .lobby-header { text-align: center; margin: 24px 0 20px 0; }
+    .lobby-header { text-align: center; margin: 20px 0 16px 0; }
     .lobby-header h1 { font-size: 1.6rem; color: var(--accent-yellow); font-weight: bold; }
     .lobby-header p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
-    .menu-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 20px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-top: 12px; }
+    .menu-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-top: 12px; }
     .menu-card:active { border-color: var(--accent-yellow); }
 
     /* 網格清單 */
-    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 10px; }
+    .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
     .grid-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; text-align: center; cursor: pointer; }
     .grid-item.empty-unit { opacity: 0.5; }
-    .grid-item .title { font-size: 0.95rem; font-weight: bold; color: var(--accent-yellow); }
+    .grid-item .title { font-size: 1.1rem; font-weight: bold; color: var(--accent-yellow); }
     .grid-item .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
 
     /* 單字列表 */
@@ -99,7 +99,7 @@
     .card-nav { display: flex; justify-content: space-between; gap: 16px; padding: 16px 0; margin-top: auto; }
     .card-nav-btn { flex: 1; padding: 14px; background: var(--card-bg); border: 1px solid var(--border-color); color: #ffffff; border-radius: 24px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: center; }
 
-    /* 手機鎖屏數字鍵盤 (Pin Keypad) */
+    /* 數字鍵盤 (Pin Keypad) */
     .pin-container { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 20px; }
     .pin-display-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 32px; text-align: center; width: 80%; }
     .pin-display-title { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
@@ -118,7 +118,7 @@
     .star-btn { background: none; border: none; font-size: 1.6rem; color: #555; cursor: pointer; transition: transform 0.2s, color 0.2s; }
     .star-btn.active { color: #f59e0b; }
 
-    /* Modal 彈窗與淡入彈跳動畫 */
+    /* Modal 彈窗與淡入動畫 */
     .modal-overlay { 
       display: flex; 
       position: fixed; 
@@ -164,7 +164,7 @@
     <div id="pageLobby" class="page active">
       <div class="lobby-header">
         <h1>📚 學測 7000 單字庫</h1>
-        <p id="dbStatus">資料庫整合就緒</p>
+        <p id="dbStatus">三功能整合系統已就緒</p>
       </div>
 
       <!-- 區塊一：單字卡本 -->
@@ -181,7 +181,16 @@
         <div style="font-size: 2rem;">🎯</div>
         <div>
           <h2 style="font-size: 1.2rem;">7000 單字大挑戰</h2>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">四選一特訓 / 錯題檢視 / 熟練度分析</p>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">四選一特訓 / 即時數據分析</p>
+        </div>
+      </div>
+
+      <!-- 區塊三：智能錯題與收藏本 (LocalStorage) -->
+      <div class="menu-card" onclick="openWrongBookLobby()">
+        <div style="font-size: 2rem;">⭐</div>
+        <div>
+          <h2 style="font-size: 1.2rem;">智能錯題與收藏本</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">錯題自動累積 / 星號標記 / 專屬特訓</p>
         </div>
       </div>
     </div>
@@ -224,7 +233,7 @@
           <div class="card-progress" id="cardProgress">1/50</div>
           <div class="card-unit-name" id="cardUnitName">7000單字 Level 1 - Unit 1</div>
         </div>
-        <div style="width: 24px;"></div>
+        <button id="cardStarBtn" class="star-btn" onclick="toggleCardDetailStar()">★</button>
       </div>
 
       <div class="card-body">
@@ -291,7 +300,7 @@
       <div class="top-bar">
         <button class="back-btn" onclick="confirmExitQuiz()">‹</button>
         <div class="bar-title" id="quizProgressTitle">題目 1/10</div>
-        <button id="quizStarBtn" class="star-btn" onclick="toggleCurrentWordStar()">★</button>
+        <button id="quizStarBtn" class="star-btn" onclick="toggleCurrentQuizWordStar()">★</button>
       </div>
 
       <div class="quiz-card">
@@ -342,6 +351,79 @@
         <button class="card-nav-btn" onclick="prevWrongCard()">◄ 上一個</button>
         <button class="card-nav-btn" onclick="nextWrongCard()">下一個 ►</button>
       </div>
+    </div>
+
+    <!-- 9. 智能錯題與收藏本主頁 (區塊三) -->
+    <div id="pageWrongBookLobby" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
+        <div class="bar-title">智能錯題與收藏本</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="grid-container" style="margin-top: 12px; margin-bottom: 16px;">
+        <div class="grid-item">
+          <div class="title" id="statWrongCount">0</div>
+          <div class="subtitle">答錯單字庫</div>
+        </div>
+        <div class="grid-item">
+          <div class="title" id="statStarCount">0</div>
+          <div class="subtitle">星號標記單字</div>
+        </div>
+      </div>
+
+      <div class="menu-card" onclick="startWrongBookQuiz('wrong')">
+        <div style="font-size: 1.8rem;">❌</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">錯題專屬特訓</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">針對答錯單字測驗（答對自動消除）</p>
+        </div>
+      </div>
+
+      <div class="menu-card" onclick="startWrongBookQuiz('star')">
+        <div style="font-size: 1.8rem;">⭐</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">星號標記特訓</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">針對標記星號的重點單字特訓</p>
+        </div>
+      </div>
+
+      <div class="menu-card" onclick="startWrongBookQuiz('all')">
+        <div style="font-size: 1.8rem;">🔥</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">綜合強化特訓</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">結合答錯與星號單字全面複習</p>
+        </div>
+      </div>
+
+      <div class="menu-card" onclick="openWrongListBrowser()">
+        <div style="font-size: 1.8rem;">📖</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">瀏覽錯題與星號清單</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">直接檢視單字列表與資料卡</p>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: auto; padding-top: 16px;">
+        <button class="modal-btn secondary-btn" style="border-color: #ef4444; color: #ef4444; font-size: 0.85rem;" onclick="clearWrongWordsUI()">清空答錯紀錄</button>
+        <button class="modal-btn secondary-btn" style="border-color: #f59e0b; color: #f59e0b; font-size: 0.85rem;" onclick="clearStarredWordsUI()">清空星號收藏</button>
+      </div>
+    </div>
+
+    <!-- 10. 錯題與星號清單瀏覽器 -->
+    <div id="pageWrongListBrowser" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="openWrongBookLobby()">‹</button>
+        <div class="bar-title">單字清單瀏覽</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-bottom: 12px;">
+        <button id="tabWrongBtn" class="modal-btn" style="flex:1; padding: 10px; margin: 0; font-size: 0.9rem;" onclick="switchBrowserTab('wrong')">答錯單字</button>
+        <button id="tabStarBtn" class="modal-btn secondary-btn" style="flex:1; padding: 10px; margin: 0; font-size: 0.9rem;" onclick="switchBrowserTab('star')">星號標記</button>
+      </div>
+
+      <div class="word-list" id="wrongBrowserListContainer"></div>
     </div>
 
   </div>
@@ -402,7 +484,7 @@
       <div style="font-size: 0.9rem; color: var(--text-secondary);" id="resultDetailText"></div>
 
       <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
-        <button class="modal-btn secondary-btn" id="reviewWrongBtn" onclick="startWrongWordsReview()">查看錯題</button>
+        <button class="modal-btn secondary-btn" id="reviewWrongBtn" onclick="startWrongWordsReview()">查看錯題卡片</button>
         <button class="modal-btn" onclick="finishQuizAndReturn()">退出並返回主選單</button>
       </div>
     </div>
@@ -430,39 +512,26 @@
 
   // 1. 強力相容型資料讀取
   function getLevelData(levelNum) {
-    const possibleNames = [
-      `level${levelNum}data`,
-      `level${levelNum}Data`,
-      `level${levelNum}_data`,
-      `level${levelNum}`
-    ];
-
+    const possibleNames = [`level${levelNum}data`, `level${levelNum}Data`, `level${levelNum}_data`, `level${levelNum}`];
     for (const name of possibleNames) {
-      if (window[name] && typeof window[name] === 'object') {
-        return window[name];
-      }
+      if (window[name] && typeof window[name] === 'object') return window[name];
       try {
         const val = eval(name);
-        if (val && typeof val === 'object') {
-          return val;
-        }
+        if (val && typeof val === 'object') return val;
       } catch (e) {}
     }
     return null;
   }
 
-  // 2. 讀取指定 Level 與 Unit 的單字陣列
   function getUnitWords(levelNum, unitNum) {
     const levelData = getLevelData(levelNum);
     if (!levelData) return [];
-
     if (Array.isArray(levelData)) {
       return levelData.filter(item => Number(item.unit) === Number(unitNum));
     }
     return levelData[unitNum] || levelData[String(unitNum)] || [];
   }
 
-  // 取得全庫所有可用單字
   function getAllAvailableWords() {
     let all = [];
     for (let l = 1; l <= 7; l++) {
@@ -479,6 +548,46 @@
     return all;
   }
 
+  // LocalStorage 錯題與星號管理
+  function getStarredWords() {
+    try { return JSON.parse(localStorage.getItem('starred_words')) || []; }
+    catch(e) { return []; }
+  }
+
+  function saveStarredWords(arr) {
+    localStorage.setItem('starred_words', JSON.stringify(arr));
+  }
+
+  function isWordStarred(wordObj) {
+    if (!wordObj) return false;
+    const list = getStarredWords();
+    return list.some(item => item.word === wordObj.word);
+  }
+
+  function getWrongWordsLS() {
+    try { return JSON.parse(localStorage.getItem('wrong_words')) || []; }
+    catch(e) { return []; }
+  }
+
+  function saveWrongWordsLS(arr) {
+    localStorage.setItem('wrong_words', JSON.stringify(arr));
+  }
+
+  function addWrongWordLS(wordObj) {
+    if (!wordObj || !wordObj.word) return;
+    let list = getWrongWordsLS();
+    if (!list.some(item => item.word === wordObj.word)) {
+      list.push(wordObj);
+      saveWrongWordsLS(list);
+    }
+  }
+
+  function removeWrongWordLS(wordStr) {
+    let list = getWrongWordsLS();
+    list = list.filter(item => item.word !== wordStr);
+    saveWrongWordsLS(list);
+  }
+
   let currentLevel = 1;
   let currentUnit = 1;
   let currentWords = [];
@@ -491,51 +600,17 @@
   let currentQuizTarget = null;
   let quizCorrectCount = 0;
   let quizWrongCount = 0;
-  let quizWrongList = []; // 累積錯題資料
-  let wrongReviewIndex = 0; // 錯題檢視索引
-  let feedbackTimer = null; // 即時彈窗定時器
+  let quizWrongList = []; 
+  let wrongReviewIndex = 0;
+  let feedbackTimer = null;
+  let isWrongQuizMode = false; // 是否在錯題特訓模式
 
-  // 點擊/標記重點單字 (localStorage)
-  function getStarredWords() {
-    try {
-      return JSON.parse(localStorage.getItem('starred_words')) || [];
-    } catch(e) {
-      return [];
-    }
-  }
-
-  function saveStarredWords(arr) {
-    localStorage.setItem('starred_words', JSON.stringify(arr));
-  }
-
-  function isWordStarred(word) {
-    if (!word) return false;
-    const list = getStarredWords();
-    return list.some(item => item.word === word.word);
-  }
-
-  function toggleCurrentWordStar() {
-    if (!currentQuizTarget) return;
-    let list = getStarredWords();
-    const idx = list.findIndex(item => item.word === currentQuizTarget.word);
-    const starBtn = document.getElementById('quizStarBtn');
-
-    if (idx >= 0) {
-      list.splice(idx, 1);
-      starBtn.classList.remove('active');
-    } else {
-      list.push(currentQuizTarget);
-      starBtn.classList.add('active');
-    }
-    saveStarredWords(list);
-  }
+  let currentBrowserTab = 'wrong';
 
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
-    if (target) {
-      target.classList.add('active');
-    }
+    if (target) target.classList.add('active');
   }
 
   function openLevelCategory() {
@@ -595,7 +670,6 @@
         <div class="empty-state">
           <div>🚧</div>
           <p>Unit ${unit} 內容尚未載入或建置中</p>
-          <p style="font-size:0.8rem; margin-top:6px;">填入 level${currentLevel}data 後即可自動顯示</p>
         </div>
       `;
       return;
@@ -647,7 +721,29 @@
         <div class="example-ch">${chEx}</div>
       </div>
     `;
+
+    const starBtn = document.getElementById('cardStarBtn');
+    if (isWordStarred(item)) starBtn.classList.add('active');
+    else starBtn.classList.remove('active');
+
     speakCurrentWord();
+  }
+
+  function toggleCardDetailStar() {
+    const item = currentWords[currentCardIndex];
+    if (!item) return;
+    let list = getStarredWords();
+    const idx = list.findIndex(i => i.word === item.word);
+    const starBtn = document.getElementById('cardStarBtn');
+
+    if (idx >= 0) {
+      list.splice(idx, 1);
+      starBtn.classList.remove('active');
+    } else {
+      list.push(item);
+      starBtn.classList.add('active');
+    }
+    saveStarredWords(list);
   }
 
   function prevCard() {
@@ -666,9 +762,7 @@
 
   function speakCurrentWord() {
     const item = currentWords[currentCardIndex];
-    if (item && item.word) {
-      speakText(item.word);
-    }
+    if (item && item.word) speakText(item.word);
   }
 
   function speakText(text) {
@@ -680,7 +774,7 @@
     }
   }
 
-  // ==================== 測驗邏輯區塊 ====================
+  // ==================== 區塊二：測驗邏輯 ====================
 
   function openQuizPinPage() {
     const allWords = getAllAvailableWords();
@@ -720,14 +814,14 @@
     const allWords = getAllAvailableWords();
     if (allWords.length === 0) return;
 
-    // 洗牌並抽取對應數量的單字
     const shuffled = [...allWords].sort(() => 0.5 - Math.random());
     quizQueue = shuffled.slice(0, Math.min(count, shuffled.length));
 
+    isWrongQuizMode = false;
     currentQuizIndex = 0;
     quizCorrectCount = 0;
     quizWrongCount = 0;
-    quizWrongList = []; // 重置錯題庫
+    quizWrongList = [];
 
     showPage('pageQuiz');
     renderQuizQuestion();
@@ -746,15 +840,10 @@
     document.getElementById('quizWord').innerText = currentQuizTarget.word || '';
     document.getElementById('quizPhonetic').innerText = currentQuizTarget.phonetic || currentQuizTarget.kk || '';
 
-    // 更新星星按鈕狀態
     const starBtn = document.getElementById('quizStarBtn');
-    if (isWordStarred(currentQuizTarget)) {
-      starBtn.classList.add('active');
-    } else {
-      starBtn.classList.remove('active');
-    }
+    if (isWordStarred(currentQuizTarget)) starBtn.classList.add('active');
+    else starBtn.classList.remove('active');
 
-    // 抓取 3 個干擾選項
     const distractors = allWords
       .filter(w => w.word !== currentQuizTarget.word)
       .sort(() => 0.5 - Math.random())
@@ -781,7 +870,6 @@
       container.appendChild(btn);
     });
 
-    // 第五個選項：「我不知道」
     const unknownBtn = document.createElement('button');
     unknownBtn.className = 'quiz-opt-btn quiz-opt-unknown';
     unknownBtn.innerText = '❓ 我不知道';
@@ -791,16 +879,19 @@
     speakText(currentQuizTarget.word);
   }
 
-  // 答題反饋處理
   function handleQuizAnswer(isCorrect) {
     if (isCorrect) {
       quizCorrectCount++;
+      // 若在錯題特訓中答對，從 LocalStorage 的錯題庫移除
+      if (isWrongQuizMode) {
+        removeWrongWordLS(currentQuizTarget.word);
+      }
     } else {
       quizWrongCount++;
       quizWrongList.push(currentQuizTarget);
+      addWrongWordLS(currentQuizTarget); // 自動寫入 LocalStorage 錯題庫
     }
 
-    // 顯示即時答對/答錯反饋視窗
     const modal = document.getElementById('instantFeedbackModal');
     const banner = document.getElementById('instantFeedbackBanner');
 
@@ -816,14 +907,12 @@
     document.getElementById('instantAccuracyText').innerText = `即時正確率：${rate}%`;
     document.getElementById('instantDetailText').innerText = `已答：${answeredSoFar} 題 | 答對：${quizCorrectCount} 題 | 答錯/不懂：${quizWrongCount} 題`;
 
-    // 繪製即時圓餅圖
     drawPieChartCanvas('instantPieChartCanvas', quizCorrectCount, quizWrongCount);
 
     modal.classList.add('active');
 
     if (feedbackTimer) clearTimeout(feedbackTimer);
 
-    // 停頓 1.2 秒後自動開啟單字卡視窗
     feedbackTimer = setTimeout(() => {
       modal.classList.remove('active');
       openWordDetailModal(currentQuizTarget);
@@ -834,6 +923,22 @@
     if (feedbackTimer) clearTimeout(feedbackTimer);
     document.getElementById('instantFeedbackModal').classList.remove('active');
     openWordDetailModal(currentQuizTarget);
+  }
+
+  function toggleCurrentQuizWordStar() {
+    if (!currentQuizTarget) return;
+    let list = getStarredWords();
+    const idx = list.findIndex(i => i.word === currentQuizTarget.word);
+    const starBtn = document.getElementById('quizStarBtn');
+
+    if (idx >= 0) {
+      list.splice(idx, 1);
+      starBtn.classList.remove('active');
+    } else {
+      list.push(currentQuizTarget);
+      starBtn.classList.add('active');
+    }
+    saveStarredWords(list);
   }
 
   function openWordDetailModal(item) {
@@ -881,7 +986,6 @@
     document.getElementById('resultAccuracyText').innerText = `正確率：${rate}%`;
     document.getElementById('resultDetailText').innerText = `總題數：${total} 題 | 答對：${quizCorrectCount} 題 | 答錯/不懂：${quizWrongCount} 題`;
 
-    // 更新查看錯題按鈕狀態
     const reviewBtn = document.getElementById('reviewWrongBtn');
     if (quizWrongList.length === 0) {
       reviewBtn.innerText = '🎉 無錯題 (全對)';
@@ -891,13 +995,11 @@
       reviewBtn.style.opacity = '1';
     }
 
-    // 繪製最終結算圓餅圖
     drawPieChartCanvas('pieChartCanvas', quizCorrectCount, quizWrongCount);
 
     document.getElementById('quizResultModal').classList.add('active');
   }
 
-  // 通用圓餅圖繪製邏輯
   function drawPieChartCanvas(canvasId, correct, wrong) {
     const canvas = document.getElementById(canvasId);
     if (!canvas) return;
@@ -914,7 +1016,6 @@
 
     let startAngle = -0.5 * Math.PI;
 
-    // 答對部分 (綠色)
     const correctAngle = (correct / total) * 2 * Math.PI;
     if (correct > 0) {
       ctx.beginPath();
@@ -925,7 +1026,6 @@
       ctx.fill();
     }
 
-    // 答錯部分 (紅色)
     startAngle += correctAngle;
     const wrongAngle = (wrong / total) * 2 * Math.PI;
     if (wrong > 0) {
@@ -942,8 +1042,6 @@
     document.getElementById('quizResultModal').classList.remove('active');
     showPage('pageLobby');
   }
-
-  // ==================== 錯題複習專區邏輯 ====================
 
   function startWrongWordsReview() {
     if (!quizWrongList || quizWrongList.length === 0) {
@@ -1020,15 +1118,143 @@
   function updateWrongStarState() {
     const item = quizWrongList[wrongReviewIndex];
     const starBtn = document.getElementById('wrongStarBtn');
-    if (item && isWordStarred(item)) {
-      starBtn.classList.add('active');
-    } else {
-      starBtn.classList.remove('active');
-    }
+    if (item && isWordStarred(item)) starBtn.classList.add('active');
+    else starBtn.classList.remove('active');
   }
 
   function exitWrongReview() {
     showPage('pageLobby');
+  }
+
+  // ==================== 區塊三：智能錯題與收藏本邏輯 ====================
+
+  function openWrongBookLobby() {
+    updateWrongBookStats();
+    showPage('pageWrongBookLobby');
+  }
+
+  function updateWrongBookStats() {
+    const wrongList = getWrongWordsLS();
+    const starList = getStarredWords();
+    document.getElementById('statWrongCount').innerText = wrongList.length;
+    document.getElementById('statStarCount').innerText = starList.length;
+  }
+
+  function startWrongBookQuiz(mode) {
+    let sourceWords = [];
+    if (mode === 'wrong') {
+      sourceWords = getWrongWordsLS();
+      if (sourceWords.length === 0) {
+        alert("目前沒有答錯單字紀錄喔！");
+        return;
+      }
+      isWrongQuizMode = true;
+    } else if (mode === 'star') {
+      sourceWords = getStarredWords();
+      if (sourceWords.length === 0) {
+        alert("目前沒有星號標記單字喔！");
+        return;
+      }
+      isWrongQuizMode = false;
+    } else if (mode === 'all') {
+      const wrongList = getWrongWordsLS();
+      const starList = getStarredWords();
+      // 合併並去重
+      const map = new Map();
+      [...wrongList, ...starList].forEach(item => {
+        if (item && item.word) map.set(item.word, item);
+      });
+      sourceWords = Array.from(map.values());
+
+      if (sourceWords.length === 0) {
+        alert("目前沒有任何錯題或星號單字紀錄喔！");
+        return;
+      }
+      isWrongQuizMode = false;
+    }
+
+    quizQueue = [...sourceWords].sort(() => 0.5 - Math.random());
+    currentQuizIndex = 0;
+    quizCorrectCount = 0;
+    quizWrongCount = 0;
+    quizWrongList = [];
+
+    showPage('pageQuiz');
+    renderQuizQuestion();
+  }
+
+  function openWrongListBrowser() {
+    showPage('pageWrongListBrowser');
+    switchBrowserTab('wrong');
+  }
+
+  function switchBrowserTab(type) {
+    currentBrowserTab = type;
+    const tabWrong = document.getElementById('tabWrongBtn');
+    const tabStar = document.getElementById('tabStarBtn');
+
+    if (type === 'wrong') {
+      tabWrong.className = 'modal-btn';
+      tabStar.className = 'modal-btn secondary-btn';
+    } else {
+      tabStar.className = 'modal-btn';
+      tabWrong.className = 'modal-btn secondary-btn';
+    }
+
+    renderBrowserList();
+  }
+
+  function renderBrowserList() {
+    const container = document.getElementById('wrongBrowserListContainer');
+    container.innerHTML = '';
+
+    const list = currentBrowserTab === 'wrong' ? getWrongWordsLS() : getStarredWords();
+
+    if (list.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div>📭</div>
+          <p>${currentBrowserTab === 'wrong' ? '尚無答錯單字紀錄' : '尚無星號標記單字'}</p>
+        </div>
+      `;
+      return;
+    }
+
+    list.forEach((item, idx) => {
+      const pos = item.pos || item.partOfSpeech || '';
+      const trans = item.trans || item.translation || item.meaning || item.ch || '';
+      const div = document.createElement('div');
+      div.className = 'word-item';
+      div.onclick = () => {
+        currentWords = list;
+        openCardDetail(idx);
+      };
+      div.innerHTML = `
+        <div class="w-title">${item.word || ''}</div>
+        <div class="w-trans">${pos} ${trans}</div>
+      `;
+      container.appendChild(div);
+    });
+  }
+
+  function clearWrongWordsUI() {
+    if (confirm("確定要清空 LocalStorage 中的所有答錯紀錄嗎？")) {
+      localStorage.removeItem('wrong_words');
+      updateWrongBookStats();
+      if (document.getElementById('pageWrongListBrowser').classList.contains('active')) {
+        renderBrowserList();
+      }
+    }
+  }
+
+  function clearStarredWordsUI() {
+    if (confirm("確定要清空 LocalStorage 中的所有星號標記單字嗎？")) {
+      localStorage.removeItem('starred_words');
+      updateWrongBookStats();
+      if (document.getElementById('pageWrongListBrowser').classList.contains('active')) {
+        renderBrowserList();
+      }
+    }
   }
 
   window.onload = () => {
