@@ -830,7 +830,7 @@ const level4Data = [
   { id: 3797, unit: 76, word: "phraseology", phonetic: "[ ˌfrezɪ`ɑlədʒɪ ]", pos: "n.", trans: "措辭；用語", collocation: "legal phraseology (法律用語/措辭)", synonym: "wording, terminology", enEx: "Legal document contains complex technical <mark>phraseology</mark>.", chEx: "法律文件包含複雜的專業措辭。" },
   { id: 3798, unit: 76, word: "physical", phonetic: "[ `fɪzɪkḷ ]", pos: "a.", trans: "身體的；物理的", collocation: "physical health (身體健康)", synonym: "bodily, material", enEx: "Regular exercise maintains good <mark>physical</mark> condition.", chEx: "定期運動能維持良好的身體狀況。" },
   { id: 3799, unit: 76, word: "physically", phonetic: "[ `fɪzɪklɪ ]", pos: "adv.", trans: "身體上地；物理上地", collocation: "physically fit (身體健壯)", synonym: "bodily", enEx: "The job requires you to be <mark>physically</mark> fit.", chEx: "這份工作需要你身體健壯。" },
-  { id: 3800, unit: 76, word: "physician", phonetic: "[ fɪ`zɪʃən ]", pos: "n.", trans: "內科醫師", collocation: "primary care physician (家庭主治醫師)", synonym: "doctor, clinician", enEx: "Consult your <mark>physician</mark> before starting new diet.", chEx: "開始新的飲食之前請先諮詢你的內科醫師。" }
+  { id: 3800, unit: 76, word: "physician", phonetic: "[ fɪ`zɪʃən ]", pos: "n.", trans: "內科醫師", collocation: "primary care physician (家庭主治醫師)", synonym: "doctor, clinician", enEx: "Consult your <mark>physician</mark> before starting new diet.", chEx: "開始新的飲食之前請先諮詢你的內科醫師。" },
 
   // ==================== Unit 77 (3801 ~ 3850) ====================
   { id: 3801, unit: 77, word: "physics", phonetic: "[ `fɪzɪks ]", pos: "n.", trans: "物理學", collocation: "laws of physics (物理學定律)", synonym: "natural science", enEx: "He is studying nuclear <mark>physics</mark> at university.", chEx: "他在大學主修核子物理學。" },
@@ -1038,7 +1038,7 @@ const level4Data = [
   { id: 3997, unit: 80, word: "probably", phonetic: "[ `prɑbəblɪ ]", pos: "adv.", trans: "可能；大概", collocation: "most probably (極有可能)", synonym: "likely, presumably", enEx: "I will <mark>probably</mark> stay home this evening.", chEx: "我今晚大概會待在家裡。" },
   { id: 3998, unit: 80, word: "probate", phonetic: "[ `probet ]", pos: "n./v.", trans: "遺囑認證", collocation: "grant of probate (遺囑認證授權)", synonym: "validation", enEx: "Will must go through court <mark>probate</mark> process.", chEx: "這份遺囑必須通過法院認證程序。" },
   { id: 3999, unit: 80, word: "probation", phonetic: "[ pro`beʃən ]", pos: "n.", trans: "緩刑；試用期", collocation: "on probation (在試用期內/緩刑中)", synonym: "trial period", enEx: "New employee was hired on a three-month <mark>probation</mark>.", chEx: "這名新員工錄用試用期為三個月。" },
-  { id: 4000, unit: 80, word: "probe", phonetic: "[ prob ]", pos: "v./n.", trans: "探測；探針；深入調查", collocation: "space probe (太空探測器)", synonym: "investigate, explore", enEx: "Journalists began to <mark>probe</mark> into corruption case.", chEx: "記者們開始深入調查這起腐敗案件。" },
+  { id: 4000, unit: 80, word: "probe", phonetic: "[ prob ]", pos: "v./n.", trans: "探測；探針；深入調查", collocation: "space probe (太空探測器)", synonym: "investigate, explore", enEx: "Journalists began to <mark>probe</mark> into corruption case.", chEx: "記者們開始深入調查這起腐敗案件。" }
     
     
 ];
