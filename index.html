@@ -255,7 +255,7 @@
     <!-- 5. 單字卡片頁面 -->
     <div id="pageCardDetail" class="page">
       <div class="card-header">
-        <button class="back-btn" onclick="openUnitList(currentLevel)">‹</button>
+        <button class="back-btn" onclick="openWordList(currentUnit)">‹</button>
         <div>
           <div class="card-progress" id="cardProgress">1/50</div>
           <div class="card-unit-name" id="cardUnitName">7000單字 Level 1 - Unit 1</div>
@@ -385,7 +385,7 @@
       </div>
     </div>
 
-    <!-- 9. 智能錯題與收藏本主頁 (區塊三) -->
+    <!-- 9. 智能錯題與收藏本主頁 -->
     <div id="pageWrongBookLobby" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -803,14 +803,25 @@
       return;
     }
 
+    const famMap = getFamiliarityMap();
+
     currentWords.forEach((item, idx) => {
       const pos = item.pos || item.partOfSpeech || '';
       const trans = item.trans || item.translation || item.meaning || item.ch || '';
+      const famStatus = famMap[item.word];
+
+      let colorStyle = 'color: #ffffff;';
+      if (famStatus === 'know') {
+        colorStyle = 'color: var(--accent-green);';
+      } else if (famStatus === 'dont_know') {
+        colorStyle = 'color: var(--accent-red);';
+      }
+
       const div = document.createElement('div');
       div.className = 'word-item';
       div.onclick = () => openCardDetail(idx);
       div.innerHTML = `
-        <div class="w-title">${item.word || ''}</div>
+        <div class="w-title" style="${colorStyle}">${item.word || ''}</div>
         <div class="w-trans">${pos} ${trans}</div>
       `;
       container.appendChild(div);
