@@ -38,10 +38,10 @@
     .page.active { display: flex; opacity: 1; transform: translateY(0); }
 
     /* 按鈕微互動動畫 */
-    button, .menu-card, .grid-item, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn {
+    button, .menu-card, .grid-item, .stat-card, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn {
       transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    button:active, .menu-card:active, .grid-item:active, .word-item:active, .quiz-opt-btn:active, .card-nav-btn:active, .modal-btn:active, .keypad-btn:active {
+    button:active, .menu-card:active, .grid-item:active, .stat-card:active, .word-item:active, .quiz-opt-btn:active, .card-nav-btn:active, .modal-btn:active, .keypad-btn:active {
       transform: scale(0.96);
     }
 
@@ -57,7 +57,7 @@
     .menu-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-top: 12px; }
     .menu-card:active { border-color: var(--accent-yellow); }
 
-    /* 網格清單（加大尺寸） */
+    /* 網格清單 */
     .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
     .grid-item { 
       background: var(--card-bg); 
@@ -74,6 +74,22 @@
     .grid-item.empty-unit { opacity: 0.5; }
     .grid-item .title { font-size: 1.1rem; font-weight: bold; color: var(--accent-yellow); }
     .grid-item .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
+
+    /* 錯題與收藏本精簡型統計方格 */
+    .stat-card {
+      background: var(--card-bg); 
+      border: 1px solid var(--border-color); 
+      border-radius: 14px; 
+      padding: 14px 12px; 
+      text-align: center; 
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: auto;
+    }
+    .stat-card .title { font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow); }
+    .stat-card .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
 
     /* 進度條樣式 */
     .grid-progress-container { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; width: 100%; }
@@ -395,12 +411,12 @@
         <div style="width: 24px;"></div>
       </div>
 
-      <div class="grid-container" style="margin-top: 12px; margin-bottom: 16px;">
-        <div class="grid-item">
+      <div class="grid-container" style="margin-top: 8px; margin-bottom: 12px;">
+        <div class="stat-card">
           <div class="title" id="statWrongCount">0</div>
           <div class="subtitle">答錯單字庫</div>
         </div>
-        <div class="grid-item">
+        <div class="stat-card">
           <div class="title" id="statStarCount">0</div>
           <div class="subtitle">星號標記單字</div>
         </div>
@@ -837,7 +853,7 @@
     const item = currentWords[currentCardIndex];
     if (!item) return;
 
-    // 自動標記為已學習/已瀏覽（增加 2% 瀏覽進度）
+    // 自動標記為已學習/已瀏覽
     markWordAsLearned(item.word);
 
     const pos = item.pos || item.partOfSpeech || '';
