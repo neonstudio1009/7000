@@ -24,7 +24,6 @@
 
     .app-container { width: 100%; max-width: 480px; background-color: var(--bg-main); min-height: 100vh; display: flex; flex-direction: column; position: relative; }
     
-    /* 頁面切換過場動畫 */
     .page { 
       display: none; 
       flex-direction: column; 
@@ -37,7 +36,6 @@
     }
     .page.active { display: flex; opacity: 1; transform: translateY(0); }
 
-    /* 按鈕微互動動畫 */
     button, .menu-card, .grid-item, .stat-card, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn {
       transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
@@ -45,19 +43,16 @@
       transform: scale(0.96);
     }
 
-    /* 頂部導覽列 */
     .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 12px; }
     .back-btn { background: none; border: none; color: var(--text-primary); font-size: 1.5rem; cursor: pointer; padding: 0 8px; }
     .bar-title { font-size: 0.95rem; font-weight: bold; color: var(--text-secondary); text-align: center; }
 
-    /* 大廳與選單 */
     .lobby-header { text-align: center; margin: 20px 0 16px 0; }
     .lobby-header h1 { font-size: 1.6rem; color: var(--accent-yellow); font-weight: bold; }
     .lobby-header p { font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px; }
     .menu-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px; display: flex; align-items: center; gap: 16px; cursor: pointer; margin-top: 12px; }
     .menu-card:active { border-color: var(--accent-yellow); }
 
-    /* 網格清單 */
     .grid-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 8px; }
     .grid-item { 
       background: var(--card-bg); 
@@ -75,7 +70,6 @@
     .grid-item .title { font-size: 1.1rem; font-weight: bold; color: var(--accent-yellow); }
     .grid-item .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
 
-    /* 錯題與收藏本精簡型統計方格 */
     .stat-card {
       background: var(--card-bg); 
       border: 1px solid var(--border-color); 
@@ -91,7 +85,6 @@
     .stat-card .title { font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow); }
     .stat-card .subtitle { font-size: 0.75rem; color: var(--text-secondary); margin-top: 4px; }
 
-    /* 進度條樣式 */
     .grid-progress-container { margin-top: 10px; display: flex; flex-direction: column; gap: 6px; width: 100%; }
     .progress-bar-wrap { width: 100%; height: 6px; background-color: rgba(255, 255, 255, 0.1); border-radius: 3px; overflow: hidden; }
     .progress-bar-fill { height: 100%; border-radius: 3px; transition: width 0.3s ease; }
@@ -99,17 +92,14 @@
     .progress-bar-fill.green { background-color: var(--accent-green); }
     .progress-label { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 2px; }
 
-    /* 單字列表 */
     .word-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
     .word-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
     .word-item .w-title { font-size: 1.1rem; font-weight: bold; color: var(--text-primary); }
     .word-item .w-trans { font-size: 0.85rem; color: var(--text-secondary); }
 
-    /* 空白狀態提示 */
     .empty-state { text-align: center; padding: 40px 20px; color: var(--text-secondary); }
     .empty-state div { font-size: 2.5rem; margin-bottom: 10px; }
 
-    /* 單字卡頁面 */
     .card-header { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border-color); }
     .card-progress { font-size: 1.2rem; font-weight: bold; color: #ffffff; text-align: center; }
     .card-unit-name { font-size: 0.8rem; color: var(--text-secondary); text-align: center; margin-top: 2px; }
@@ -134,7 +124,6 @@
     .card-nav { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0 16px 0; }
     .card-nav-btn { flex: 1; padding: 14px; background: var(--card-bg); border: 1px solid var(--border-color); color: #ffffff; border-radius: 24px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: center; }
 
-    /* 數字鍵盤 (Pin Keypad) */
     .pin-container { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 20px; }
     .pin-display-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 16px 32px; text-align: center; width: 80%; }
     .pin-display-title { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
@@ -144,7 +133,6 @@
     .keypad-btn.action-btn { background: #282828; font-size: 1.2rem; color: var(--accent-orange); }
     .keypad-btn.confirm-btn { background: var(--accent-yellow); color: #000; font-size: 1.3rem; }
 
-    /* 測驗頁面 */
     .quiz-card { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 16px; padding: 24px 20px; text-align: center; margin-top: 10px; margin-bottom: 20px; position: relative; }
     .quiz-word { font-size: 2.2rem; font-weight: bold; color: var(--accent-yellow); margin-bottom: 8px; }
     .quiz-options { display: flex; flex-direction: column; gap: 12px; }
@@ -153,7 +141,6 @@
     .star-btn { background: none; border: none; font-size: 1.6rem; color: #555; cursor: pointer; transition: transform 0.2s, color 0.2s; }
     .star-btn.active { color: #f59e0b; }
 
-    /* Modal 彈窗與淡入動畫 */
     .modal-overlay { 
       display: flex; 
       position: fixed; 
@@ -202,7 +189,6 @@
         <p id="dbStatus">四功能整合學習系統</p>
       </div>
 
-      <!-- 區塊一：單字卡本 -->
       <div class="menu-card" onclick="openLevelCategory()">
         <div style="font-size: 2rem;">🎴</div>
         <div>
@@ -211,7 +197,6 @@
         </div>
       </div>
 
-      <!-- 區塊二：四選一特訓 -->
       <div class="menu-card" onclick="openQuizPinPage()">
         <div style="font-size: 2rem;">🎯</div>
         <div>
@@ -220,7 +205,6 @@
         </div>
       </div>
 
-      <!-- 區塊三：智能錯題與收藏本 (LocalStorage) -->
       <div class="menu-card" onclick="openWrongBookLobby()">
         <div style="font-size: 2rem;">⭐</div>
         <div>
@@ -229,7 +213,6 @@
         </div>
       </div>
 
-      <!-- 區塊四：學習整理 (熟練度分類) -->
       <div class="menu-card" onclick="openFamiliarityLobby()">
         <div style="font-size: 2rem;">📊</div>
         <div>
@@ -252,7 +235,7 @@
     <!-- 3. 單元選擇 -->
     <div id="pageUnitList" class="page">
       <div class="top-bar">
-        <button class="back-btn" onclick="showPage('pageLevelCategory')">‹</button>
+        <button class="back-btn" onclick="openLevelCategory()">‹</button>
         <div class="bar-title" id="unitListTitle">Level 選擇</div>
         <div style="width: 24px;"></div>
       </div>
@@ -262,7 +245,7 @@
     <!-- 4. 單字清單 -->
     <div id="pageWordList" class="page">
       <div class="top-bar">
-        <button class="back-btn" onclick="showPage('pageUnitList')">‹</button>
+        <button class="back-btn" onclick="openUnitList(currentLevel)">‹</button>
         <div class="bar-title" id="wordListTitle">Unit 單字列表</div>
         <div style="width: 24px;"></div>
       </div>
@@ -272,7 +255,7 @@
     <!-- 5. 單字卡片頁面 -->
     <div id="pageCardDetail" class="page">
       <div class="card-header">
-        <button class="back-btn" onclick="showPage('pageUnitList')">‹</button>
+        <button class="back-btn" onclick="openUnitList(currentLevel)">‹</button>
         <div>
           <div class="card-progress" id="cardProgress">1/50</div>
           <div class="card-unit-name" id="cardUnitName">7000單字 Level 1 - Unit 1</div>
@@ -302,7 +285,6 @@
         <div class="example-block" id="cardExamples"></div>
       </div>
 
-      <!-- 熟悉度標記按鈕 (我不會 / 我很熟) -->
       <div style="display: flex; gap: 12px; margin-top: auto; margin-bottom: 4px;">
         <button id="btnDontKnow" onclick="setFamiliarityCurrent('dont_know')" style="flex: 1; padding: 12px; border-radius: 12px; background: #3a1c1c; border: 1px solid #ef4444; color: #ef4444; font-weight: bold; font-size: 0.95rem; cursor: pointer;">我不會</button>
         <button id="btnKnow" onclick="setFamiliarityCurrent('know')" style="flex: 1; padding: 12px; border-radius: 12px; background: #1c3a2b; border: 1px solid #10b981; color: #10b981; font-weight: bold; font-size: 0.95rem; cursor: pointer;">我很熟</button>
@@ -494,7 +476,6 @@
 
   </div>
 
-  <!-- 即時答對/答錯反饋 Modal -->
   <div class="modal-overlay" id="instantFeedbackModal" onclick="skipInstantFeedback()">
     <div class="modal-card" style="text-align: center;" onclick="event.stopPropagation()">
       <div id="instantFeedbackBanner" style="font-size: 1.8rem; font-weight: bold; margin-bottom: 12px;"></div>
@@ -510,7 +491,6 @@
     </div>
   </div>
 
-  <!-- 單字卡彈窗 Modal -->
   <div class="modal-overlay" id="wordDetailModal">
     <div class="modal-card">
       <div class="card-word-title" id="mWord"></div>
@@ -536,7 +516,6 @@
     </div>
   </div>
 
-  <!-- 測驗完成統計 Modal -->
   <div class="modal-overlay" id="quizResultModal">
     <div class="modal-card" style="text-align: center;">
       <h2 style="font-size: 1.5rem; color: var(--accent-yellow); margin-bottom: 8px;">🎉 測驗完成！</h2>
@@ -556,7 +535,6 @@
     </div>
   </div>
 
-  <!-- 資料檔載入區 -->
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
   <script src="data/level3.js"></script>
@@ -576,7 +554,6 @@
     7: "Level 7 - 學測高級核心單字"
   };
 
-  // 1. 強力相容型資料讀取
   function getLevelData(levelNum) {
     const possibleNames = [`level${levelNum}data`, `level${levelNum}Data`, `level${levelNum}_data`, `level${levelNum}`];
     for (const name of possibleNames) {
@@ -614,7 +591,6 @@
     return all;
   }
 
-  // LocalStorage 錯題與星號管理
   function getStarredWords() {
     try { return JSON.parse(localStorage.getItem('starred_words')) || []; }
     catch(e) { return []; }
@@ -654,7 +630,6 @@
     saveWrongWordsLS(list);
   }
 
-  // LocalStorage 學習瀏覽進度與熟練度管理
   function getLearnedWords() {
     try { return JSON.parse(localStorage.getItem('learned_words')) || []; }
     catch(e) { return []; }
@@ -687,7 +662,7 @@
 
   function getWordFamiliarity(wordStr) {
     let map = getFamiliarityMap();
-    return map[wordStr] || null; // 'know', 'dont_know', or null
+    return map[wordStr] || null;
   }
 
   let currentLevel = 1;
@@ -695,7 +670,6 @@
   let currentWords = [];
   let currentCardIndex = 0;
 
-  // 測驗相關變數
   let pinString = "10";
   let quizQueue = [];
   let currentQuizIndex = 0;
@@ -853,7 +827,6 @@
     const item = currentWords[currentCardIndex];
     if (!item) return;
 
-    // 自動標記為已學習/已瀏覽
     markWordAsLearned(item.word);
 
     const pos = item.pos || item.partOfSpeech || '';
@@ -870,7 +843,6 @@
     const wordEl = document.getElementById('cardWord');
     wordEl.innerText = item.word || '';
 
-    // 更新熟練度 UI 狀態
     const famStatus = getWordFamiliarity(item.word);
     updateCardFamiliarityUI(famStatus);
 
@@ -973,8 +945,6 @@
       window.speechSynthesis.speak(u);
     }
   }
-
-  // ==================== 區塊二：測驗邏輯 ====================
 
   function openQuizPinPage() {
     const allWords = getAllAvailableWords();
@@ -1325,8 +1295,6 @@
     showPage('pageLobby');
   }
 
-  // ==================== 區塊三：智能錯題與收藏本邏輯 ====================
-
   function openWrongBookLobby() {
     updateWrongBookStats();
     showPage('pageWrongBookLobby');
@@ -1454,8 +1422,6 @@
       }
     }
   }
-
-  // ==================== 區塊四：學習整理 (熟練度邏輯) ====================
 
   function openFamiliarityLobby() {
     showPage('pageFamiliarityBrowser');
