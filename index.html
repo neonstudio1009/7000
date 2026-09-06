@@ -176,6 +176,71 @@
 
     .modal-btn { width: 100%; padding: 14px; background: var(--accent-yellow); color: #000; border: none; border-radius: 24px; font-size: 1.05rem; font-weight: bold; cursor: pointer; margin-top: 12px; text-align: center; }
     .modal-btn.secondary-btn { background: var(--card-inner-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
+
+    .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+  
+  .modal-overlay.hidden {
+    display: none;
+  }
+  
+  .modal-box {
+    background: #222222;
+    color: #ffffff;
+    padding: 24px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 320px;
+    border: 1px solid #333;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    text-align: center;
+  }
+  
+  .modal-box p {
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .modal-actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .modal-actions .btn {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .btn-secondary {
+    background: #333333;
+    color: #cccccc;
+  }
+  
+  .btn-primary {
+    background: #3d3d3d;
+    color: #ffffff;
+    font-weight: bold;
+  }
+  
+  .btn-secondary:hover { background: #444; }
+  .btn-primary:hover { background: #555; }
+    
   </style>
 </head>
 <body>
@@ -598,6 +663,17 @@
       </div>
     </div>
   </div>
+
+  <div id="custom-confirm-modal" class="modal-overlay hidden">
+    <div class="modal-box">
+      <p id="confirm-message">確定要放棄本次測驗並返回嗎？</p>
+      <div class="modal-actions">
+        <button id="confirm-cancel-btn" class="btn btn-secondary">取消</button>
+        <button id="confirm-ok-btn" class="btn btn-primary">確定</button>
+      </div>
+    </div>
+  </div>
+  
 
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
@@ -1713,6 +1789,38 @@
   window.onload = () => {
     showPage('pageLobby');
   };
+
+  function customConfirm(message) {
+    return new Promise((resolve) => {
+      const modal = document.getElementById('custom-confirm-modal');
+      const msgEl = document.getElementById('confirm-message');
+      const okBtn = document.getElementById('confirm-ok-btn');
+      const cancelBtn = document.getElementById('confirm-cancel-btn');
+  
+      if (message) msgEl.textContent = message;
+      modal.classList.remove('hidden');
+  
+      const cleanup = () => {
+        modal.classList.add('hidden');
+        okBtn.removeEventListener('click', onOk);
+        cancelBtn.removeEventListener('click', onCancel);
+      };
+  
+      const onOk = () => {
+        cleanup();
+        resolve(true);
+      };
+  
+      const onCancel = () => {
+        cleanup();
+        resolve(false);
+      };
+  
+      okBtn.addEventListener('click', onOk);
+      cancelBtn.addEventListener('click', onCancel);
+    });
+  }
+  
 </script>
 </body>
 </html>
