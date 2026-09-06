@@ -186,7 +186,7 @@
     <div id="pageLobby" class="page active">
       <div class="lobby-header">
         <h1>速讀單字系統</h1>
-        <p id="dbStatus">四功能整合學習系統</p>
+        <p id="dbStatus">五功能整合學習系統</p>
       </div>
 
       <div class="menu-card" onclick="openLevelCategory()">
@@ -202,6 +202,15 @@
         <div>
           <h2 style="font-size: 1.2rem;">7000 單字大挑戰</h2>
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">四選一特訓 / 即時數據分析</p>
+        </div>
+      </div>
+
+      <!-- 新增：單元制刷題題庫 -->
+      <div class="menu-card" onclick="openUnitQuizLevelCategory()">
+        <div style="font-size: 2rem;">📝</div>
+        <div>
+          <h2 style="font-size: 1.2rem;">單元制刷題題庫</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">7大等級 / 20單元 / 三種刷題模式</p>
         </div>
       </div>
 
@@ -222,7 +231,7 @@
       </div>
     </div>
 
-    <!-- 2. 等級選擇 -->
+    <!-- 2. 等級選擇 (單字卡) -->
     <div id="pageLevelCategory" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -232,7 +241,17 @@
       <div class="grid-container" id="levelGrid"></div>
     </div>
 
-    <!-- 3. 單元選擇 -->
+    <!-- 2.1 新增：等級選擇 (單元制刷題) -->
+    <div id="pageUnitQuizLevel" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
+        <div class="bar-title">刷題題庫 - 選擇 Level</div>
+        <div style="width: 24px;"></div>
+      </div>
+      <div class="grid-container" id="unitQuizLevelGrid"></div>
+    </div>
+
+    <!-- 3. 單元選擇 (單字卡) -->
     <div id="pageUnitList" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openLevelCategory()">‹</button>
@@ -240,6 +259,51 @@
         <div style="width: 24px;"></div>
       </div>
       <div class="grid-container" id="unitGrid"></div>
+    </div>
+
+    <!-- 3.1 新增：單元選擇 (單元制刷題) -->
+    <div id="pageUnitQuizUnit" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="openUnitQuizLevelCategory()">‹</button>
+        <div class="bar-title" id="unitQuizUnitTitle">刷題題庫 - 選擇 Unit</div>
+        <div style="width: 24px;"></div>
+      </div>
+      <div class="grid-container" id="unitQuizUnitGrid"></div>
+    </div>
+
+    <!-- 3.2 新增：模式選擇 (單元制刷題) -->
+    <div id="pageUnitQuizMode" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="openUnitQuizUnitList(unitQuizLevel)">‹</button>
+        <div class="bar-title" id="unitQuizModeTitle">選擇刷題模式</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px;">
+        <div class="menu-card" onclick="startUnitQuiz('zh2en')">
+          <div style="font-size: 1.8rem;">🔤</div>
+          <div>
+            <h2 style="font-size: 1.1rem;">看中文選英文</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示中文釋義，挑選正確英文單字</p>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="startUnitQuiz('en2zh')">
+          <div style="font-size: 1.8rem;">🔠</div>
+          <div>
+            <h2 style="font-size: 1.1rem;">看英文選中文</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示英文單字，挑選正確中文釋義</p>
+          </div>
+        </div>
+
+        <div class="menu-card" onclick="startUnitQuiz('mixed')">
+          <div style="font-size: 1.8rem;">⚡</div>
+          <div>
+            <h2 style="font-size: 1.1rem;">綜合模式 (50題)</h2>
+            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">看中文選英文 25 題 + 看英文選中文 25 題</p>
+          </div>
+        </div>
+      </div>
     </div>
 
     <!-- 4. 單字清單 -->
@@ -337,9 +401,9 @@
 
       <div class="quiz-card">
         <div class="quiz-word" id="quizWord">word</div>
-        <div class="card-phonetic" style="justify-content: center; margin-bottom: 0;">
+        <div class="card-phonetic" id="quizPhoneticWrap" style="justify-content: center; margin-bottom: 0;">
           <span id="quizPhonetic">[ word ]</span>
-          <button class="audio-icon" onclick="speakText(currentQuizTarget.word)">🔊</button>
+          <button class="audio-icon" id="quizAudioBtn" onclick="speakText(currentQuizTarget.word)">🔊</button>
         </div>
       </div>
 
@@ -670,10 +734,14 @@
   let currentWords = [];
   let currentCardIndex = 0;
 
+  let unitQuizLevel = 1;
+  let unitQuizUnit = 1;
+
   let pinString = "10";
   let quizQueue = [];
   let currentQuizIndex = 0;
   let currentQuizTarget = null;
+  let currentQuizMode = 'en2zh';
   let quizCorrectCount = 0;
   let quizWrongCount = 0;
   let quizWrongList = []; 
@@ -734,6 +802,112 @@
       `;
       grid.appendChild(item);
     }
+  }
+
+  /* 單元制刷題：選擇 Level */
+  function openUnitQuizLevelCategory() {
+    showPage('pageUnitQuizLevel');
+    const grid = document.getElementById('unitQuizLevelGrid');
+    grid.innerHTML = '';
+
+    for (let i = 1; i <= 7; i++) {
+      const item = document.createElement('div');
+      item.className = 'grid-item';
+      item.onclick = () => openUnitQuizUnitList(i);
+      item.innerHTML = `
+        <div>
+          <div class="title">${LEVEL_NAMES[i]}</div>
+          <div class="subtitle">${(i - 1) * 1000 + 1} - ${i * 1000} 字</div>
+        </div>
+        <div style="font-size: 0.8rem; color: var(--accent-yellow); margin-top: 12px; font-weight: bold;">
+          點擊選擇單元 ➔
+        </div>
+      `;
+      grid.appendChild(item);
+    }
+  }
+
+  /* 單元制刷題：選擇 Unit */
+  function openUnitQuizUnitList(level) {
+    unitQuizLevel = level;
+    showPage('pageUnitQuizUnit');
+    document.getElementById('unitQuizUnitTitle').innerText = `${LEVEL_NAMES[level]} - 選擇單元`;
+    const grid = document.getElementById('unitQuizUnitGrid');
+    grid.innerHTML = '';
+
+    const startUnit = (level - 1) * 20 + 1;
+    const endUnit = level * 20;
+
+    for (let u = startUnit; u <= endUnit; u++) {
+      const words = getUnitWords(level, u);
+      const wordCount = words.length;
+      const isEmpty = wordCount === 0;
+
+      const item = document.createElement('div');
+      item.className = `grid-item ${isEmpty ? 'empty-unit' : ''}`;
+      item.onclick = () => {
+        if (!isEmpty) openUnitQuizModeSelect(level, u);
+      };
+      item.innerHTML = `
+        <div>
+          <div class="title">Unit ${u}</div>
+          <div class="subtitle">${isEmpty ? '🚧 建置中' : wordCount + ' 個單字'}</div>
+        </div>
+        <div style="font-size: 0.8rem; color: ${isEmpty ? 'var(--text-secondary)' : 'var(--accent-yellow)'}; margin-top: 12px;">
+          ${isEmpty ? '無資料' : '開始刷題 ➔'}
+        </div>
+      `;
+      grid.appendChild(item);
+    }
+  }
+
+  /* 單元制刷題：選擇模式 */
+  function openUnitQuizModeSelect(level, unit) {
+    unitQuizLevel = level;
+    unitQuizUnit = unit;
+    document.getElementById('unitQuizModeTitle').innerText = `Unit ${unit} 刷題模式`;
+    showPage('pageUnitQuizMode');
+  }
+
+  /* 單元制刷題：啟動測驗 */
+  function startUnitQuiz(mode) {
+    const words = getUnitWords(unitQuizLevel, unitQuizUnit);
+    if (!words || words.length === 0) {
+      alert("此單元暫無單字資料！");
+      return;
+    }
+
+    quizQueue = [];
+
+    if (mode === 'zh2en') {
+      quizQueue = words.map(w => ({ wordObj: w, mode: 'zh2en' })).sort(() => 0.5 - Math.random());
+    } else if (mode === 'en2zh') {
+      quizQueue = words.map(w => ({ wordObj: w, mode: 'en2zh' })).sort(() => 0.5 - Math.random());
+    } else if (mode === 'mixed') {
+      let poolZh2En = [];
+      let poolEn2Zh = [];
+
+      while (poolZh2En.length < 25) {
+        const randW = words[Math.floor(Math.random() * words.length)];
+        poolZh2En.push({ wordObj: randW, mode: 'zh2en' });
+      }
+
+      while (poolEn2Zh.length < 25) {
+        const randW = words[Math.floor(Math.random() * words.length)];
+        poolEn2Zh.push({ wordObj: randW, mode: 'en2zh' });
+      }
+
+      quizQueue = [...poolZh2En, ...poolEn2Zh].sort(() => 0.5 - Math.random());
+    }
+
+    isWrongQuizMode = false;
+    currentQuizIndex = 0;
+    quizCorrectCount = 0;
+    quizWrongCount = 0;
+    quizWrongList = [];
+
+    showPage('pageQuiz');
+    renderQuizQuestion();
   }
 
   function openUnitList(level) {
@@ -996,7 +1170,9 @@
     if (allWords.length === 0) return;
 
     const shuffled = [...allWords].sort(() => 0.5 - Math.random());
-    quizQueue = shuffled.slice(0, Math.min(count, shuffled.length));
+    const selected = shuffled.slice(0, Math.min(count, shuffled.length));
+
+    quizQueue = selected.map(w => ({ wordObj: w, mode: 'en2zh' }));
 
     isWrongQuizMode = false;
     currentQuizIndex = 0;
@@ -1014,50 +1190,79 @@
       return;
     }
 
-    currentQuizTarget = quizQueue[currentQuizIndex];
+    const qItem = quizQueue[currentQuizIndex];
+    currentQuizTarget = qItem.wordObj || qItem;
+    currentQuizMode = qItem.mode || 'en2zh';
+
     const allWords = getAllAvailableWords();
 
     document.getElementById('quizProgressTitle').innerText = `題目 ${currentQuizIndex + 1}/${quizQueue.length}`;
-    document.getElementById('quizWord').innerText = currentQuizTarget.word || '';
-    document.getElementById('quizPhonetic').innerText = currentQuizTarget.phonetic || currentQuizTarget.kk || '';
-
+    
     const starBtn = document.getElementById('quizStarBtn');
     if (isWordStarred(currentQuizTarget)) starBtn.classList.add('active');
     else starBtn.classList.remove('active');
+
+    const container = document.getElementById('quizOptionsContainer');
+    container.innerHTML = '';
 
     const distractors = allWords
       .filter(w => w.word !== currentQuizTarget.word)
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
 
-    const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
+    if (currentQuizMode === 'en2zh') {
+      // 看英文選中文
+      document.getElementById('quizWord').innerText = currentQuizTarget.word || '';
+      document.getElementById('quizPhoneticWrap').style.display = 'flex';
+      document.getElementById('quizPhonetic').innerText = currentQuizTarget.phonetic || currentQuizTarget.kk || '';
 
-    let choices = distractors.map(d => ({
-      isCorrect: false,
-      text: (d.pos || '') + " " + (d.trans || d.translation || d.meaning || '')
-    }));
+      const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
 
-    choices.push({ isCorrect: true, text: targetTrans });
-    choices.sort(() => 0.5 - Math.random());
+      let choices = distractors.map(d => ({
+        isCorrect: false,
+        text: (d.pos || '') + " " + (d.trans || d.translation || d.meaning || '')
+      }));
 
-    const container = document.getElementById('quizOptionsContainer');
-    container.innerHTML = '';
+      choices.push({ isCorrect: true, text: targetTrans });
+      choices.sort(() => 0.5 - Math.random());
 
-    choices.forEach(c => {
-      const btn = document.createElement('button');
-      btn.className = 'quiz-opt-btn';
-      btn.innerText = c.text;
-      btn.onclick = () => handleQuizAnswer(c.isCorrect);
-      container.appendChild(btn);
-    });
+      choices.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn';
+        btn.innerText = c.text;
+        btn.onclick = () => handleQuizAnswer(c.isCorrect);
+        container.appendChild(btn);
+      });
+
+      speakText(currentQuizTarget.word);
+    } else {
+      // 看中文選英文
+      const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
+      document.getElementById('quizWord').innerText = targetTrans;
+      document.getElementById('quizPhoneticWrap').style.display = 'none';
+
+      let choices = distractors.map(d => ({
+        isCorrect: false,
+        text: d.word || ''
+      }));
+
+      choices.push({ isCorrect: true, text: currentQuizTarget.word || '' });
+      choices.sort(() => 0.5 - Math.random());
+
+      choices.forEach(c => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-opt-btn';
+        btn.innerText = c.text;
+        btn.onclick = () => handleQuizAnswer(c.isCorrect);
+        container.appendChild(btn);
+      });
+    }
 
     const unknownBtn = document.createElement('button');
     unknownBtn.className = 'quiz-opt-btn quiz-opt-unknown';
     unknownBtn.innerText = '❓ 我不知道';
     unknownBtn.onclick = () => handleQuizAnswer(false);
     container.appendChild(unknownBtn);
-
-    speakText(currentQuizTarget.word);
   }
 
   function handleQuizAnswer(isCorrect) {
@@ -1350,7 +1555,7 @@
       isWrongQuizMode = false;
     }
 
-    quizQueue = [...sourceWords].sort(() => 0.5 - Math.random());
+    quizQueue = sourceWords.map(w => ({ wordObj: w, mode: 'en2zh' })).sort(() => 0.5 - Math.random());
     currentQuizIndex = 0;
     quizCorrectCount = 0;
     quizWrongCount = 0;
