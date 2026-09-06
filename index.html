@@ -1799,9 +1799,11 @@
   
       if (message) msgEl.textContent = message;
       modal.classList.remove('hidden');
+      modal.classList.add('active'); // 顯示彈窗並允許點擊
   
       const cleanup = () => {
         modal.classList.add('hidden');
+        modal.classList.remove('active'); // 關閉彈窗
         okBtn.removeEventListener('click', onOk);
         cancelBtn.removeEventListener('click', onCancel);
       };
