@@ -1434,8 +1434,8 @@
     renderQuizQuestion();
   }
 
-  function confirmExitQuiz() {
-    if (confirm("確定要放棄本次測驗並返回嗎？")) {
+  async function confirmExitQuiz() {
+    if (await customConfirm("確定要放棄本次測驗並返回嗎？")) {
       showPage('pageLobby');
     }
   }
