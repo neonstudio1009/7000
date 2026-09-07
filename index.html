@@ -1013,10 +1013,28 @@
   let currentFamTab = 'know';
 
   function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    const target = document.getElementById(pageId);
-    if (target) target.classList.add('active');
-    if (pageId === 'pageLobby') updateLobbyStats();
+    // 1. 隱藏所有頁面
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+      page.style.display = 'none';
+    });
+  
+    // 2. 顯示指定頁面
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+      targetPage.classList.add('active');
+      targetPage.style.display = 'block';
+    }
+  
+    // 3. 控制底部導覽列顯示：僅在大廳與植樹場出現
+    const bottomNav = document.getElementById('mainBottomNav');
+    if (bottomNav) {
+      if (pageId === 'pageLobby' || pageId === 'pageTreeFarm') {
+        bottomNav.style.display = 'flex'; // 或使用 'block'，依據你的 CSS 排版設定
+      } else {
+        bottomNav.style.display = 'none';  // 點進單字卡、單元選擇等頁面時隱藏
+      }
+    }
   }
 
   function openLevelCategory() {
