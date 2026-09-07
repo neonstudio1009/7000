@@ -1198,13 +1198,30 @@
     if (item && item.word) speakText(item.word);
   }
 
+  let currentAudio = null;
+
   function speakText(text) {
-    if (text && 'speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = 'en-US';
-      window.speechSynthesis.speak(u);
+    if (!text) return;
+  
+    // 使用線上語音 API (type=0 為美式發音, type=1 為英式發音)
+    const audioUrl = `https://dict.youdao.com/dictvoice?type=0&audio=${encodeURIComponent(text)}`;
+  
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
     }
+  
+    currentAudio = new Audio(audioUrl);
+    
+    // 嘗試播放線上音訊，若無網路或失敗則自動切回瀏覽器語音
+    currentAudio.play().catch(() => {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const u = new SpeechSynthesisUtterance(text);
+        u.lang = 'en-US';
+        window.speechSynthesis.speak(u);
+      }
+    });
   }
 
   function openQuizPinPage() {
