@@ -320,6 +320,60 @@
       transform: translateZ(-4px);
       box-shadow: 0 2px 0 #1b2e15, 0 4px 6px rgba(0, 0, 0, 0.6);
     }
+    /* 植樹場頂部狀態欄與澆水按鈕 */
+    .farm-hud {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .farm-stat {
+      text-align: center;
+    }
+
+    .farm-stat .val {
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: var(--accent-yellow);
+    }
+
+    .farm-stat .lbl {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+    }
+
+    .water-btn {
+      background: #1e3a8a;
+      border: 1px solid #3b82f6;
+      color: #ffffff;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-weight: bold;
+      font-size: 0.9rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .water-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* 3D 土地上的植物圖示 */
+    .tile-3d .plant-icon {
+      transform: rotateZ(20deg) rotateX(-50deg) translateY(-10px);
+      font-size: 2rem;
+      pointer-events: none;
+      transition: transform 0.3s ease;
+    }
   </style>
 </head>
 <body>
