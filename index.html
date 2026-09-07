@@ -177,23 +177,6 @@
     .modal-btn { width: 100%; padding: 14px; background: var(--accent-yellow); color: #000; border: none; border-radius: 24px; font-size: 1.05rem; font-weight: bold; cursor: pointer; margin-top: 12px; text-align: center; }
     .modal-btn.secondary-btn { background: var(--card-inner-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    
-    .modal-overlay.hidden {
-      display: none;
-    }
-    
     .modal-box {
       background: #222222;
       color: #ffffff;
@@ -229,9 +212,7 @@
     
     .btn-secondary { background: #333333; color: #cccccc; }
     .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
-    
-    .btn-secondary:hover { background: #444; }
-    .btn-primary:hover { background: #555; }
+
     /* 底部半透明導覽列 */
     .bottom-nav {
       position: fixed;
@@ -320,7 +301,7 @@
       transform: translateZ(-4px);
       box-shadow: 0 2px 0 #1b2e15, 0 4px 6px rgba(0, 0, 0, 0.6);
     }
-    /* 植樹場頂部狀態欄與澆水按鈕 */
+
     .farm-hud {
       display: flex;
       justify-content: space-around;
@@ -333,20 +314,9 @@
       margin-bottom: 10px;
     }
 
-    .farm-stat {
-      text-align: center;
-    }
-
-    .farm-stat .val {
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: var(--accent-yellow);
-    }
-
-    .farm-stat .lbl {
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-    }
+    .farm-stat { text-align: center; }
+    .farm-stat .val { font-size: 1.1rem; font-weight: bold; color: var(--accent-yellow); }
+    .farm-stat .lbl { font-size: 0.75rem; color: var(--text-secondary); }
 
     .water-btn {
       background: #1e3a8a;
@@ -362,12 +332,8 @@
       gap: 6px;
     }
 
-    .water-btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
+    .water-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* 3D 土地上的植物圖示 */
     .tile-3d .plant-icon {
       transform: rotateZ(20deg) rotateX(-50deg) translateY(-10px);
       font-size: 2rem;
@@ -387,7 +353,6 @@
         <p id="dbStatus">五功能整合學習系統</p>
       </div>
 
-      <!-- 新增：學習數據與連續登入天數面板 -->
       <div class="grid-container" style="margin-bottom: 4px;">
         <div class="stat-card">
           <div class="title" id="streakDays">🔥 0 天</div>
@@ -450,7 +415,7 @@
       <div class="grid-container" id="levelGrid"></div>
     </div>
 
-    <!-- 2.1 新增：等級選擇 (單元制刷題) -->
+    <!-- 2.1 等級選擇 (單元制刷題) -->
     <div id="pageUnitQuizLevel" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -470,7 +435,7 @@
       <div class="grid-container" id="unitGrid"></div>
     </div>
 
-    <!-- 3.1 新增：單元選擇 (單元制刷題) -->
+    <!-- 3.1 單元選擇 (單元制刷題) -->
     <div id="pageUnitQuizUnit" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizLevelCategory()">‹</button>
@@ -480,7 +445,7 @@
       <div class="grid-container" id="unitQuizUnitGrid"></div>
     </div>
 
-    <!-- 3.2 新增：模式選擇 (單元制刷題) -->
+    <!-- 3.2 模式選擇 (單元制刷題) -->
     <div id="pageUnitQuizMode" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizUnitList(unitQuizLevel)">‹</button>
@@ -569,7 +534,7 @@
       </div>
     </div>
 
-    <!-- 6. 數字鍵盤設定題數頁面 (Pin Style) -->
+    <!-- 6. 數字鍵盤設定題數頁面 -->
     <div id="pageQuizPin" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -747,6 +712,32 @@
       <div class="word-list" id="famBrowserListContainer"></div>
     </div>
 
+    <!-- 12. 植樹場頁面 -->
+    <div id="pageTreeFarm" class="page">
+      <div class="lobby-header" style="margin-top: 8px; margin-bottom: 8px;">
+        <h1 style="color: var(--accent-green); font-size: 1.4rem;">🌱 3D 植樹場</h1>
+        <p style="font-size: 0.8rem;">點擊空地開墾，使用單字能量與澆水培育大樹</p>
+      </div>
+
+      <div class="farm-hud">
+        <div class="farm-stat">
+          <div class="val" id="farmEnergyVal">0</div>
+          <div class="lbl">單字能量 (熟字)</div>
+        </div>
+        <div class="farm-stat">
+          <div class="val" id="waterDropsVal">💧 0/8</div>
+          <div class="lbl" id="waterTimerLbl">距離下次: --:--</div>
+        </div>
+        <button class="water-btn" id="waterActionBtn" onclick="useWatering()">💧 澆水 (+1)</button>
+      </div>
+
+      <div class="farm-container">
+        <div class="grid-3d-wrapper">
+          <div class="grid-3d" id="farmGrid3D"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="modal-overlay" id="instantFeedbackModal" onclick="skipInstantFeedback()">
@@ -818,39 +809,11 @@
     </div>
   </div>
 
-  <!-- 植樹場頁面 -->
-  <div id="pageTreeFarm" class="page">
-    <div class="lobby-header" style="margin-top: 8px; margin-bottom: 8px;">
-      <h1 style="color: var(--accent-green); font-size: 1.4rem;">🌱 3D 植樹場</h1>
-      <p style="font-size: 0.8rem;">點擊空地開墾，使用單字能量與澆水培育大樹</p>
-    </div>
-
-    <!-- 植樹場狀態與澆水欄 -->
-    <div class="farm-hud">
-      <div class="farm-stat">
-        <div class="val" id="farmEnergyVal">0</div>
-        <div class="lbl">單字能量 (熟字)</div>
-      </div>
-      <div class="farm-stat">
-        <div class="val" id="waterDropsVal">💧 0/8</div>
-        <div class="lbl" id="waterTimerLbl">距離下次: --:--</div>
-      </div>
-      <button class="water-btn" id="waterActionBtn" onclick="useWatering()">💧 澆水 (+1)</button>
-    </div>
-
-    <div class="farm-container">
-      <div class="grid-3d-wrapper">
-        <div class="grid-3d" id="farmGrid3D"></div>
-      </div>
-    </div>
-  </div>
-
   <!-- 底部半透明按鈕列 -->
   <div class="bottom-nav">
-    <button id="navMainBtn" class="nav-btn" onclick="switchMainTab('main')">🏠 主畫面</button>
-    <button id="navFarmBtn" class="nav-btn active" onclick="switchMainTab('farm')">🌲 植樹場</button>
+    <button id="navMainBtn" class="nav-btn active" onclick="switchMainTab('main')">🏠 主畫面</button>
+    <button id="navFarmBtn" class="nav-btn" onclick="switchMainTab('farm')">🌲 植樹場</button>
   </div>
-  
 
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
@@ -871,9 +834,14 @@
     7: "Level 7 - 學測高級核心單字"
   };
 
-  /* LocalStorage 連續登入與進度維護功能 */
+  /* 頁面與資料載入初始化 */
+  document.addEventListener('DOMContentLoaded', () => {
+    updateLobbyStats();
+    initFarmGrid();
+  });
+
   function checkAndUpdateLoginStreak() {
-    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+    const today = new Date().toLocaleDateString('en-CA');
     const lastLogin = localStorage.getItem('last_login_date');
     let streak = parseInt(localStorage.getItem('login_streak') || '0', 10);
 
@@ -887,7 +855,7 @@
       if (diffDays === 1) {
         streak += 1;
       } else if (diffDays > 1) {
-        streak = 1; // 跨天未登入，連續次數重新計算
+        streak = 1;
       }
     }
 
@@ -2063,26 +2031,8 @@ function switchMainTab(tab) {
   } else if (tab === 'farm') {
     document.getElementById('navFarmBtn').classList.add('active');
     showPage('pageTreeFarm');
+    initFarmGrid();
   }
-}
-
-// 初始化 5x5 土地網格
-function initFarmGrid() {
-  const grid = document.getElementById('farmGrid3D');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  for (let i = 0; i < 25; i++) {
-    const tile = document.createElement('div');
-    tile.className = 'tile-3d';
-    tile.dataset.index = i;
-    tile.onclick = () => onTileClick(i);
-    grid.appendChild(tile);
-  }
-}
-
-function onTileClick(index) {
-  alert(`點擊了第 ${index + 1} 塊土地！`);
 }
 
 // 植樹場資料儲存與讀取
@@ -2091,7 +2041,7 @@ function getFarmData() {
     return JSON.parse(localStorage.getItem('farm_data')) || {
       waterDrops: 0,
       lastWaterTime: Date.now(),
-      tiles: Array(25).fill(null), // null 表示空地, { stage: 0..4, exp: 0 }
+      tiles: Array(25).fill(null),
       selectedTile: null
     };
   } catch(e) {
@@ -2190,7 +2140,6 @@ function onTileClick(index) {
   const tileData = farm.tiles[index];
 
   if (!tileData) {
-    // 空地開墾/播種
     if (confirm(`要在第 ${index + 1} 塊土地下種子嗎？(消耗 10 熟練單字能量)`)) {
       const famMap = getFamiliarityMap();
       const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
@@ -2219,9 +2168,8 @@ function useWatering() {
   if (farm.waterDrops > 0) {
     farm.waterDrops -= 1;
     let tileData = farm.tiles[farm.selectedTile];
-    tileData.exp += 1; // 1點水 = 1經驗
+    tileData.exp += 1;
 
-    // 檢查升級
     if (tileData.exp >= 100) tileData.stage = 4;
     else if (tileData.exp >= 50) tileData.stage = 3;
     else if (tileData.exp >= 25) tileData.stage = 2;
