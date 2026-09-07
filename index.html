@@ -763,6 +763,26 @@
       </div>
     </div>
   </div>
+
+  <!-- 植樹場頁面 -->
+  <div id="pageTreeFarm" class="page">
+    <div class="lobby-header">
+      <h1 style="color: var(--accent-green);">🌱 3D 植樹場</h1>
+      <p>點擊空地即可進行耕作與種樹</p>
+    </div>
+
+    <div class="farm-container">
+      <div class="grid-3d-wrapper">
+        <div class="grid-3d" id="farmGrid3D"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部半透明按鈕列 -->
+  <div class="bottom-nav">
+    <button id="navMainBtn" class="nav-btn" onclick="switchMainTab('main')">🏠 主畫面</button>
+    <button id="navFarmBtn" class="nav-btn active" onclick="switchMainTab('farm')">🌲 植樹場</button>
+  </div>
   
 
   <script src="data/level1.js"></script>
@@ -1962,6 +1982,40 @@
       cancelBtn.addEventListener('click', onCancel);
     });
   }
+
+// 底部導覽列切換邏輯
+  function switchMainTab(tab) {
+    document.getElementById('navMainBtn').classList.remove('active');
+    document.getElementById('navFarmBtn').classList.remove('active');
+
+    if (tab === 'main') {
+      document.getElementById('navMainBtn').classList.add('active');
+      showPage('pageLobby');
+    } else if (tab === 'farm') {
+      document.getElementById('navFarmBtn').classList.add('active');
+      showPage('pageTreeFarm');
+    }
+  }
+
+  // 初始化 5x5 土地網格
+  function initFarmGrid() {
+    const grid = document.getElementById('farmGrid3D');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    for (let i = 0; i < 25; i++) {
+      const tile = document.createElement('div');
+      tile.className = 'tile-3d';
+      tile.dataset.index = i;
+      tile.onclick = () => onTileClick(i);
+      grid.appendChild(tile);
+    }
+  }
+
+  function onTileClick(index) {
+    alert(`點擊了第 ${index + 1} 塊土地！`);
+  }
+  
 </script>
 </body>
 </html>
