@@ -2012,10 +2012,12 @@
     });
   }
 
-  window.onload = () => {
-    updateLobbyStats();
-    showPage('pageLobby');
-  };
+  setInterval(() => {
+    const pageFarm = document.getElementById('pageTreeFarm');
+    if (pageFarm && pageFarm.classList.contains('active')) {
+      updateWaterSupply();
+    }
+  }, 1000);
 
   function customConfirm(message) {
     return new Promise((resolve) => {
