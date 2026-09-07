@@ -35,12 +35,50 @@
       transition: opacity 0.3s cubic-bezier(0.25, 1, 0.5, 1), transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
     }
     .page.active { display: flex; opacity: 1; transform: translateY(0); }
+    .page.has-bottom-nav { padding-bottom: 76px; }
 
-    button, .menu-card, .grid-item, .stat-card, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn {
+    button, .menu-card, .grid-item, .stat-card, .word-item, .quiz-opt-btn, .card-nav-btn, .modal-btn, .keypad-btn, .farm-btn {
       transition: transform 0.15s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
-    button:active, .menu-card:active, .grid-item:active, .stat-card:active, .word-item:active, .quiz-opt-btn:active, .card-nav-btn:active, .modal-btn:active, .keypad-btn:active {
+    button:active, .menu-card:active, .grid-item:active, .stat-card:active, .word-item:active, .quiz-opt-btn:active, .card-nav-btn:active, .modal-btn:active, .keypad-btn:active, .farm-btn:active {
       transform: scale(0.96);
+    }
+
+    /* 底部導覽列 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 60px;
+      background: #181818;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      z-index: 500;
+    }
+    .bottom-nav .nav-btn {
+      flex: 1;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      border-top: 3px solid transparent;
+    }
+    .bottom-nav .nav-btn.active {
+      color: var(--accent-yellow);
+      border-top-color: var(--accent-yellow);
+      background: rgba(255, 183, 77, 0.05);
     }
 
     .top-bar { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border-color); margin-bottom: 12px; }
@@ -91,6 +129,44 @@
     .progress-bar-fill.white { background-color: rgba(255, 255, 255, 0.75); }
     .progress-bar-fill.green { background-color: var(--accent-green); }
     .progress-label { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 2px; }
+
+    /* 植樹場樣式 */
+    .farm-tree-stage {
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 24px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .tree-icon-large {
+      font-size: 5.5rem;
+      margin: 16px 0;
+      transition: transform 0.3s ease;
+    }
+    .farm-actions {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+    }
+    .farm-btn {
+      flex: 1;
+      padding: 14px;
+      border-radius: 14px;
+      border: none;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .farm-btn-water { background: #1e3a8a; color: #93c5fd; border: 1px solid #2563eb; }
+    .farm-btn-fertilizer { background: #365314; color: #bef264; border: 1px solid #65a30d; }
 
     .word-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
     .word-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -177,22 +253,7 @@
     .modal-btn { width: 100%; padding: 14px; background: var(--accent-yellow); color: #000; border: none; border-radius: 24px; font-size: 1.05rem; font-weight: bold; cursor: pointer; margin-top: 12px; text-align: center; }
     .modal-btn.secondary-btn { background: var(--card-inner-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
 
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(0, 0, 0, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-    }
-    
-    .modal-overlay.hidden {
-      display: none;
-    }
+    .modal-overlay.hidden { display: none; }
     
     .modal-box {
       background: #222222;
@@ -205,33 +266,11 @@
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
       text-align: center;
     }
-    
-    .modal-box p {
-      margin-bottom: 20px;
-      font-size: 16px;
-      line-height: 1.5;
-    }
-    
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .modal-actions .btn {
-      flex: 1;
-      padding: 10px 0;
-      border-radius: 8px;
-      border: none;
-      font-size: 15px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-    
+    .modal-box p { margin-bottom: 20px; font-size: 16px; line-height: 1.5; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-actions .btn { flex: 1; padding: 10px 0; border-radius: 8px; border: none; font-size: 15px; cursor: pointer; transition: background 0.2s; }
     .btn-secondary { background: #333333; color: #cccccc; }
     .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
-    
-    .btn-secondary:hover { background: #444; }
-    .btn-primary:hover { background: #555; }
   </style>
 </head>
 <body>
@@ -239,13 +278,12 @@
   <div class="app-container">
 
     <!-- 1. 主大廳 -->
-    <div id="pageLobby" class="page active">
+    <div id="pageLobby" class="page has-bottom-nav active">
       <div class="lobby-header">
         <h1>速讀單字系統</h1>
         <p id="dbStatus">五功能整合學習系統</p>
       </div>
 
-      <!-- 新增：學習數據與連續登入天數面板 -->
       <div class="grid-container" style="margin-bottom: 4px;">
         <div class="stat-card">
           <div class="title" id="streakDays">🔥 0 天</div>
@@ -298,6 +336,58 @@
       </div>
     </div>
 
+    <!-- 12. 植樹場頁面 -->
+    <div id="pageTreeFarm" class="page has-bottom-nav">
+      <div class="top-bar">
+        <div style="width: 24px;"></div>
+        <div class="bar-title">🌲 綠色學習植樹場</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="grid-container" style="margin-bottom: 12px;">
+        <div class="stat-card">
+          <div class="title" id="farmWaterCount">💧 0</div>
+          <div class="subtitle">水滴 (學習/刷題獲得)</div>
+        </div>
+        <div class="stat-card">
+          <div class="title" id="farmFertilizerCount">🧪 0</div>
+          <div class="subtitle">肥料 (每日登入獲得)</div>
+        </div>
+      </div>
+
+      <div class="farm-tree-stage">
+        <div style="font-size: 0.85rem; color: var(--text-secondary);" id="treeStageName">階段 1/5：種子發芽</div>
+        <div class="tree-icon-large" id="treeEmoji">🌱</div>
+        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow); margin-bottom: 12px;" id="treeTitle">知識幼苗</div>
+
+        <div class="grid-progress-container" style="width: 100%;">
+          <div class="progress-label">
+            <span>成長經驗值</span>
+            <span id="treeExpText">0 / 50</span>
+          </div>
+          <div class="progress-bar-wrap" style="height: 10px;">
+            <div class="progress-bar-fill green" id="treeExpBar" style="width: 0%;"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="farm-actions" style="margin-top: 14px;">
+        <button class="farm-btn farm-btn-water" onclick="waterTree()">
+          <div>💧 澆水</div>
+          <span style="font-size: 0.75rem; opacity: 0.8;">消耗 1 水滴 (+10 EXP)</span>
+        </button>
+        <button class="farm-btn farm-btn-fertilizer" onclick="fertilizeTree()">
+          <div>🧪 施肥</div>
+          <span style="font-size: 0.75rem; opacity: 0.8;">消耗 1 肥料 (+30 EXP)</span>
+        </button>
+      </div>
+
+      <div class="stat-card" style="margin-top: 14px; width: 100%;">
+        <div class="title" id="farmHarvestCount" style="color: var(--accent-green);">🌳 0 棵</div>
+        <div class="subtitle">累計培育完成的森林樹木</div>
+      </div>
+    </div>
+
     <!-- 2. 等級選擇 (單字卡) -->
     <div id="pageLevelCategory" class="page">
       <div class="top-bar">
@@ -308,7 +398,7 @@
       <div class="grid-container" id="levelGrid"></div>
     </div>
 
-    <!-- 2.1 新增：等級選擇 (單元制刷題) -->
+    <!-- 2.1 等級選擇 (單元制刷題) -->
     <div id="pageUnitQuizLevel" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -328,7 +418,7 @@
       <div class="grid-container" id="unitGrid"></div>
     </div>
 
-    <!-- 3.1 新增：單元選擇 (單元制刷題) -->
+    <!-- 3.1 單元選擇 (單元制刷題) -->
     <div id="pageUnitQuizUnit" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizLevelCategory()">‹</button>
@@ -338,7 +428,7 @@
       <div class="grid-container" id="unitQuizUnitGrid"></div>
     </div>
 
-    <!-- 3.2 新增：模式選擇 (單元制刷題) -->
+    <!-- 3.2 模式選擇 (單元制刷題) -->
     <div id="pageUnitQuizMode" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizUnitList(unitQuizLevel)">‹</button>
@@ -605,6 +695,12 @@
       <div class="word-list" id="famBrowserListContainer"></div>
     </div>
 
+    <!-- 固定底部導覽列 -->
+    <nav id="mainBottomNav" class="bottom-nav">
+      <button id="navMainBtn" class="nav-btn active" onclick="switchMainTab('main')">🏠 主畫面</button>
+      <button id="navFarmBtn" class="nav-btn" onclick="switchMainTab('farm')">🌲 植樹場</button>
+    </nav>
+
   </div>
 
   <div class="modal-overlay" id="instantFeedbackModal" onclick="skipInstantFeedback()">
@@ -675,7 +771,6 @@
       </div>
     </div>
   </div>
-  
 
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
@@ -696,14 +791,111 @@
     7: "Level 7 - 學測高級核心單字"
   };
 
+  /* 植樹場系統 LocalStorage 資料操作 */
+  function getFarmData() {
+    try {
+      return JSON.parse(localStorage.getItem('farm_data')) || { water: 10, fertilizer: 2, exp: 0, level: 1, harvested: 0 };
+    } catch(e) {
+      return { water: 10, fertilizer: 2, exp: 0, level: 1, harvested: 0 };
+    }
+  }
+
+  function saveFarmData(data) {
+    localStorage.setItem('farm_data', JSON.stringify(data));
+  }
+
+  function addFarmResource(waterCount, fertilizerCount) {
+    let data = getFarmData();
+    data.water = (data.water || 0) + waterCount;
+    data.fertilizer = (data.fertilizer || 0) + fertilizerCount;
+    saveFarmData(data);
+  }
+
+  const TREE_STAGES = [
+    { name: "階段 1/5：種子發芽", title: "知識幼苗", emoji: "🌱", maxExp: 50 },
+    { name: "階段 2/5：持續灌溉", title: "茁壯嫩芽", emoji: "🌿", maxExp: 120 },
+    { name: "階段 3/5：穩固根基", title: "小樹苗", emoji: "🪴", maxExp: 220 },
+    { name: "階段 4/5：茂盛生長", title: "參天大樹", emoji: "🌳", maxExp: 350 },
+    { name: "階段 5/5：結實果樹", title: "豐收果樹", emoji: "🍎", maxExp: 500 }
+  ];
+
+  function updateFarmUI() {
+    const data = getFarmData();
+    const currentStage = TREE_STAGES[Math.min(data.level - 1, TREE_STAGES.length - 1)];
+
+    const waterEl = document.getElementById('farmWaterCount');
+    const fertEl = document.getElementById('farmFertilizerCount');
+    const stageNameEl = document.getElementById('treeStageName');
+    const emojiEl = document.getElementById('treeEmoji');
+    const titleEl = document.getElementById('treeTitle');
+    const expTextEl = document.getElementById('treeExpText');
+    const expBarEl = document.getElementById('treeExpBar');
+    const harvestEl = document.getElementById('farmHarvestCount');
+
+    if (waterEl) waterEl.innerText = `💧 ${data.water}`;
+    if (fertEl) fertEl.innerText = `🧪 ${data.fertilizer}`;
+    if (stageNameEl) stageNameEl.innerText = currentStage.name;
+    if (emojiEl) emojiEl.innerText = currentStage.emoji;
+    if (titleEl) titleEl.innerText = currentStage.title;
+
+    const percent = Math.min(100, Math.round((data.exp / currentStage.maxExp) * 100));
+    if (expTextEl) expTextEl.innerText = `${data.exp} / ${currentStage.maxExp}`;
+    if (expBarEl) expBarEl.style.width = `${percent}%`;
+    if (harvestEl) harvestEl.innerText = `🌳 ${data.harvested} 棵`;
+  }
+
+  function waterTree() {
+    let data = getFarmData();
+    if (data.water <= 0) {
+      alert("水滴不足！去多背單字或刷題答對題目即可獲取水滴喔！");
+      return;
+    }
+    data.water -= 1;
+    data.exp += 10;
+    checkTreeLevelUp(data);
+    saveFarmData(data);
+    updateFarmUI();
+  }
+
+  function fertilizeTree() {
+    let data = getFarmData();
+    if (data.fertilizer <= 0) {
+      alert("肥料不足！每日連續登入即可領取更多肥料！");
+      return;
+    }
+    data.fertilizer -= 1;
+    data.exp += 30;
+    checkTreeLevelUp(data);
+    saveFarmData(data);
+    updateFarmUI();
+  }
+
+  function checkTreeLevelUp(data) {
+    const currentStage = TREE_STAGES[Math.min(data.level - 1, TREE_STAGES.length - 1)];
+    if (data.exp >= currentStage.maxExp) {
+      if (data.level < TREE_STAGES.length) {
+        data.level += 1;
+        data.exp = 0;
+        alert(`🎉 恭喜！你的小樹升級成「${TREE_STAGES[data.level - 1].title}」了！`);
+      } else {
+        data.harvested += 1;
+        data.level = 1;
+        data.exp = 0;
+        data.water += 5;
+        alert("🎉 太棒了！樹木培育完成了！已收入你的森林庫，並獲得額外獎勵 5 滴水！");
+      }
+    }
+  }
+
   /* LocalStorage 連續登入與進度維護功能 */
   function checkAndUpdateLoginStreak() {
-    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+    const today = new Date().toLocaleDateString('en-CA');
     const lastLogin = localStorage.getItem('last_login_date');
     let streak = parseInt(localStorage.getItem('login_streak') || '0', 10);
 
     if (!lastLogin) {
       streak = 1;
+      addFarmResource(5, 1);
     } else if (lastLogin !== today) {
       const lastDate = new Date(lastLogin);
       const todayDate = new Date(today);
@@ -711,8 +903,10 @@
 
       if (diffDays === 1) {
         streak += 1;
+        addFarmResource(5, 1);
       } else if (diffDays > 1) {
-        streak = 1; // 跨天未登入，連續次數重新計算
+        streak = 1;
+        addFarmResource(5, 1);
       }
     }
 
@@ -869,11 +1063,44 @@
   let currentBrowserTab = 'wrong';
   let currentFamTab = 'know';
 
+  /* 頁面切換與底部導覽列邏輯 */
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
+
+    // 僅在大廳與植樹場顯示底部選單，其餘完全隱藏避免蓋住按鈕
+    const bottomNav = document.getElementById('mainBottomNav');
+    const mainBtn = document.getElementById('navMainBtn');
+    const farmBtn = document.getElementById('navFarmBtn');
+
+    if (bottomNav) {
+      if (pageId === 'pageLobby' || pageId === 'pageTreeFarm') {
+        bottomNav.style.display = 'flex';
+        if (mainBtn && farmBtn) {
+          if (pageId === 'pageLobby') {
+            mainBtn.classList.add('active');
+            farmBtn.classList.remove('active');
+          } else {
+            farmBtn.classList.add('active');
+            mainBtn.classList.remove('active');
+          }
+        }
+      } else {
+        bottomNav.style.display = 'none';
+      }
+    }
+
     if (pageId === 'pageLobby') updateLobbyStats();
+    if (pageId === 'pageTreeFarm') updateFarmUI();
+  }
+
+  function switchMainTab(tab) {
+    if (tab === 'main') {
+      showPage('pageLobby');
+    } else if (tab === 'farm') {
+      showPage('pageTreeFarm');
+    }
   }
 
   function openLevelCategory() {
@@ -1198,6 +1425,11 @@
     const newStatus = (currentStatus === status) ? null : status;
     setWordFamiliarity(item.word, newStatus);
     updateCardFamiliarityUI(newStatus);
+
+    // 標記我很熟獎勵水滴
+    if (newStatus === 'know') {
+      addFarmResource(1, 0);
+    }
   }
 
   function toggleCardDetailStar() {
@@ -1395,6 +1627,7 @@
   function handleQuizAnswer(isCorrect) {
     if (isCorrect) {
       quizCorrectCount++;
+      addFarmResource(1, 0); // 答對題目獲得水滴
       if (isWrongQuizMode) {
         removeWrongWordLS(currentQuizTarget.word);
       }
@@ -1408,7 +1641,7 @@
     const banner = document.getElementById('instantFeedbackBanner');
 
     if (isCorrect) {
-      banner.innerHTML = `<span style="color: var(--accent-green);">🎉 答對了！</span>`;
+      banner.innerHTML = `<span style="color: var(--accent-green);">🎉 答對了！ (+1 💧)</span>`;
     } else {
       banner.innerHTML = `<span style="color: var(--accent-red);">❌ 答錯了！</span>`;
     }
