@@ -2021,6 +2021,7 @@
   }
 
 // 底部導覽列切換邏輯
+// 底部導覽列切換邏輯
 function switchMainTab(tab) {
   document.getElementById('navMainBtn').classList.remove('active');
   document.getElementById('navFarmBtn').classList.remove('active');
@@ -2035,9 +2036,16 @@ function switchMainTab(tab) {
   }
 }
 
-// 植樹場資料儲存與讀取
-// 植樹場資料儲存與讀取 (加入 usedEnergy 紀錄)
-// 1. 植樹場資料儲存與讀取
+// 植物階段圖示對照
+const PLANT_STAGES = [
+  { name: '空地', icon: '', req: 0 },
+  { name: '種子', icon: '🌱', req: 10 },
+  { name: '發芽', icon: '🌿', req: 25 },
+  { name: '小苗', icon: '🪴', req: 50 },
+  { name: '大樹', icon: '🌳', req: 100 }
+];
+
+// 讀取植樹場資料
 function getFarmData() {
   try {
     return JSON.parse(localStorage.getItem('farm_data')) || {
@@ -2056,7 +2064,7 @@ function saveFarmData(data) {
   localStorage.setItem('farm_data', JSON.stringify(data));
 }
 
-// 2. 更新 HUD 顯示 (正確扣除已使用能量)
+// 更新 Farm HUD 資訊
 function renderFarmHUD(farm) {
   const famMap = getFamiliarityMap();
   const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
@@ -2067,7 +2075,8 @@ function renderFarmHUD(farm) {
   document.getElementById('waterDropsVal').innerText = `💧 ${farm.waterDrops}/8`;
 
   const waterBtn = document.getElementById('waterActionBtn');
-  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null || farm.tiles[farm.selectedTile] === null;
+  const selectedTileData = farm.selectedTile !== null ? farm.tiles[farm.selectedTile] : null;
+  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null || !selectedTileData;
 
   if (farm.waterDrops < 8) {
     const nextTime = 3600 - Math.floor(((Date.now() - farm.lastWaterTime) % (3600 * 1000)) / 1000);
@@ -2079,38 +2088,7 @@ function renderFarmHUD(farm) {
   }
 }
 
-// 3. 檢查水滴累積 (優化寫入頻率)
-function updateWaterSupply() {
-  let farm = getFarmData();
-  const now = Date.now();
-  const oneHourMs = 3600 * 1000;
-  const elapsed = now - farm.lastWaterTime;
-
-  if (farm.waterDrops < 8) {
-    const addedDrops = Math.floor(elapsed / oneHourMs);
-    if (addedDrops > 0) {
-      farm.waterDrops = Math.min(8, farm.waterDrops + addedDrops);
-      farm.lastWaterTime = farm.lastWaterTime + (addedDrops * oneHourMs);
-      saveFarmData(farm);
-    }
-  } else {
-    // 滿水時僅更新時間戳，避免頻繁寫入 LocalStorage
-    farm.lastWaterTime = now;
-  }
-
-  renderFarmHUD(farm);
-}
-
-// 4. 植物階段圖示對照
-const PLANT_STAGES = [
-  { name: '空地', icon: '', req: 0 },
-  { name: '種子', icon: '🌱', req: 10 },
-  { name: '發芽', icon: '🌿', req: 25 },
-  { name: '小苗', icon: '🪴', req: 50 },
-  { name: '大樹', icon: '🌳', req: 100 }
-];
-
-// 5. 初始化 5x5 土地網格
+// 初始化與重繪 5x5 土地網格
 function initFarmGrid() {
   const grid = document.getElementById('farmGrid3D');
   if (!grid) return;
@@ -2122,7 +2100,13 @@ function initFarmGrid() {
   for (let i = 0; i < 25; i++) {
     const tile = document.createElement('div');
     tile.className = 'tile-3d';
-    if (farm.selectedTile === i) tile.style.borderColor = 'var(--accent-yellow)';
+    
+    // 選取效果強化：加粗邊框與發光
+    if (farm.selectedTile === i) {
+      tile.style.border = '2px solid var(--accent-yellow)';
+      tile.style.boxShadow = '0 0 12px var(--accent-yellow)';
+    }
+
     tile.dataset.index = i;
     tile.onclick = () => onTileClick(i);
 
@@ -2138,7 +2122,7 @@ function initFarmGrid() {
   }
 }
 
-// 6. 土地點擊邏輯 (合併修正版)
+// 土地點擊事件 (單一且使用自訂對話框)
 async function onTileClick(index) {
   let farm = getFarmData();
   farm.selectedTile = index;
@@ -2168,7 +2152,29 @@ async function onTileClick(index) {
   initFarmGrid();
 }
 
-// 7. 執行澆水
+// 檢查水滴恢復
+function updateWaterSupply() {
+  let farm = getFarmData();
+  const now = Date.now();
+  const oneHourMs = 3600 * 1000;
+  const elapsed = now - farm.lastWaterTime;
+
+  if (farm.waterDrops < 8) {
+    const addedDrops = Math.floor(elapsed / oneHourMs);
+    if (addedDrops > 0) {
+      farm.waterDrops = Math.min(8, farm.waterDrops + addedDrops);
+      farm.lastWaterTime = farm.lastWaterTime + (addedDrops * oneHourMs);
+      saveFarmData(farm);
+    }
+  } else {
+    farm.lastWaterTime = now;
+    saveFarmData(farm);
+  }
+
+  renderFarmHUD(farm);
+}
+
+// 澆水功能
 function useWatering() {
   let farm = getFarmData();
   if (farm.selectedTile === null || !farm.tiles[farm.selectedTile]) {
@@ -2179,32 +2185,7 @@ function useWatering() {
   if (farm.waterDrops > 0) {
     farm.waterDrops -= 1;
     let tileData = farm.tiles[farm.selectedTile];
-    tileData.exp += 1;
-
-    if (tileData.exp >= 100) tileData.stage = 4;
-    else if (tileData.exp >= 50) tileData.stage = 3;
-    else if (tileData.exp >= 25) tileData.stage = 2;
-    else if (tileData.exp >= 10) tileData.stage = 1;
-
-    saveFarmData(farm);
-    initFarmGrid();
-    renderFarmHUD(farm);
-  } else {
-    alert("目前水滴不足！");
-  }
-}
-// 執行澆水
-function useWatering() {
-  let farm = getFarmData();
-  if (farm.selectedTile === null || farm.tiles[farm.selectedTile] === null) {
-    alert("請先選擇一塊有植物的土地！");
-    return;
-  }
-
-  if (farm.waterDrops > 0) {
-    farm.waterDrops -= 1;
-    let tileData = farm.tiles[farm.selectedTile];
-    tileData.exp += 1;
+    tileData.exp += 10; // 澆水增加經驗
 
     if (tileData.exp >= 100) tileData.stage = 4;
     else if (tileData.exp >= 50) tileData.stage = 3;
