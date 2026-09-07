@@ -232,6 +232,94 @@
     
     .btn-secondary:hover { background: #444; }
     .btn-primary:hover { background: #555; }
+    /* 底部半透明導覽列 */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      height: 60px;
+      background: rgba(18, 18, 18, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      z-index: 900;
+    }
+
+    .nav-btn {
+      flex: 1;
+      height: 100%;
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.95rem;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: color 0.2s, border-top 0.2s;
+    }
+
+    .nav-btn.active {
+      color: var(--accent-yellow);
+      border-top: 2px solid var(--accent-yellow);
+    }
+
+    /* 植樹場頁面與 3D 土地容器 */
+    .farm-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      padding-bottom: 70px;
+    }
+
+    .grid-3d-wrapper {
+      perspective: 800px;
+      margin: 30px 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .grid-3d {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      gap: 10px;
+      width: 300px;
+      height: 300px;
+      transform: rotateX(50deg) rotateZ(-20deg);
+      transform-style: preserve-3d;
+    }
+
+    .tile-3d {
+      background: #2e4a23;
+      border: 1px solid #4a7c38;
+      border-radius: 8px;
+      box-shadow: 0 6px 0 #1b2e15, 0 10px 12px rgba(0, 0, 0, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transform-style: preserve-3d;
+      font-size: 1.2rem;
+      transition: transform 0.15s ease, background-color 0.2s;
+    }
+
+    .tile-3d:active {
+      transform: translateZ(-4px);
+      box-shadow: 0 2px 0 #1b2e15, 0 4px 6px rgba(0, 0, 0, 0.6);
+    }
   </style>
 </head>
 <body>
