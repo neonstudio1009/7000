@@ -820,9 +820,22 @@
 
   <!-- 植樹場頁面 -->
   <div id="pageTreeFarm" class="page">
-    <div class="lobby-header">
-      <h1 style="color: var(--accent-green);">🌱 3D 植樹場</h1>
-      <p>點擊空地即可進行耕作與種樹</p>
+    <div class="lobby-header" style="margin-top: 8px; margin-bottom: 8px;">
+      <h1 style="color: var(--accent-green); font-size: 1.4rem;">🌱 3D 植樹場</h1>
+      <p style="font-size: 0.8rem;">點擊空地開墾，使用單字能量與澆水培育大樹</p>
+    </div>
+
+    <!-- 植樹場狀態與澆水欄 -->
+    <div class="farm-hud">
+      <div class="farm-stat">
+        <div class="val" id="farmEnergyVal">0</div>
+        <div class="lbl">單字能量 (熟字)</div>
+      </div>
+      <div class="farm-stat">
+        <div class="val" id="waterDropsVal">💧 0/8</div>
+        <div class="lbl" id="waterTimerLbl">距離下次: --:--</div>
+      </div>
+      <button class="water-btn" id="waterActionBtn" onclick="useWatering()">💧 澆水 (+1)</button>
     </div>
 
     <div class="farm-container">
@@ -2038,38 +2051,184 @@
   }
 
 // 底部導覽列切換邏輯
-  function switchMainTab(tab) {
-    document.getElementById('navMainBtn').classList.remove('active');
-    document.getElementById('navFarmBtn').classList.remove('active');
+function switchMainTab(tab) {
+  document.getElementById('navMainBtn').classList.remove('active');
+  document.getElementById('navFarmBtn').classList.remove('active');
 
-    if (tab === 'main') {
-      document.getElementById('navMainBtn').classList.add('active');
-      showPage('pageLobby');
-    } else if (tab === 'farm') {
-      document.getElementById('navFarmBtn').classList.add('active');
-      showPage('pageTreeFarm');
+  if (tab === 'main') {
+    document.getElementById('navMainBtn').classList.add('active');
+    showPage('pageLobby');
+  } else if (tab === 'farm') {
+    document.getElementById('navFarmBtn').classList.add('active');
+    showPage('pageTreeFarm');
+  }
+}
+
+// 初始化 5x5 土地網格
+function initFarmGrid() {
+  const grid = document.getElementById('farmGrid3D');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  for (let i = 0; i < 25; i++) {
+    const tile = document.createElement('div');
+    tile.className = 'tile-3d';
+    tile.dataset.index = i;
+    tile.onclick = () => onTileClick(i);
+    grid.appendChild(tile);
+  }
+}
+
+function onTileClick(index) {
+  alert(`點擊了第 ${index + 1} 塊土地！`);
+}
+
+// 植樹場資料儲存與讀取
+function getFarmData() {
+  try {
+    return JSON.parse(localStorage.getItem('farm_data')) || {
+      waterDrops: 0,
+      lastWaterTime: Date.now(),
+      tiles: Array(25).fill(null), // null 表示空地, { stage: 0..4, exp: 0 }
+      selectedTile: null
+    };
+  } catch(e) {
+    return { waterDrops: 0, lastWaterTime: Date.now(), tiles: Array(25).fill(null), selectedTile: null };
+  }
+}
+
+function saveFarmData(data) {
+  localStorage.setItem('farm_data', JSON.stringify(data));
+}
+
+// 檢查與更新水滴累積（每 1 小時 +1 滴，最多 8 滴）
+function updateWaterSupply() {
+  let farm = getFarmData();
+  const now = Date.now();
+  const oneHourMs = 3600 * 1000;
+  const elapsed = now - farm.lastWaterTime;
+
+  if (farm.waterDrops < 8) {
+    const addedDrops = Math.floor(elapsed / oneHourMs);
+    if (addedDrops > 0) {
+      farm.waterDrops = Math.min(8, farm.waterDrops + addedDrops);
+      farm.lastWaterTime = farm.lastWaterTime + (addedDrops * oneHourMs);
+      saveFarmData(farm);
     }
+  } else {
+    farm.lastWaterTime = now;
+    saveFarmData(farm);
   }
 
-  // 初始化 5x5 土地網格
-  function initFarmGrid() {
-    const grid = document.getElementById('farmGrid3D');
-    if (!grid) return;
-    grid.innerHTML = '';
+  renderFarmHUD(farm);
+}
 
-    for (let i = 0; i < 25; i++) {
-      const tile = document.createElement('div');
-      tile.className = 'tile-3d';
-      tile.dataset.index = i;
-      tile.onclick = () => onTileClick(i);
-      grid.appendChild(tile);
+function renderFarmHUD(farm) {
+  const famMap = getFamiliarityMap();
+  const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
+
+  document.getElementById('farmEnergyVal').innerText = masteredCount;
+  document.getElementById('waterDropsVal').innerText = `💧 ${farm.waterDrops}/8`;
+
+  const waterBtn = document.getElementById('waterActionBtn');
+  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null;
+
+  if (farm.waterDrops < 8) {
+    const nextTime = 3600 - Math.floor(((Date.now() - farm.lastWaterTime) % (3600 * 1000)) / 1000);
+    const mins = Math.floor(nextTime / 60);
+    const secs = nextTime % 60;
+    document.getElementById('waterTimerLbl').innerText = `距離下次: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  } else {
+    document.getElementById('waterTimerLbl').innerText = `已達上限 (8/8)`;
+  }
+}
+
+// 植物階段圖示對照
+const PLANT_STAGES = [
+  { name: '空地', icon: '', req: 0 },
+  { name: '種子', icon: '🌱', req: 10 },
+  { name: '發芽', icon: '🌿', req: 25 },
+  { name: '小苗', icon: '🪴', req: 50 },
+  { name: '大樹', icon: '🌳', req: 100 }
+];
+
+// 初始化 5x5 土地網格
+function initFarmGrid() {
+  const grid = document.getElementById('farmGrid3D');
+  if (!grid) return;
+  grid.innerHTML = '';
+
+  updateWaterSupply();
+  const farm = getFarmData();
+
+  for (let i = 0; i < 25; i++) {
+    const tile = document.createElement('div');
+    tile.className = 'tile-3d';
+    if (farm.selectedTile === i) tile.style.borderColor = 'var(--accent-yellow)';
+    tile.dataset.index = i;
+    tile.onclick = () => onTileClick(i);
+
+    const tileData = farm.tiles[i];
+    if (tileData && tileData.stage > 0) {
+      const plantEl = document.createElement('div');
+      plantEl.className = 'plant-icon';
+      plantEl.innerText = PLANT_STAGES[tileData.stage].icon;
+      tile.appendChild(plantEl);
     }
+
+    grid.appendChild(tile);
+  }
+}
+
+function onTileClick(index) {
+  let farm = getFarmData();
+  farm.selectedTile = index;
+  saveFarmData(farm);
+
+  const tileData = farm.tiles[index];
+
+  if (!tileData) {
+    // 空地開墾/播種
+    if (confirm(`要在第 ${index + 1} 塊土地下種子嗎？(消耗 10 熟練單字能量)`)) {
+      const famMap = getFamiliarityMap();
+      const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
+
+      if (masteredCount >= 10) {
+        farm.tiles[index] = { stage: 1, exp: 10 };
+        saveFarmData(farm);
+        initFarmGrid();
+      } else {
+        alert("熟練單字數量不足 10 個，快去背單字吧！");
+      }
+    }
+  } else {
+    initFarmGrid();
+  }
+}
+
+// 執行澆水
+function useWatering() {
+  let farm = getFarmData();
+  if (farm.selectedTile === null || farm.tiles[farm.selectedTile] === null) {
+    alert("請先選擇一塊有植物的土地！");
+    return;
   }
 
-  function onTileClick(index) {
-    alert(`點擊了第 ${index + 1} 塊土地！`);
+  if (farm.waterDrops > 0) {
+    farm.waterDrops -= 1;
+    let tileData = farm.tiles[farm.selectedTile];
+    tileData.exp += 1; // 1點水 = 1經驗
+
+    // 檢查升級
+    if (tileData.exp >= 100) tileData.stage = 4;
+    else if (tileData.exp >= 50) tileData.stage = 3;
+    else if (tileData.exp >= 25) tileData.stage = 2;
+    else if (tileData.exp >= 10) tileData.stage = 1;
+
+    saveFarmData(farm);
+    initFarmGrid();
   }
-  
+}
 </script>
 </body>
 </html>
