@@ -177,6 +177,23 @@
     .modal-btn { width: 100%; padding: 14px; background: var(--accent-yellow); color: #000; border: none; border-radius: 24px; font-size: 1.05rem; font-weight: bold; cursor: pointer; margin-top: 12px; text-align: center; }
     .modal-btn.secondary-btn { background: var(--card-inner-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
 
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    
+    .modal-overlay.hidden {
+      display: none;
+    }
+    
     .modal-box {
       background: #222222;
       color: #ffffff;
@@ -212,137 +229,9 @@
     
     .btn-secondary { background: #333333; color: #cccccc; }
     .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
-
-    /* 底部半透明導覽列 */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      height: 60px;
-      background: rgba(18, 18, 18, 0.75);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-      z-index: 900;
-    }
-
-    .nav-btn {
-      flex: 1;
-      height: 100%;
-      background: transparent;
-      border: none;
-      color: rgba(255, 255, 255, 0.5);
-      font-size: 0.95rem;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      cursor: pointer;
-      transition: color 0.2s, border-top 0.2s;
-    }
-
-    .nav-btn.active {
-      color: var(--accent-yellow);
-      border-top: 2px solid var(--accent-yellow);
-    }
-
-    /* 植樹場頁面與 3D 土地容器 */
-    .farm-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      padding-bottom: 70px;
-    }
-
-    .grid-3d-wrapper {
-      perspective: 800px;
-      margin: 30px 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .grid-3d {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      grid-template-rows: repeat(5, 1fr);
-      gap: 10px;
-      width: 300px;
-      height: 300px;
-      transform: rotateX(50deg) rotateZ(-20deg);
-      transform-style: preserve-3d;
-    }
-
-    .tile-3d {
-      background: #2e4a23;
-      border: 1px solid #4a7c38;
-      border-radius: 8px;
-      box-shadow: 0 6px 0 #1b2e15, 0 10px 12px rgba(0, 0, 0, 0.6);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      position: relative;
-      transform-style: preserve-3d;
-      font-size: 1.2rem;
-      transition: transform 0.15s ease, background-color 0.2s;
-    }
-
-    .tile-3d:active {
-      transform: translateZ(-4px);
-      box-shadow: 0 2px 0 #1b2e15, 0 4px 6px rgba(0, 0, 0, 0.6);
-    }
-
-    .farm-hud {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      width: 100%;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px;
-      margin-bottom: 10px;
-    }
-
-    .farm-stat { text-align: center; }
-    .farm-stat .val { font-size: 1.1rem; font-weight: bold; color: var(--accent-yellow); }
-    .farm-stat .lbl { font-size: 0.75rem; color: var(--text-secondary); }
-
-    .water-btn {
-      background: #1e3a8a;
-      border: 1px solid #3b82f6;
-      color: #ffffff;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 0.9rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .water-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .tile-3d .plant-icon {
-      transform: rotateZ(20deg) rotateX(-50deg) translateY(-10px);
-      font-size: 2rem;
-      pointer-events: none;
-      transition: transform 0.3s ease;
-    }
-    .bottom-nav.hidden {
-      display: none !important;
-    }
+    
+    .btn-secondary:hover { background: #444; }
+    .btn-primary:hover { background: #555; }
   </style>
 </head>
 <body>
@@ -356,6 +245,7 @@
         <p id="dbStatus">五功能整合學習系統</p>
       </div>
 
+      <!-- 新增：學習數據與連續登入天數面板 -->
       <div class="grid-container" style="margin-bottom: 4px;">
         <div class="stat-card">
           <div class="title" id="streakDays">🔥 0 天</div>
@@ -418,7 +308,7 @@
       <div class="grid-container" id="levelGrid"></div>
     </div>
 
-    <!-- 2.1 等級選擇 (單元制刷題) -->
+    <!-- 2.1 新增：等級選擇 (單元制刷題) -->
     <div id="pageUnitQuizLevel" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -438,7 +328,7 @@
       <div class="grid-container" id="unitGrid"></div>
     </div>
 
-    <!-- 3.1 單元選擇 (單元制刷題) -->
+    <!-- 3.1 新增：單元選擇 (單元制刷題) -->
     <div id="pageUnitQuizUnit" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizLevelCategory()">‹</button>
@@ -448,7 +338,7 @@
       <div class="grid-container" id="unitQuizUnitGrid"></div>
     </div>
 
-    <!-- 3.2 模式選擇 (單元制刷題) -->
+    <!-- 3.2 新增：模式選擇 (單元制刷題) -->
     <div id="pageUnitQuizMode" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="openUnitQuizUnitList(unitQuizLevel)">‹</button>
@@ -537,7 +427,7 @@
       </div>
     </div>
 
-    <!-- 6. 數字鍵盤設定題數頁面 -->
+    <!-- 6. 數字鍵盤設定題數頁面 (Pin Style) -->
     <div id="pageQuizPin" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
@@ -715,32 +605,6 @@
       <div class="word-list" id="famBrowserListContainer"></div>
     </div>
 
-    <!-- 12. 植樹場頁面 -->
-    <div id="pageTreeFarm" class="page">
-      <div class="lobby-header" style="margin-top: 8px; margin-bottom: 8px;">
-        <h1 style="color: var(--accent-green); font-size: 1.4rem;">🌱 3D 植樹場</h1>
-        <p style="font-size: 0.8rem;">點擊空地開墾，使用單字能量與澆水培育大樹</p>
-      </div>
-
-      <div class="farm-hud">
-        <div class="farm-stat">
-          <div class="val" id="farmEnergyVal">0</div>
-          <div class="lbl">單字能量 (熟字)</div>
-        </div>
-        <div class="farm-stat">
-          <div class="val" id="waterDropsVal">💧 0/8</div>
-          <div class="lbl" id="waterTimerLbl">距離下次: --:--</div>
-        </div>
-        <button class="water-btn" id="waterActionBtn" onclick="useWatering()">💧 澆水 (+1)</button>
-      </div>
-
-      <div class="farm-container">
-        <div class="grid-3d-wrapper">
-          <div class="grid-3d" id="farmGrid3D"></div>
-        </div>
-      </div>
-    </div>
-
   </div>
 
   <div class="modal-overlay" id="instantFeedbackModal" onclick="skipInstantFeedback()">
@@ -811,12 +675,7 @@
       </div>
     </div>
   </div>
-
-  <!-- 底部半透明按鈕列 -->
-  <div class="bottom-nav">
-    <button id="navMainBtn" class="nav-btn active" onclick="switchMainTab('main')">🏠 主畫面</button>
-    <button id="navFarmBtn" class="nav-btn" onclick="switchMainTab('farm')">🌲 植樹場</button>
-  </div>
+  
 
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
@@ -837,14 +696,9 @@
     7: "Level 7 - 學測高級核心單字"
   };
 
-  /* 頁面與資料載入初始化 */
-  document.addEventListener('DOMContentLoaded', () => {
-    updateLobbyStats();
-    initFarmGrid();
-  });
-
+  /* LocalStorage 連續登入與進度維護功能 */
   function checkAndUpdateLoginStreak() {
-    const today = new Date().toLocaleDateString('en-CA');
+    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
     const lastLogin = localStorage.getItem('last_login_date');
     let streak = parseInt(localStorage.getItem('login_streak') || '0', 10);
 
@@ -858,7 +712,7 @@
       if (diffDays === 1) {
         streak += 1;
       } else if (diffDays > 1) {
-        streak = 1;
+        streak = 1; // 跨天未登入，連續次數重新計算
       }
     }
 
@@ -1016,26 +870,10 @@
   let currentFamTab = 'know';
 
   function showPage(pageId) {
-    // 1. 隱藏所有頁面
-    document.querySelectorAll('.page').forEach(page => {
-      page.style.display = 'none';
-    });
-  
-    // 2. 顯示目標頁面
-    const targetPage = document.getElementById(pageId);
-    if (targetPage) {
-      targetPage.style.display = 'block';
-    }
-  
-    // 3. 控制「主畫面/植樹場」底部列：只在大廳顯示，進入單字卡或其它頁面直接隱藏
-    const bottomNav = document.querySelector('.bottom-nav'); // 或是 document.getElementById('mainBottomNav')
-    if (bottomNav) {
-      if (pageId === 'pageLobby') {
-        bottomNav.classList.remove('hidden');
-      } else {
-        bottomNav.classList.add('hidden'); // 離開大廳就隱藏
-      }
-    }
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (target) target.classList.add('active');
+    if (pageId === 'pageLobby') updateLobbyStats();
   }
 
   function openLevelCategory() {
@@ -1999,12 +1837,10 @@
     });
   }
 
-  setInterval(() => {
-    const pageFarm = document.getElementById('pageTreeFarm');
-    if (pageFarm && pageFarm.classList.contains('active')) {
-      updateWaterSupply();
-    }
-  }, 1000);
+  window.onload = () => {
+    updateLobbyStats();
+    showPage('pageLobby');
+  };
 
   function customConfirm(message) {
     return new Promise((resolve) => {
@@ -2038,183 +1874,6 @@
       cancelBtn.addEventListener('click', onCancel);
     });
   }
-
-// 底部導覽列切換邏輯
-// 底部導覽列切換邏輯
-function switchMainTab(tab) {
-  document.getElementById('navMainBtn').classList.remove('active');
-  document.getElementById('navFarmBtn').classList.remove('active');
-
-  if (tab === 'main') {
-    document.getElementById('navMainBtn').classList.add('active');
-    showPage('pageLobby');
-  } else if (tab === 'farm') {
-    document.getElementById('navFarmBtn').classList.add('active');
-    showPage('pageTreeFarm');
-    initFarmGrid();
-  }
-}
-
-// 植物階段圖示對照
-const PLANT_STAGES = [
-  { name: '空地', icon: '', req: 0 },
-  { name: '種子', icon: '🌱', req: 10 },
-  { name: '發芽', icon: '🌿', req: 25 },
-  { name: '小苗', icon: '🪴', req: 50 },
-  { name: '大樹', icon: '🌳', req: 100 }
-];
-
-// 讀取植樹場資料
-function getFarmData() {
-  try {
-    return JSON.parse(localStorage.getItem('farm_data')) || {
-      waterDrops: 0,
-      lastWaterTime: Date.now(),
-      tiles: Array(25).fill(null),
-      selectedTile: null,
-      usedEnergy: 0
-    };
-  } catch(e) {
-    return { waterDrops: 0, lastWaterTime: Date.now(), tiles: Array(25).fill(null), selectedTile: null, usedEnergy: 0 };
-  }
-}
-
-function saveFarmData(data) {
-  localStorage.setItem('farm_data', JSON.stringify(data));
-}
-
-// 更新 Farm HUD 資訊
-function renderFarmHUD(farm) {
-  const famMap = getFamiliarityMap();
-  const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
-  const usedEnergy = farm.usedEnergy || 0;
-  const availableEnergy = Math.max(0, masteredCount - usedEnergy);
-
-  document.getElementById('farmEnergyVal').innerText = availableEnergy;
-  document.getElementById('waterDropsVal').innerText = `💧 ${farm.waterDrops}/8`;
-
-  const waterBtn = document.getElementById('waterActionBtn');
-  const selectedTileData = farm.selectedTile !== null ? farm.tiles[farm.selectedTile] : null;
-  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null || !selectedTileData;
-
-  if (farm.waterDrops < 8) {
-    const nextTime = 3600 - Math.floor(((Date.now() - farm.lastWaterTime) % (3600 * 1000)) / 1000);
-    const mins = Math.floor(nextTime / 60);
-    const secs = nextTime % 60;
-    document.getElementById('waterTimerLbl').innerText = `距離下次: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  } else {
-    document.getElementById('waterTimerLbl').innerText = `已達上限 (8/8)`;
-  }
-}
-
-// 初始化與重繪 5x5 土地網格
-function initFarmGrid() {
-  const grid = document.getElementById('farmGrid3D');
-  if (!grid) return;
-  grid.innerHTML = '';
-
-  updateWaterSupply();
-  const farm = getFarmData();
-
-  for (let i = 0; i < 25; i++) {
-    const tile = document.createElement('div');
-    tile.className = 'tile-3d';
-    
-    // 選取效果強化：加粗邊框與發光
-    if (farm.selectedTile === i) {
-      tile.style.border = '2px solid var(--accent-yellow)';
-      tile.style.boxShadow = '0 0 12px var(--accent-yellow)';
-    }
-
-    tile.dataset.index = i;
-    tile.onclick = () => onTileClick(i);
-
-    const tileData = farm.tiles[i];
-    if (tileData && tileData.stage > 0) {
-      const plantEl = document.createElement('div');
-      plantEl.className = 'plant-icon';
-      plantEl.innerText = PLANT_STAGES[tileData.stage].icon;
-      tile.appendChild(plantEl);
-    }
-
-    grid.appendChild(tile);
-  }
-}
-
-// 土地點擊事件 (單一且使用自訂對話框)
-async function onTileClick(index) {
-  let farm = getFarmData();
-  farm.selectedTile = index;
-  saveFarmData(farm);
-
-  const tileData = farm.tiles[index];
-
-  if (!tileData) {
-    const confirmPlant = await customConfirm(`要在第 ${index + 1} 塊土地下種子嗎？(消耗 10 熟練單字能量)`);
-    
-    if (confirmPlant) {
-      const famMap = getFamiliarityMap();
-      const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
-      const usedEnergy = farm.usedEnergy || 0;
-      const availableEnergy = masteredCount - usedEnergy;
-
-      if (availableEnergy >= 10) {
-        farm.tiles[index] = { stage: 1, exp: 10 };
-        farm.usedEnergy = usedEnergy + 10;
-        saveFarmData(farm);
-      } else {
-        alert(`可用單字能量不足！(目前可用: ${availableEnergy}，開墾需要: 10)`);
-      }
-    }
-  }
-
-  initFarmGrid();
-}
-
-// 檢查水滴恢復
-function updateWaterSupply() {
-  let farm = getFarmData();
-  const now = Date.now();
-  const oneHourMs = 3600 * 1000;
-  const elapsed = now - farm.lastWaterTime;
-
-  if (farm.waterDrops < 8) {
-    const addedDrops = Math.floor(elapsed / oneHourMs);
-    if (addedDrops > 0) {
-      farm.waterDrops = Math.min(8, farm.waterDrops + addedDrops);
-      farm.lastWaterTime = farm.lastWaterTime + (addedDrops * oneHourMs);
-      saveFarmData(farm);
-    }
-  } else {
-    farm.lastWaterTime = now;
-    saveFarmData(farm);
-  }
-
-  renderFarmHUD(farm);
-}
-
-// 澆水功能
-function useWatering() {
-  let farm = getFarmData();
-  if (farm.selectedTile === null || !farm.tiles[farm.selectedTile]) {
-    alert("請先選擇一塊有植物的土地！");
-    return;
-  }
-
-  if (farm.waterDrops > 0) {
-    farm.waterDrops -= 1;
-    let tileData = farm.tiles[farm.selectedTile];
-    tileData.exp += 10; // 澆水增加經驗
-
-    if (tileData.exp >= 100) tileData.stage = 4;
-    else if (tileData.exp >= 50) tileData.stage = 3;
-    else if (tileData.exp >= 25) tileData.stage = 2;
-    else if (tileData.exp >= 10) tileData.stage = 1;
-
-    saveFarmData(farm);
-    initFarmGrid();
-  }
-}
 </script>
 </body>
 </html>
