@@ -178,69 +178,60 @@
     .modal-btn.secondary-btn { background: var(--card-inner-bg); color: var(--accent-yellow); border: 1px solid var(--accent-yellow); }
 
     .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
-  }
-  
-  .modal-overlay.hidden {
-    display: none;
-  }
-  
-  .modal-box {
-    background: #222222;
-    color: #ffffff;
-    padding: 24px;
-    border-radius: 12px;
-    width: 85%;
-    max-width: 320px;
-    border: 1px solid #333;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    text-align: center;
-  }
-  
-  .modal-box p {
-    margin-bottom: 20px;
-    font-size: 16px;
-    line-height: 1.5;
-  }
-  
-  .modal-actions {
-    display: flex;
-    gap: 12px;
-  }
-  
-  .modal-actions .btn {
-    flex: 1;
-    padding: 10px 0;
-    border-radius: 8px;
-    border: none;
-    font-size: 15px;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .btn-secondary {
-    background: #333333;
-    color: #cccccc;
-  }
-  
-  .btn-primary {
-    background: #3d3d3d;
-    color: #ffffff;
-    font-weight: bold;
-  }
-  
-  .btn-secondary:hover { background: #444; }
-  .btn-primary:hover { background: #555; }
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
     
+    .modal-overlay.hidden {
+      display: none;
+    }
+    
+    .modal-box {
+      background: #222222;
+      color: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      width: 85%;
+      max-width: 320px;
+      border: 1px solid #333;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      text-align: center;
+    }
+    
+    .modal-box p {
+      margin-bottom: 20px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+    }
+    
+    .modal-actions .btn {
+      flex: 1;
+      padding: 10px 0;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .btn-secondary { background: #333333; color: #cccccc; }
+    .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
+    
+    .btn-secondary:hover { background: #444; }
+    .btn-primary:hover { background: #555; }
   </style>
 </head>
 <body>
@@ -252,6 +243,18 @@
       <div class="lobby-header">
         <h1>速讀單字系統</h1>
         <p id="dbStatus">五功能整合學習系統</p>
+      </div>
+
+      <!-- 新增：學習數據與連續登入天數面板 -->
+      <div class="grid-container" style="margin-bottom: 4px;">
+        <div class="stat-card">
+          <div class="title" id="streakDays">🔥 0 天</div>
+          <div class="subtitle">連續登入天數</div>
+        </div>
+        <div class="stat-card">
+          <div class="title" id="masteredCount">✅ 0 字</div>
+          <div class="subtitle">掌握單字 (我很熟)</div>
+        </div>
       </div>
 
       <div class="menu-card" onclick="openLevelCategory()">
@@ -270,7 +273,6 @@
         </div>
       </div>
 
-      <!-- 新增：單元制刷題題庫 -->
       <div class="menu-card" onclick="openUnitQuizLevelCategory()">
         <div style="font-size: 2rem;">📝</div>
         <div>
@@ -694,6 +696,43 @@
     7: "Level 7 - 學測高級核心單字"
   };
 
+  /* LocalStorage 連續登入與進度維護功能 */
+  function checkAndUpdateLoginStreak() {
+    const today = new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD
+    const lastLogin = localStorage.getItem('last_login_date');
+    let streak = parseInt(localStorage.getItem('login_streak') || '0', 10);
+
+    if (!lastLogin) {
+      streak = 1;
+    } else if (lastLogin !== today) {
+      const lastDate = new Date(lastLogin);
+      const todayDate = new Date(today);
+      const diffDays = Math.round((todayDate - lastDate) / (1000 * 60 * 60 * 24));
+
+      if (diffDays === 1) {
+        streak += 1;
+      } else if (diffDays > 1) {
+        streak = 1; // 跨天未登入，連續次數重新計算
+      }
+    }
+
+    localStorage.setItem('last_login_date', today);
+    localStorage.setItem('login_streak', streak);
+    return streak;
+  }
+
+  function updateLobbyStats() {
+    const streak = checkAndUpdateLoginStreak();
+    const famMap = getFamiliarityMap();
+    const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
+
+    const streakEl = document.getElementById('streakDays');
+    const masteredEl = document.getElementById('masteredCount');
+
+    if (streakEl) streakEl.innerText = `🔥 ${streak} 天`;
+    if (masteredEl) masteredEl.innerText = `✅ ${masteredCount} 字`;
+  }
+
   function getLevelData(levelNum) {
     const possibleNames = [`level${levelNum}data`, `level${levelNum}Data`, `level${levelNum}_data`, `level${levelNum}`];
     for (const name of possibleNames) {
@@ -781,6 +820,7 @@
     if (!list.includes(wordStr)) {
       list.push(wordStr);
       localStorage.setItem('learned_words', JSON.stringify(list));
+      updateLobbyStats();
     }
   }
 
@@ -798,6 +838,7 @@
       map[wordStr] = status;
     }
     localStorage.setItem('familiarity_map', JSON.stringify(map));
+    updateLobbyStats();
   }
 
   function getWordFamiliarity(wordStr) {
@@ -832,6 +873,7 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
+    if (pageId === 'pageLobby') updateLobbyStats();
   }
 
   function openLevelCategory() {
@@ -880,7 +922,6 @@
     }
   }
 
-  /* 單元制刷題：選擇 Level */
   function openUnitQuizLevelCategory() {
     showPage('pageUnitQuizLevel');
     const grid = document.getElementById('unitQuizLevelGrid');
@@ -903,7 +944,6 @@
     }
   }
 
-  /* 單元制刷題：選擇 Unit */
   function openUnitQuizUnitList(level) {
     unitQuizLevel = level;
     showPage('pageUnitQuizUnit');
@@ -937,7 +977,6 @@
     }
   }
 
-  /* 單元制刷題：選擇模式 */
   function openUnitQuizModeSelect(level, unit) {
     unitQuizLevel = level;
     unitQuizUnit = unit;
@@ -945,7 +984,6 @@
     showPage('pageUnitQuizMode');
   }
 
-  /* 單元制刷題：啟動測驗 */
   function startUnitQuiz(mode) {
     const words = getUnitWords(unitQuizLevel, unitQuizUnit);
     if (!words || words.length === 0) {
@@ -1203,7 +1241,6 @@
   function speakText(text) {
     if (!text) return;
   
-    // 使用線上語音 API (type=0 為美式發音, type=1 為英式發音)
     const audioUrl = `https://dict.youdao.com/dictvoice?type=0&audio=${encodeURIComponent(text)}`;
   
     if (currentAudio) {
@@ -1213,7 +1250,6 @@
   
     currentAudio = new Audio(audioUrl);
     
-    // 嘗試播放線上音訊，若無網路或失敗則自動切回瀏覽器語音
     currentAudio.play().catch(() => {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
@@ -1304,7 +1340,6 @@
       .slice(0, 3);
 
     if (currentQuizMode === 'en2zh') {
-      // 看英文選中文
       document.getElementById('quizWord').innerText = currentQuizTarget.word || '';
       document.getElementById('quizPhoneticWrap').style.display = 'flex';
       document.getElementById('quizPhonetic').innerText = currentQuizTarget.phonetic || currentQuizTarget.kk || '';
@@ -1329,7 +1364,6 @@
 
       speakText(currentQuizTarget.word);
     } else {
-      // 看中文選英文
       const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
       document.getElementById('quizWord').innerText = targetTrans;
       document.getElementById('quizPhoneticWrap').style.display = 'none';
@@ -1804,6 +1838,7 @@
   }
 
   window.onload = () => {
+    updateLobbyStats();
     showPage('pageLobby');
   };
 
@@ -1816,11 +1851,11 @@
   
       if (message) msgEl.textContent = message;
       modal.classList.remove('hidden');
-      modal.classList.add('active'); // 顯示彈窗並允許點擊
+      modal.classList.add('active');
   
       const cleanup = () => {
         modal.classList.add('hidden');
-        modal.classList.remove('active'); // 關閉彈窗
+        modal.classList.remove('active');
         okBtn.removeEventListener('click', onOk);
         cancelBtn.removeEventListener('click', onCancel);
       };
@@ -1839,7 +1874,6 @@
       cancelBtn.addEventListener('click', onCancel);
     });
   }
-  
 </script>
 </body>
 </html>
