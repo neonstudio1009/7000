@@ -2036,17 +2036,74 @@ function switchMainTab(tab) {
 }
 
 // 植樹場資料儲存與讀取
+// 植樹場資料儲存與讀取 (加入 usedEnergy 紀錄)
 function getFarmData() {
   try {
     return JSON.parse(localStorage.getItem('farm_data')) || {
       waterDrops: 0,
       lastWaterTime: Date.now(),
       tiles: Array(25).fill(null),
-      selectedTile: null
+      selectedTile: null,
+      usedEnergy: 0
     };
   } catch(e) {
-    return { waterDrops: 0, lastWaterTime: Date.now(), tiles: Array(25).fill(null), selectedTile: null };
+    return { waterDrops: 0, lastWaterTime: Date.now(), tiles: Array(25).fill(null), selectedTile: null, usedEnergy: 0 };
   }
+}
+
+// 更新 Farm HUD (正確顯示可用能量 = 總熟字數 - 已用能量)
+function renderFarmHUD(farm) {
+  const famMap = getFamiliarityMap();
+  const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
+  const usedEnergy = farm.usedEnergy || 0;
+  const availableEnergy = Math.max(0, masteredCount - usedEnergy);
+
+  document.getElementById('farmEnergyVal').innerText = availableEnergy;
+  document.getElementById('waterDropsVal').innerText = `💧 ${farm.waterDrops}/8`;
+
+  const waterBtn = document.getElementById('waterActionBtn');
+  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null;
+
+  if (farm.waterDrops < 8) {
+    const nextTime = 3600 - Math.floor(((Date.now() - farm.lastWaterTime) % (3600 * 1000)) / 1000);
+    const mins = Math.floor(nextTime / 60);
+    const secs = nextTime % 60;
+    document.getElementById('waterTimerLbl').innerText = `距離下次: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  } else {
+    document.getElementById('waterTimerLbl').innerText = `已達上限 (8/8)`;
+  }
+}
+
+// 土地點擊事件 (改用非同步客製彈窗，並確保點擊後即時重繪)
+async function onTileClick(index) {
+  let farm = getFarmData();
+  farm.selectedTile = index;
+  saveFarmData(farm);
+
+  const tileData = farm.tiles[index];
+
+  if (!tileData) {
+    // 改用專案內建的 customConfirm 避免原生 confirm 被手機阻擋
+    const confirmPlant = await customConfirm(`要在第 ${index + 1} 塊土地下種子嗎？(消耗 10 熟練單字能量)`);
+    
+    if (confirmPlant) {
+      const famMap = getFamiliarityMap();
+      const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
+      const usedEnergy = farm.usedEnergy || 0;
+      const availableEnergy = masteredCount - usedEnergy;
+
+      if (availableEnergy >= 10) {
+        farm.tiles[index] = { stage: 1, exp: 10 };
+        farm.usedEnergy = usedEnergy + 10;
+        saveFarmData(farm);
+      } else {
+        alert(`可用單字能量不足！(目前可用: ${availableEnergy}，開墾需要: 10)`);
+      }
+    }
+  }
+
+  // 無論是否種植，點擊後皆重新繪製土地與黃色選取框
+  initFarmGrid();
 }
 
 function saveFarmData(data) {
@@ -2075,25 +2132,7 @@ function updateWaterSupply() {
   renderFarmHUD(farm);
 }
 
-function renderFarmHUD(farm) {
-  const famMap = getFamiliarityMap();
-  const masteredCount = Object.values(famMap).filter(val => val === 'know').length;
 
-  document.getElementById('farmEnergyVal').innerText = masteredCount;
-  document.getElementById('waterDropsVal').innerText = `💧 ${farm.waterDrops}/8`;
-
-  const waterBtn = document.getElementById('waterActionBtn');
-  waterBtn.disabled = farm.waterDrops <= 0 || farm.selectedTile === null;
-
-  if (farm.waterDrops < 8) {
-    const nextTime = 3600 - Math.floor(((Date.now() - farm.lastWaterTime) % (3600 * 1000)) / 1000);
-    const mins = Math.floor(nextTime / 60);
-    const secs = nextTime % 60;
-    document.getElementById('waterTimerLbl').innerText = `距離下次: ${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  } else {
-    document.getElementById('waterTimerLbl').innerText = `已達上限 (8/8)`;
-  }
-}
 
 // 植物階段圖示對照
 const PLANT_STAGES = [
