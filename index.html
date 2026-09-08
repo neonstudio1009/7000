@@ -2508,6 +2508,34 @@
       showPage('pageBattleDungeonLobby');
     }
   }
+  // 1. 使用者點擊字母時的處理函式
+function selectLetter(letter) {
+  // 假設 currentAnswer 是儲存玩家已點選字母的陣列
+  if (currentAnswer.length < targetWord.length) {
+    currentAnswer.push(letter);
+    updateUI(); // 更新畫面的格子
+
+    // ⚠️ 關鍵：當填滿最後一個字母時，自動觸發檢查
+    if (currentAnswer.length === targetWord.length) {
+      checkAnswer();
+    }
+  }
+}
+
+// 2. 驗證答案函式
+function checkAnswer() {
+  // ⚠️ 關鍵：加上 .join('') 轉字串，並用 .toLowerCase() 統一轉小寫比對
+  const userString = currentAnswer.join('').toLowerCase();
+  const targetString = targetWord.trim().toLowerCase();
+
+  if (userString === targetString) {
+    // 拼對了！觸發獎勵與下一關
+    handleCorrectAnswer();
+  } else {
+    // 拼錯了！震動或提示
+    handleWrongAnswer();
+  }
+}
 </script>
 </body>
 </html>
