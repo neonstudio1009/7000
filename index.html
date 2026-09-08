@@ -2486,7 +2486,7 @@
 
   function renderSpellingQuestion() {
     if (spellingIndex >= spellingQueue.length) {
-      alert(`🎉 恭喜通關拼字地下城！累計獲得 ${spellingRewardCount} 滴水滴！`);
+      showCustomModal(`🎉 恭喜通關拼字地下城！累計獲得 ${spellingRewardCount} 滴水滴！`);
       showPage('pageBattleDungeonLobby');
       return;
     }
@@ -2560,18 +2560,18 @@
     updateSpellingBoard();
   }
 
-  function submitSpellingAnswer() {
+  async function submitSpellingAnswer() {
     const targetStr = currentSpellingWord.word.trim().toLowerCase();
     const userStr = currentSelectedLetters.map(l => l.char).join('');
-
+  
     if (userStr === targetStr) {
       spellingRewardCount++;
       addFarmResource(1, 0);
-      alert("🎯 拼寫正確！ (+1 水滴)");
+      await showCustomModal("🎯 拼寫正確！ (+1 水滴)");
       spellingIndex++;
       renderSpellingQuestion();
     } else {
-      alert("❌ 拼寫錯誤，請再試一次！");
+      await showCustomModal("❌ 拼寫錯誤，請再試一次！");
       clearSpellingSlots();
     }
   }
