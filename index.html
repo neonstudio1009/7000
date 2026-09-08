@@ -1555,6 +1555,21 @@
     renderCard();
   }
 
+  let modalOnCloseCallback = null;
+
+  function showCustomModal(message, callback = null) {
+    document.getElementById('gameModalText').innerText = message;
+    document.getElementById('gameModal').style.display = 'flex';
+    modalOnCloseCallback = callback;
+  }
+  
+  function closeGameModal() {
+    document.getElementById('gameModal').style.display = 'none';
+    if (modalOnCloseCallback) {
+      modalOnCloseCallback();
+      modalOnCloseCallback = null;
+    }
+  }
   function renderCard() {
     const item = currentWords[currentCardIndex];
     if (!item) return;
