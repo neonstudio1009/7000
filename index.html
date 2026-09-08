@@ -19,7 +19,13 @@
       --border-color: #2c2c2c;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; -webkit-tap-highlight-color: transparent; /* 清除點擊時的透明藍/灰色高亮區塊 */
+    -webkit-touch-callout: none;             /* 禁用 iOS/Android 行動端長按跳出複製選單 */
+    -webkit-user-select: none;               /* Safari / Chrome 防選取 */
+    -khtml-user-select: none;                /* Konqueror 防選取 */
+    -moz-user-select: none;                  /* Firefox 防選取 */
+    -ms-user-select: none;                   /* IE/Edge 防選取 */
+    user-select: none;}
     body { background-color: #000; color: var(--text-primary); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
     .app-container { width: 100%; max-width: 480px; background-color: var(--bg-main); min-height: 100vh; display: flex; flex-direction: column; position: relative; }
@@ -2290,7 +2296,8 @@
       container.appendChild(div);
     });
   }
-
+  // 全域禁止右鍵與行動端長按跳出選單
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
   window.onload = () => {
     updateLobbyStats();
     showPage('pageLobby');
