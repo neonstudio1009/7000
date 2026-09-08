@@ -314,6 +314,63 @@
     }
     .spelling-tile:active { transform: translateY(2px); box-shadow: 0 1px 0 #111; }
     .spelling-tile.used { opacity: 0.15; pointer-events: none; }
+    /* 自訂彈窗背景遮罩 */
+    .custom-modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+    }
+    
+    /* 彈窗主體 */
+    .custom-modal-box {
+      background: #181818;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 24px;
+      width: 85%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+      animation: popIn 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .custom-modal-text {
+      color: #ffffff;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 20px;
+      white-space: pre-line;
+    }
+    
+    .custom-modal-btn {
+      background: #fca311;
+      color: #000;
+      font-weight: bold;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      padding: 10px;
+      width: 100%;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .custom-modal-btn:active {
+      opacity: 0.8;
+    }
+    
+    @keyframes popIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -911,6 +968,13 @@
         <button id="confirm-cancel-btn" class="btn btn-secondary">取消</button>
         <button id="confirm-ok-btn" class="btn btn-primary">確定</button>
       </div>
+    </div>
+  </div>
+  <!-- 自訂遊戲彈窗 -->
+  <div id="gameModal" class="custom-modal-overlay" style="display: none;">
+    <div class="custom-modal-box">
+      <div id="gameModalText" class="custom-modal-text"></div>
+      <button id="gameModalBtn" class="custom-modal-btn" onclick="closeGameModal()">確定</button>
     </div>
   </div>
 
