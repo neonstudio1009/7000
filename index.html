@@ -271,6 +271,49 @@
     .modal-actions .btn { flex: 1; padding: 10px 0; border-radius: 8px; border: none; font-size: 15px; cursor: pointer; transition: background 0.2s; }
     .btn-secondary { background: #333333; color: #cccccc; }
     .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
+    /* ===== 第六區塊：副本冒險地下城樣式 ===== */
+    .boss-card {
+      background: linear-gradient(135deg, #2a0808 0%, #1a1a1a 100%);
+      border: 1px solid #7f1d1d;
+      border-radius: 16px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 12px;
+    }
+    .boss-avatar { font-size: 3.5rem; margin: 4px 0; animation: bossPulse 2s infinite ease-in-out; }
+    @keyframes bossPulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+
+    .status-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-weight: bold; font-size: 0.85rem; }
+    .combo-badge { background: var(--accent-orange); color: #000; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
+
+    .spelling-board {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 10px;
+    }
+    .spelling-slots { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 48px; }
+    .spelling-slot {
+      width: 38px; height: 42px; border-bottom: 3px solid var(--accent-yellow);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: bold; color: var(--accent-yellow);
+      cursor: pointer; background: rgba(255, 183, 77, 0.1); border-radius: 6px;
+    }
+    .spelling-pool { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 8px; }
+    .spelling-tile {
+      width: 40px; height: 42px; background: var(--card-inner-bg);
+      border: 1px solid var(--border-color); border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: bold; color: #fff; cursor: pointer;
+      box-shadow: 0 3px 0 #111;
+    }
+    .spelling-tile:active { transform: translateY(2px); box-shadow: 0 1px 0 #111; }
+    .spelling-tile.used { opacity: 0.15; pointer-events: none; }
   </style>
 </head>
 <body>
@@ -333,6 +376,13 @@
           <h2 style="font-size: 1.2rem;">學習整理</h2>
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">我很熟 / 我不會 單字分類整理與瀏覽</p>
         </div>
+      </div>
+    </div>
+    <div class="menu-card" onclick="openBattleDungeonLobby()">
+      <div style="font-size: 2rem;">⚔️</div>
+      <div>
+        <h2 style="font-size: 1.2rem;">副本冒險地下城</h2>
+        <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">BOSS 討伐戰 / 拼字地下城</p>
       </div>
     </div>
 
@@ -693,6 +743,96 @@
       </div>
 
       <div class="word-list" id="famBrowserListContainer"></div>
+    </div>
+    <!-- 13. 副本冒險地下城大廳 -->
+    <div id="pageBattleDungeonLobby" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="showPage('pageLobby')">‹</button>
+        <div class="bar-title">⚔️ 副本冒險地下城</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="menu-card" onclick="startBossBattle()">
+        <div style="font-size: 2rem;">👹</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">Time Attack BOSS 討伐戰</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">60秒限時戰！連續答對觸發 Combo 暴擊，贏取大量水滴</p>
+        </div>
+      </div>
+
+      <div class="menu-card" onclick="startSpellingDungeon()">
+        <div style="font-size: 2rem;">🔤</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">字母拼字地下城</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">亂序字母拼盤，挑戰單字拼寫能力</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 14. BOSS 討伐戰頁面 -->
+    <div id="pageBossBattle" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="confirmExitBoss()">‹</button>
+        <div class="bar-title">👹 BOSS 討伐戰</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="boss-card">
+        <div style="font-size: 0.8rem; color: var(--accent-red); font-weight: bold;">STAGE BOSS</div>
+        <div class="boss-avatar">🐉</div>
+        <div style="font-size: 1.1rem; font-weight: bold; color: #fff; margin-bottom: 6px;">詞彙巨龍·巴哈姆特</div>
+        
+        <div class="grid-progress-container">
+          <div class="progress-label">
+            <span>BOSS HP</span>
+            <span id="bossHpText">1000 / 1000</span>
+          </div>
+          <div class="progress-bar-wrap" style="height: 10px;">
+            <div class="progress-bar-fill" id="bossHpBar" style="width: 100%; background-color: var(--accent-red);"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="status-row">
+        <span style="color: var(--accent-green);" id="playerHpText">❤️ 玩家 HP: 100/100</span>
+        <span class="combo-badge" id="bossComboBadge">🔥 Combo x0</span>
+        <span style="color: var(--accent-yellow);" id="bossTimerText">⏱️ 60 秒</span>
+      </div>
+
+      <div class="quiz-card" style="margin-top: 4px;">
+        <div class="quiz-word" id="bossQuizWord">word</div>
+      </div>
+
+      <div class="quiz-options" id="bossQuizOptions"></div>
+    </div>
+
+    <!-- 15. 字母拼字地下城頁面 -->
+    <div id="pageSpellingDungeon" class="page">
+      <div class="top-bar">
+        <button class="back-btn" onclick="confirmExitSpelling()">‹</button>
+        <div class="bar-title">🔤 字母拼字地下城</div>
+        <div style="width: 24px;"></div>
+      </div>
+
+      <div class="status-row">
+        <span style="color: var(--accent-yellow);" id="spellingProgressText">關卡 1/10</span>
+        <span style="color: var(--accent-green);" id="spellingScoreText">💧 累計獎勵: +0</span>
+      </div>
+
+      <div class="spelling-board">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div style="font-size: 1.1rem; font-weight: bold; color: #fff;" id="spellingMeaning">中文釋義</div>
+          <button class="audio-icon" onclick="speakCurrentSpellingWord()">🔊</button>
+        </div>
+        
+        <div class="spelling-slots" id="spellingSlots"></div>
+        <div class="spelling-pool" id="spellingPool"></div>
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-top: auto; padding-bottom: 8px;">
+        <button class="modal-btn secondary-btn" style="flex:1;" onclick="clearSpellingSlots()">重置字母</button>
+        <button class="modal-btn" style="flex:1;" onclick="submitSpellingAnswer()">送出答案</button>
+      </div>
     </div>
 
     <!-- 固定底部導覽列 -->
@@ -2106,6 +2246,265 @@
       okBtn.addEventListener('click', onOk);
       cancelBtn.addEventListener('click', onCancel);
     });
+  }
+/* ==========================================
+     第六區塊：副本冒險地下城邏輯 (Boss & Spelling)
+     ========================================== */
+
+  function openBattleDungeonLobby() {
+    showPage('pageBattleDungeonLobby');
+  }
+
+  /* --- 1. Time Attack BOSS 討伐戰 --- */
+  let bossHp = 1000;
+  let maxBossHp = 1000;
+  let playerHp = 100;
+  let maxPlayerHp = 100;
+  let bossTimeLeft = 60;
+  let bossCombo = 0;
+  let bossTimerId = null;
+  let currentBossTarget = null;
+
+  function startBossBattle() {
+    const allWords = getAllAvailableWords();
+    if (allWords.length === 0) {
+      alert("尚無可用的單字資料！");
+      return;
+    }
+
+    bossHp = 1000;
+    playerHp = 100;
+    bossTimeLeft = 60;
+    bossCombo = 0;
+
+    updateBossUI();
+    showPage('pageBossBattle');
+    renderBossQuestion();
+
+    if (bossTimerId) clearInterval(bossTimerId);
+    bossTimerId = setInterval(() => {
+      bossTimeLeft--;
+      document.getElementById('bossTimerText').innerText = `⏱️ ${bossTimeLeft} 秒`;
+
+      if (bossTimeLeft <= 0) {
+        clearInterval(bossTimerId);
+        finishBossBattle(false, "⏰ 時間到！ BOSS 逃跑了...");
+      }
+    }, 1000);
+  }
+
+  function updateBossUI() {
+    const bossPercent = Math.max(0, Math.round((bossHp / maxBossHp) * 100));
+    document.getElementById('bossHpText').innerText = `${bossHp} / ${maxBossHp}`;
+    document.getElementById('bossHpBar').style.width = `${bossPercent}%`;
+
+    document.getElementById('playerHpText').innerText = `❤️ 玩家 HP: ${playerHp}/${maxPlayerHp}`;
+    document.getElementById('bossComboBadge').innerText = `🔥 Combo x${bossCombo}`;
+  }
+
+  function renderBossQuestion() {
+    if (bossHp <= 0 || playerHp <= 0) return;
+
+    const allWords = getAllAvailableWords();
+    currentBossTarget = allWords[Math.floor(Math.random() * allWords.length)];
+
+    document.getElementById('bossQuizWord').innerText = currentBossTarget.word || '';
+
+    const container = document.getElementById('bossQuizOptions');
+    container.innerHTML = '';
+
+    const distractors = allWords
+      .filter(w => w.word !== currentBossTarget.word)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+
+    const targetTrans = (currentBossTarget.pos || '') + " " + (currentBossTarget.trans || currentBossTarget.translation || currentBossTarget.meaning || '');
+
+    let choices = distractors.map(d => ({
+      isCorrect: false,
+      text: (d.pos || '') + " " + (d.trans || d.translation || d.meaning || '')
+    }));
+
+    choices.push({ isCorrect: true, text: targetTrans });
+    choices.sort(() => 0.5 - Math.random());
+
+    choices.forEach(c => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt-btn';
+      btn.innerText = c.text;
+      btn.onclick = () => handleBossAnswer(c.isCorrect);
+      container.appendChild(btn);
+    });
+
+    speakText(currentBossTarget.word);
+  }
+
+  function handleBossAnswer(isCorrect) {
+    if (isCorrect) {
+      bossCombo++;
+      const baseDmg = 120;
+      const dmg = Math.floor(baseDmg * (1 + (bossCombo - 1) * 0.25));
+      bossHp = Math.max(0, bossHp - dmg);
+
+      if (bossHp <= 0) {
+        clearInterval(bossTimerId);
+        addFarmResource(15, 1);
+        finishBossBattle(true, "🎉 討伐成功！勇者獲得 15 滴水與肥料獎勵！");
+        return;
+      }
+    } else {
+      bossCombo = 0;
+      playerHp = Math.max(0, playerHp - 25);
+      addWrongWordLS(currentBossTarget);
+
+      if (playerHp <= 0) {
+        clearInterval(bossTimerId);
+        finishBossBattle(false, "💀 你已被 BOSS 擊敗！回去多加修練吧！");
+        return;
+      }
+    }
+
+    updateBossUI();
+    renderBossQuestion();
+  }
+
+  function finishBossBattle(isWin, message) {
+    alert(message);
+    showPage('pageBattleDungeonLobby');
+  }
+
+  async function confirmExitBoss() {
+    if (await customConfirm("確定要放棄討伐 BOSS 並返回嗎？")) {
+      if (bossTimerId) clearInterval(bossTimerId);
+      showPage('pageBattleDungeonLobby');
+    }
+  }
+
+  /* --- 2. 字母拼字地下城 --- */
+  let spellingQueue = [];
+  let spellingIndex = 0;
+  let currentSpellingWord = null;
+  let currentSelectedLetters = [];
+  let currentPoolLetters = [];
+  let spellingRewardCount = 0;
+
+  function startSpellingDungeon() {
+    const allWords = getAllAvailableWords().filter(w => w.word && /^[a-zA-Z]+$/.test(w.word.trim()));
+    if (allWords.length === 0) {
+      alert("尚無適合拼寫的純英文單字！");
+      return;
+    }
+
+    spellingQueue = [...allWords].sort(() => 0.5 - Math.random()).slice(0, 10);
+    spellingIndex = 0;
+    spellingRewardCount = 0;
+
+    showPage('pageSpellingDungeon');
+    renderSpellingQuestion();
+  }
+
+  function renderSpellingQuestion() {
+    if (spellingIndex >= spellingQueue.length) {
+      alert(`🎉 恭喜通關拼字地下城！累計獲得 ${spellingRewardCount} 滴水滴！`);
+      showPage('pageBattleDungeonLobby');
+      return;
+    }
+
+    currentSpellingWord = spellingQueue[spellingIndex];
+    const targetStr = currentSpellingWord.word.trim().toLowerCase();
+
+    document.getElementById('spellingProgressText').innerText = `關卡 ${spellingIndex + 1}/${spellingQueue.length}`;
+    document.getElementById('spellingScoreText').innerText = `💧 累計獎勵: +${spellingRewardCount}`;
+
+    const pos = currentSpellingWord.pos || currentSpellingWord.partOfSpeech || '';
+    const trans = currentSpellingWord.trans || currentSpellingWord.translation || currentSpellingWord.meaning || '';
+    document.getElementById('spellingMeaning').innerText = `${pos} ${trans}`.trim();
+
+    currentSelectedLetters = [];
+    currentPoolLetters = targetStr.split('').map((char, id) => ({ id, char, used: false })).sort(() => 0.5 - Math.random());
+
+    updateSpellingBoard();
+    speakText(targetStr);
+  }
+
+  function updateSpellingBoard() {
+    const slotsContainer = document.getElementById('spellingSlots');
+    slotsContainer.innerHTML = '';
+
+    const targetLen = currentSpellingWord.word.trim().length;
+    for (let i = 0; i < targetLen; i++) {
+      const slot = document.createElement('div');
+      slot.className = 'spelling-slot';
+      if (i < currentSelectedLetters.length) {
+        slot.innerText = currentSelectedLetters[i].char.toUpperCase();
+        slot.onclick = () => deselectSpellingLetter(i);
+      }
+      slotsContainer.appendChild(slot);
+    }
+
+    const poolContainer = document.getElementById('spellingPool');
+    poolContainer.innerHTML = '';
+
+    currentPoolLetters.forEach(item => {
+      const tile = document.createElement('div');
+      tile.className = `spelling-tile ${item.used ? 'used' : ''}`;
+      tile.innerText = item.char.toUpperCase();
+      tile.onclick = () => selectSpellingLetter(item.id);
+      poolContainer.appendChild(tile);
+    });
+  }
+
+  function selectSpellingLetter(id) {
+    const item = currentPoolLetters.find(p => p.id === id);
+    if (!item || item.used) return;
+
+    item.used = true;
+    currentSelectedLetters.push(item);
+    updateSpellingBoard();
+  }
+
+  function deselectSpellingLetter(index) {
+    if (index < 0 || index >= currentSelectedLetters.length) return;
+
+    const removed = currentSelectedLetters.splice(index, 1)[0];
+    const poolItem = currentPoolLetters.find(p => p.id === removed.id);
+    if (poolItem) poolItem.used = false;
+
+    updateSpellingBoard();
+  }
+
+  function clearSpellingSlots() {
+    currentSelectedLetters = [];
+    currentPoolLetters.forEach(p => p.used = false);
+    updateSpellingBoard();
+  }
+
+  function submitSpellingAnswer() {
+    const targetStr = currentSpellingWord.word.trim().toLowerCase();
+    const userStr = currentSelectedLetters.map(l => l.char).join('');
+
+    if (userStr === targetStr) {
+      spellingRewardCount++;
+      addFarmResource(1, 0);
+      alert("🎯 拼寫正確！ (+1 水滴)");
+      spellingIndex++;
+      renderSpellingQuestion();
+    } else {
+      alert("❌ 拼寫錯誤，請再試一次！");
+      clearSpellingSlots();
+    }
+  }
+
+  function speakCurrentSpellingWord() {
+    if (currentSpellingWord && currentSpellingWord.word) {
+      speakText(currentSpellingWord.word);
+    }
+  }
+
+  async function confirmExitSpelling() {
+    if (await customConfirm("確定要離開拼字地下城嗎？")) {
+      showPage('pageBattleDungeonLobby');
+    }
   }
 </script>
 </body>
