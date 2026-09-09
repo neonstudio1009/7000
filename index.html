@@ -1362,11 +1362,11 @@
   }
 
   function openUnitQuizLevelCategory() {
-    showPage('pageUnitQuizLevel');
-    const grid = document.getElementById('unitQuizLevelGrid');
-    grid.innerHTML = '';
+  showPage('pageUnitQuizLevel');
+  const grid = document.getElementById('unitQuizLevelGrid');
+  grid.innerHTML = '';
 
-    for (let i = 1; i <= 7; i++) {
+  for (let i = 1; i <= 7; i++) {
       const item = document.createElement('div');
       item.className = 'grid-item';
       item.onclick = () => openUnitQuizUnitList(i);
@@ -1376,7 +1376,7 @@
           <div class="subtitle">${(i - 1) * 1000 + 1} - ${i * 1000} 字</div>
         </div>
         <div style="font-size: 0.8rem; color: var(--accent-yellow); margin-top: 12px; font-weight: bold;">
-          點擊選擇單元 ➔
+          刷題進度
         </div>
       `;
       grid.appendChild(item);
@@ -1389,15 +1389,15 @@
     document.getElementById('unitQuizUnitTitle').innerText = `${LEVEL_NAMES[level]} - 選擇單元`;
     const grid = document.getElementById('unitQuizUnitGrid');
     grid.innerHTML = '';
-
+  
     const startUnit = (level - 1) * 20 + 1;
     const endUnit = level * 20;
-
+  
     for (let u = startUnit; u <= endUnit; u++) {
       const words = getUnitWords(level, u);
       const wordCount = words.length;
       const isEmpty = wordCount === 0;
-
+  
       const item = document.createElement('div');
       item.className = `grid-item ${isEmpty ? 'empty-unit' : ''}`;
       item.onclick = () => {
@@ -1409,7 +1409,7 @@
           <div class="subtitle">${isEmpty ? '🚧 建置中' : wordCount + ' 個單字'}</div>
         </div>
         <div style="font-size: 0.8rem; color: ${isEmpty ? 'var(--text-secondary)' : 'var(--accent-yellow)'}; margin-top: 12px;">
-          ${isEmpty ? '無資料' : '開始刷題 ➔'}
+          ${isEmpty ? '無資料' : '刷題進度'}
         </div>
       `;
       grid.appendChild(item);
