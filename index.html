@@ -2622,6 +2622,36 @@ function checkAnswer() {
     handleWrongAnswer();
   }
 }
+// 陣列隨機洗牌工具（Fisher-Yates 演算法）
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// 單一題目生成器（含干擾選項）
+function createUnitQuestion(targetWord, unitWords, type) {
+  // 優先使用同單元其他單字作為干擾選項，若不足則調用全域 ALL_WORDS
+  let pool = unitWords.filter(w => w.en !== targetWord.en);
+  if (pool.length < 3 && typeof ALL_WORDS !== 'undefined') {
+    const extra = ALL_WORDS.filter(w => w.en !== targetWord.en && !pool.some(p => p.en === w.en));
+    pool = pool.concat(extra);
+  }
+
+  const distractors = shuffleArray(pool).slice(0, 3);
+  const options = shuffleArray([targetWord, ...distractors]);
+
+  return {
+    word: targetWord,
+    type: type, // 'zh-to-en' 或 'en-to-zh'
+    promptText: type === 'zh-to-en' ? targetWord.zh : targetWord.en,
+    correctAnswer: type === 'zh-to-en' ? targetWord.en : targetWord.zh,
+    options: options.map(opt => (type === 'zh-to-en' ? opt.en : opt.zh))
+  };
+}
 </script>
 </body>
 </html>
