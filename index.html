@@ -552,27 +552,27 @@
       </div>
 
       <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 10px;">
-        <div class="menu-card" onclick="startUnitQuiz('zh2en')">
+        <div id="btnModeZhToEn" class="menu-card" onclick="startUnitQuiz('zh2en')">
           <div style="font-size: 1.8rem;">🔤</div>
           <div>
-            <h2 style="font-size: 1.1rem;">看中文選英文</h2>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示中文釋義，挑選正確英文單字</p>
+            <h2 class="title" style="font-size: 1.1rem;">看中文選英文</h2>
+            <p class="subtitle" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示中文釋義，挑選正確英文單字</p>
           </div>
         </div>
 
-        <div class="menu-card" onclick="startUnitQuiz('en2zh')">
+        <div id="btnModeEnToZh" class="menu-card" onclick="startUnitQuiz('en2zh')">
           <div style="font-size: 1.8rem;">🔠</div>
           <div>
-            <h2 style="font-size: 1.1rem;">看英文選中文</h2>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示英文單字，挑選正確中文釋義</p>
+            <h2 class="title" style="font-size: 1.1rem;">看英文選中文</h2>
+            <p class="subtitle" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">顯示英文單字，挑選正確中文釋義</p>
           </div>
         </div>
 
-        <div class="menu-card" onclick="startUnitQuiz('mixed')">
+        <div id="btnModeMixed" class="menu-card" onclick="startUnitQuiz('mixed')">
           <div style="font-size: 1.8rem;">⚡</div>
           <div>
-            <h2 style="font-size: 1.1rem;">綜合模式 (50題)</h2>
-            <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">看中文選英文 25 題 + 看英文選中文 25 題</p>
+            <h2 class="title" style="font-size: 1.1rem;">綜合模式</h2>
+            <p class="subtitle" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">看中文選英文 + 看英文選中文</p>
           </div>
         </div>
       </div>
