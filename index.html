@@ -1385,34 +1385,44 @@
 
   function openUnitQuizUnitList(level) {
     unitQuizLevel = level;
-    showPage('pageUnitQuizUnit');
-    document.getElementById('unitQuizUnitTitle').innerText = `${LEVEL_NAMES[level]} - 選擇單元`;
-    const grid = document.getElementById('unitQuizUnitGrid');
-    grid.innerHTML = '';
+    showPage('pageUnitQuizUnits');
   
-    const startUnit = (level - 1) * 20 + 1;
-    const endUnit = level * 20;
+    const titleEl = document.getElementById('unitQuizUnitTitle');
+    if (titleEl) titleEl.innerText = `Level ${level} - 選擇單元`;
   
-    for (let u = startUnit; u <= endUnit; u++) {
+    const container = document.getElementById('unitQuizUnitGrid');
+    if (!container) return;
+  
+    container.innerHTML = '';
+    const totalUnits = 10; // 每個 Level 預設的單元數
+  
+    for (let u = 1; u <= totalUnits; u++) {
+      const record = getUnitQuizRecord(level, u);
       const words = getUnitWords(level, u);
-      const wordCount = words.length;
-      const isEmpty = wordCount === 0;
+      const wordCount = words ? words.length : 50;
   
-      const item = document.createElement('div');
-      item.className = `grid-item ${isEmpty ? 'empty-unit' : ''}`;
-      item.onclick = () => {
-        if (!isEmpty) openUnitQuizModeSelect(level, u);
-      };
-      item.innerHTML = `
-        <div>
-          <div class="title">Unit ${u}</div>
-          <div class="subtitle">${isEmpty ? '🚧 建置中' : wordCount + ' 個單字'}</div>
-        </div>
-        <div style="font-size: 0.8rem; color: ${isEmpty ? 'var(--text-secondary)' : 'var(--accent-yellow)'}; margin-top: 12px;">
-          ${isEmpty ? '無資料' : '刷題進度'}
-        </div>
+      let statusHTML = '';
+      if (record && record.completed) {
+        statusHTML = `
+          <div style="color: #4cd964; font-weight: bold; font-size: 0.85rem; margin-top: 6px;">✓ 已完成</div>
+          <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 2px;">答對率 <span style="color: #ff9500; font-weight: bold;">${record.accuracy}%</span></div>
+        `;
+      } else {
+        statusHTML = `
+          <div style="color: #ff9500; font-size: 0.85rem; margin-top: 8px;">刷題進度</div>
+        `;
+      }
+  
+      const card = document.createElement('div');
+      card.className = 'menu-card';
+      card.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; text-align: center; cursor: pointer;';
+      card.onclick = () => openUnitQuizModeSelect(level, u);
+      card.innerHTML = `
+        <h2 style="font-size: 1.2rem; color: #ff9500; font-weight: bold; margin-bottom: 2px;">Unit ${u}</h2>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">${wordCount} 個單字</div>
+        ${statusHTML}
       `;
-      grid.appendChild(item);
+      container.appendChild(card);
     }
   }
 
