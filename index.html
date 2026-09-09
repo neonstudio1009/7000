@@ -1416,15 +1416,46 @@
     }
   }
 
+  // 開啟單元刷題模式選擇頁面時，動態設定點擊事件與題目數量標示
   function openUnitQuizModeSelect(level, unit) {
     unitQuizLevel = level;
     unitQuizUnit = unit;
-    document.getElementById('unitQuizModeTitle').innerText = `Unit ${unit} 刷題模式`;
+    
+    const words = getUnitWords(level, unit);
+    const totalCount = words.length;
+    const halfCount = Math.ceil(totalCount / 2);
+  
     showPage('pageUnitQuizMode');
+    document.getElementById('unitQuizModeTitle').innerText = `Unit ${unit} 刷題模式`;
+  
+    // 動態更新頁面上模式按鈕的點擊觸發事件與文字描述
+    const btnZhToEn = document.getElementById('btnModeZhToEn');
+    const btnEnToZh = document.getElementById('btnModeEnToZh');
+    const btnMixed = document.getElementById('btnModeMixed');
+  
+    if (btnZhToEn) {
+      btnZhToEn.onclick = () => startUnitQuiz('zh-to-en');
+      const desc = btnZhToEn.querySelector('.subtitle');
+      if (desc) desc.innerText = `顯示中文釋義，挑選正確英文（共 ${totalCount} 題）`;
+    }
+  
+    if (btnEnToZh) {
+      btnEnToZh.onclick = () => startUnitQuiz('en-to-zh');
+      const desc = btnEnToZh.querySelector('.subtitle');
+      if (desc) desc.innerText = `顯示英文單字，挑選正確中文（共 ${totalCount} 題）`;
+    }
+  
+    if (btnMixed) {
+      btnMixed.onclick = () => startUnitQuiz('mixed');
+      const desc = btnMixed.querySelector('.subtitle');
+      if (desc) desc.innerText = `看中文選英文 ${halfCount} 題 + 看英文選中文 ${totalCount - halfCount} 題`;
+      const title = btnMixed.querySelector('.title');
+      if (title) title.innerText = `綜合模式 (${totalCount}題)`;
+    }
   }
 
   // 啟動單元刷題（確保每一個單字都出題且不重複）
-function startUnitQuiz(mode) {
+  function startUnitQuiz(mode) {
     const originalWords = getUnitWords(unitQuizLevel, unitQuizUnit);
     if (!originalWords || originalWords.length === 0) {
       alert('該單元暫無單字可刷題！');
