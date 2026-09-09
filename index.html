@@ -2676,6 +2676,22 @@ function createUnitQuestion(targetWord, unitWords, type) {
     options: options.map(opt => (type === 'zh-to-en' ? opt.en : opt.zh))
   };
 }
+// 取得 Unit 刷題紀錄
+function getUnitQuizRecord(level, unit) {
+  const data = localStorage.getItem(`quiz_record_${level}_${unit}`);
+  return data ? JSON.parse(data) : null;
+}
+
+// 儲存 Unit 刷題紀錄（在測驗結束時呼叫）
+function saveUnitQuizRecord(level, unit, correct, total) {
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
+  const record = {
+    completed: true,
+    accuracy: accuracy,
+    time: Date.now()
+  };
+  localStorage.setItem(`quiz_record_${level}_${unit}`, JSON.stringify(record));
+}
 </script>
 </body>
 </html>
