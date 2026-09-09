@@ -1423,44 +1423,49 @@
     showPage('pageUnitQuizMode');
   }
 
-  function startUnitQuiz(mode) {
-    const words = getUnitWords(unitQuizLevel, unitQuizUnit);
-    if (!words || words.length === 0) {
-      alert("此單元暫無單字資料！");
+  // 啟動單元刷題（確保每一個單字都出題且不重複）
+function startUnitQuiz(mode) {
+    const originalWords = getUnitWords(unitQuizLevel, unitQuizUnit);
+    if (!originalWords || originalWords.length === 0) {
+      alert('該單元暫無單字可刷題！');
       return;
     }
-
-    quizQueue = [];
-
-    if (mode === 'zh2en') {
-      quizQueue = words.map(w => ({ wordObj: w, mode: 'zh2en' })).sort(() => 0.5 - Math.random());
-    } else if (mode === 'en2zh') {
-      quizQueue = words.map(w => ({ wordObj: w, mode: 'en2zh' })).sort(() => 0.5 - Math.random());
+  
+    // 1. 先將單元內所有單字隨機洗牌，確保覆蓋率與不重複
+    const shuffledWords = shuffleArray(originalWords);
+    let generatedQuestions = [];
+  
+    // 2. 依模式生成題目
+    if (mode === 'zh-to-en') {
+      generatedQuestions = shuffledWords.map(word =>
+        createUnitQuestion(word, originalWords, 'zh-to-en')
+      );
+    } else if (mode === 'en-to-zh') {
+      generatedQuestions = shuffledWords.map(word =>
+        createUnitQuestion(word, originalWords, 'en-to-zh')
+      );
     } else if (mode === 'mixed') {
-      let poolZh2En = [];
-      let poolEn2Zh = [];
-
-      while (poolZh2En.length < 25) {
-        const randW = words[Math.floor(Math.random() * words.length)];
-        poolZh2En.push({ wordObj: randW, mode: 'zh2en' });
-      }
-
-      while (poolEn2Zh.length < 25) {
-        const randW = words[Math.floor(Math.random() * words.length)];
-        poolEn2Zh.push({ wordObj: randW, mode: 'en2zh' });
-      }
-
-      quizQueue = [...poolZh2En, ...poolEn2Zh].sort(() => 0.5 - Math.random());
+      const halfIndex = Math.ceil(shuffledWords.length / 2);
+      shuffledWords.forEach((word, index) => {
+        const qType = index < halfIndex ? 'zh-to-en' : 'en-to-zh';
+        generatedQuestions.push(createUnitQuestion(word, originalWords, qType));
+      });
+      // 將題型混合後的題目再次打亂排序
+      generatedQuestions = shuffleArray(generatedQuestions);
     }
-
-    isWrongQuizMode = false;
-    currentQuizIndex = 0;
-    quizCorrectCount = 0;
-    quizWrongCount = 0;
-    quizWrongList = [];
-
-    showPage('pageQuiz');
+  
+    // 3. 寫入全域刷題狀態
+    currentQuiz = {
+      title: `${LEVEL_NAMES[unitQuizLevel]} - Unit ${unitQuizUnit}`,
+      questions: generatedQuestions,
+      currentIndex: 0,
+      score: 0,
+      userAnswers: []
+    };
+  
+    // 4. 渲染第一題並切換頁面
     renderQuizQuestion();
+    showPage('pageQuizRun');
   }
 
   function openUnitList(level) {
