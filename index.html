@@ -1366,18 +1366,20 @@
     const grid = document.getElementById('unitQuizLevelGrid');
     grid.innerHTML = '';
   
-    const totalUnits = 20; // 每個 Level 的總單元數
+    const totalUnits = 20; // 每個 Level 包含的單元總數
   
     for (let i = 1; i <= 7; i++) {
       let completedCount = 0;
-      for (let u = 1; u <= totalUnits; u++) {
+      const startUnit = (i - 1) * 20 + 1;
+      const endUnit = i * 20;
+  
+      for (let u = startUnit; u <= endUnit; u++) {
         const record = getUnitQuizRecord(i, u);
         if (record && record.completed) {
           completedCount++;
         }
       }
       
-      // 計算單元完成百分比
       const quizPercent = Math.round((completedCount / totalUnits) * 100);
   
       const item = document.createElement('div');
@@ -1415,12 +1417,15 @@
     if (!container) return;
   
     container.innerHTML = '';
-    const totalUnits = 20;
   
-    for (let u = 1; u <= totalUnits; u++) {
+    // 計算該 Level 的全域單元範圍
+    const startUnit = (level - 1) * 20 + 1;
+    const endUnit = level * 20;
+  
+    for (let u = startUnit; u <= endUnit; u++) {
       const record = getUnitQuizRecord(level, u);
       const words = getUnitWords(level, u);
-      const wordCount = words ? words.length : 50;
+      const wordCount = words ? words.length : 0;
   
       let statusHTML = '';
       if (record && record.completed) {
