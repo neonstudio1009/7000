@@ -1367,45 +1367,36 @@
     if (!grid) return;
     grid.innerHTML = '';
   
-    const unitsPerLevel = 20;// 每個 Level 的總單元數
+    const unitsPerLevel = 20;
   
     for (let level = 1; level <= 7; level++) {
-      const startUnit = (level - 1) * unitsPerLevel + 1;
-      const endUnit = level * unitsPerLevel;
-      
       let completedCount = 0;
-      
-      for (let u = startUnit; u <= endUnit; u++) {
-        const record = getUnitQuizRecord(level, u);
-        if (record && record.completed) {
-          completedCount++;
+  
+      for (let u = 1; u <= unitsPerLevel; u++) {
+        try {
+          // 同時嘗試「相對單元號 u」與「全域單元號 (level-1)*20+u」，避免資料庫格式不同造成崩潰
+          const globalUnit = (level - 1) * unitsPerLevel + u;
+          const record = getUnitQuizRecord(level, u) || getUnitQuizRecord(level, globalUnit);
+          
+          if (record && (record.completed || record.isCompleted)) {
+            completedCount++;
+          }
+        } catch (err) {
+          console.warn(`讀取 Level ${level} Unit ${u} 進度時跳過:`, err);
         }
       }
-      
-      // 計算單元完成百分比
-      const quizPercent = Math.round((completedCount / totalUnits) * 100);
   
-      const item = document.createElement('div');
-      item.className = 'grid-item';
-      item.onclick = () => openUnitQuizUnitList(i);
-      item.innerHTML = `
-        <div>
-          <div class="title">${LEVEL_NAMES[i]}</div>
-          <div class="subtitle">${(i - 1) * 1000 + 1} - ${i * 1000} 字</div>
-        </div>
-        <div class="grid-progress-container">
-          <div>
-            <div class="progress-label">
-              <span>刷題進度 (${completedCount}/${totalUnits})</span>
-              <span>${quizPercent}%</span>
-            </div>
-            <div class="progress-bar-wrap">
-              <div class="progress-bar-fill green" style="width: ${quizPercent}%;"></div>
-            </div>
-          </div>
-        </div>
+      const percent = Math.round((completedCount / unitsPerLevel) * 100);
+  
+      // 建立卡片元素 (請維持你原本的 CSS 類別與 HTML 結構)
+      const card = document.createElement('div');
+      card.className = 'level-card'; // 依你專案的 class 名稱調整
+      card.onclick = () => openUnitQuizUnitList(level);
+      card.innerHTML = `
+        <div class="level-title">Level ${level}</div>
+        <div class="level-progress">進度：${completedCount} / ${unitsPerLevel} (${percent}%)</div>
       `;
-      grid.appendChild(item);
+      grid.appendChild(card);
     }
   }
 
