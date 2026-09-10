@@ -1364,14 +1364,19 @@
   function openUnitQuizLevelCategory() {
     showPage('pageUnitQuizLevel');
     const grid = document.getElementById('unitQuizLevelGrid');
+    if (!grid) return;
     grid.innerHTML = '';
   
-    const totalUnits = 20; // 每個 Level 的總單元數
+    const unitsPerLevel = 20;// 每個 Level 的總單元數
   
-    for (let i = 1; i <= 7; i++) {
+    for (let level = 1; level <= 7; level++) {
+      const startUnit = (level - 1) * unitsPerLevel + 1;
+      const endUnit = level * unitsPerLevel;
+      
       let completedCount = 0;
-      for (let u = 1; u <= totalUnits; u++) {
-        const record = getUnitQuizRecord(i, u);
+      
+      for (let u = startUnit; u <= endUnit; u++) {
+        const record = getUnitQuizRecord(level, u);
         if (record && record.completed) {
           completedCount++;
         }
