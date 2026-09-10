@@ -1463,8 +1463,11 @@
     }
   }
 
+  let isUnitQuiz = false; // 全域新增標記
+  
   // 啟動單元刷題（確保每一個單字都出題且不重複）
   function startUnitQuiz(mode) {
+    isUnitQuiz = true;
     const originalWords = getUnitWords(unitQuizLevel, unitQuizUnit);
     if (!originalWords || originalWords.length === 0) {
       alert('該單元暫無單字可刷題！');
