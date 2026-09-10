@@ -2752,6 +2752,28 @@ function renderUnitQuizLevelList() {
     container.appendChild(card);
   });
 }
+  /* 單元刷題紀錄儲存與讀取 */
+function getUnitQuizRecords() {
+  try { return JSON.parse(localStorage.getItem('unit_quiz_records')) || {}; }
+  catch(e) { return {}; }
+}
+
+function getUnitQuizRecord(level, unit) {
+  const records = getUnitQuizRecords();
+  return records[`${level}_${unit}`] || null;
+}
+
+function saveUnitQuizRecord(level, unit, accuracy) {
+  const records = getUnitQuizRecords();
+  const key = `${level}_${unit}`;
+  // 記錄已完成與最高正確率
+  const prevAcc = records[key] ? records[key].accuracy : 0;
+  records[key] = {
+    completed: true,
+    accuracy: Math.max(prevAcc, accuracy)
+  };
+  localStorage.setItem('unit_quiz_records', JSON.stringify(records));
+}
 </script>
 </body>
 </html>
