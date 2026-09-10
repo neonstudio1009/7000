@@ -2180,6 +2180,7 @@
   }
 
   function startWrongBookQuiz(mode) {
+    isUnitQuiz = false; // 重置標記
     let sourceWords = [];
     if (mode === 'wrong') {
       sourceWords = getWrongWordsLS();
