@@ -1374,7 +1374,6 @@
   
       for (let u = 1; u <= unitsPerLevel; u++) {
         try {
-          // 同時嘗試「相對單元號 u」與「全域單元號 (level-1)*20+u」，避免資料庫格式不同造成崩潰
           const globalUnit = (level - 1) * unitsPerLevel + u;
           const record = getUnitQuizRecord(level, u) || getUnitQuizRecord(level, globalUnit);
           
@@ -1382,20 +1381,32 @@
             completedCount++;
           }
         } catch (err) {
-          console.warn(`讀取 Level ${level} Unit ${u} 進度時跳過:`, err);
+          console.warn(`讀取 Level ${level} Unit ${u} 進度失敗`, err);
         }
       }
   
       const percent = Math.round((completedCount / unitsPerLevel) * 100);
   
-      // 建立卡片元素 (請維持你原本的 CSS 類別與 HTML 結構)
+      // 建立卡片元素
       const card = document.createElement('div');
-      card.className = 'level-card'; // 依你專案的 class 名稱調整
+      
+      // 套用與單元列表一致的卡片 CSS Class（若專案已有特定 Class，可改寫此處）
+      card.className = 'unit-card'; 
+      card.style.cursor = 'pointer';
+      
+      // 綁定點擊事件進入該 Level
       card.onclick = () => openUnitQuizUnitList(level);
+  
+      // 組合卡片內部 HTML (維持橘字標題與樣式)
       card.innerHTML = `
-        <div class="level-title">Level ${level}</div>
-        <div class="level-progress">進度：${completedCount} / ${unitsPerLevel} (${percent}%)</div>
+        <div style="color: #ff9800; font-weight: bold; font-size: 1.2rem; margin-bottom: 6px; text-align: center;">
+          Level ${level}
+        </div>
+        <div style="color: #aaa; font-size: 0.95rem; text-align: center;">
+          進度：${completedCount} / ${unitsPerLevel} (${percent}%)
+        </div>
       `;
+  
       grid.appendChild(card);
     }
   }
