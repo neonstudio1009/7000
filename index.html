@@ -2018,8 +2018,8 @@
 
   function showQuizResultModal() {
     const total = quizQueue.length;
-    const rate = Math.round((quizCorrectCount / total) * 100);
-
+    const rate = total > 0 ? Math.round((quizCorrectCount / total) * 100) : 0;
+    
     if (isUnitQuiz) {
       saveUnitQuizRecord(unitQuizLevel, unitQuizUnit, rate);
     }
