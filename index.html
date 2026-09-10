@@ -1409,40 +1409,37 @@
   
     const container = document.getElementById('unitQuizUnitGrid');
     if (!container) return;
-  
     container.innerHTML = '';
+  
     const unitsPerLevel = 20;
     const startUnit = (level - 1) * unitsPerLevel + 1;
     const endUnit = level * unitsPerLevel;
   
     for (let u = startUnit; u <= endUnit; u++) {
-      const record = getUnitQuizRecord(level, u);
-      const words = getUnitWords(level, u);
-      const wordCount = words ? words.length : 50;
-      const unitDisplayName = `Unit ${u}`;
+      // 取得相對編號 (1~20)
+      const localUnit = u - startUnit + 1;
   
-      let statusHTML = '';
-      if (record && record.completed) {
-        statusHTML = `
-          <div style="color: var(--accent-green); font-weight: bold; font-size: 0.85rem; margin-top: 8px;">✓ 已完成</div>
-          <div style="color: var(--text-secondary); font-size: 0.75rem; margin-top: 2px;">正確率 <span style="color: var(--accent-yellow); font-weight: bold;">${record.accuracy}%</span></div>
-        `;
-      } else {
-        statusHTML = `
-          <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; opacity: 0.7;">✕ 未完成</div>
-        `;
+      // 安全讀取資料：先試全域編號 u，再試相對編號 localUnit
+      let record = null;
+      let words = [];
+      try {
+        record = getUnitQuizRecord(level, u) || getUnitQuizRecord(level, localUnit);
+        words = getUnitWords(level, u) || getUnitWords(level, localUnit) || [];
+      } catch (e) {
+        console.warn(`讀取 Unit ${u} 失敗:`, e);
       }
   
+      const wordCount = words.length;
+      const isCompleted = record && (record.completed || record.isCompleted);
+      const scoreText = isCompleted ? `<span style="color:#4caf50;">✓ 已完成 (正確率 ${record.accuracy || 0}%)</span>` : '✕ 未完成';
+  
       const card = document.createElement('div');
-      card.className = 'grid-item';
-      card.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px; text-align: center; cursor: pointer;';
-      card.onclick = () => openUnitQuizModeSelect(level, u);
+      card.className = 'unit-card';
+      card.onclick = () => startUnitQuiz(level, u);
       card.innerHTML = `
-        <div>
-          <h2 style="font-size: 1.2rem; color: var(--accent-yellow); font-weight: bold; margin-bottom: 2px;">Unit ${u}</h2>
-          <div style="font-size: 0.8rem; color: var(--text-secondary);">${wordCount} 個單字</div>
-        </div>
-        ${statusHTML}
+        <div class="unit-title">Unit ${u}</div>
+        <div class="unit-subtitle">${wordCount} 個單字</div>
+        <div class="unit-status">${scoreText}</div>
       `;
       container.appendChild(card);
     }
