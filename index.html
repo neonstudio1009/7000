@@ -1992,6 +1992,10 @@
     const total = quizQueue.length;
     const rate = Math.round((quizCorrectCount / total) * 100);
 
+    if (isUnitQuiz) {
+      saveUnitQuizRecord(unitQuizLevel, unitQuizUnit, rate);
+    }
+    
     document.getElementById('resultAccuracyText').innerText = `正確率：${rate}%`;
     document.getElementById('resultDetailText').innerText = `總題數：${total} 題 | 答對：${quizCorrectCount} 題 | 答錯/不懂：${quizWrongCount} 題`;
 
