@@ -1415,12 +1415,15 @@
     if (!container) return;
   
     container.innerHTML = '';
-    const totalUnits = 20;
+    const unitsPerLevel = 20;
+    const startUnit = (level - 1) * unitsPerLevel + 1;
+    const endUnit = level * unitsPerLevel;
   
-    for (let u = 1; u <= totalUnits; u++) {
+    for (let u = startUnit; u <= endUnit; u++) {
       const record = getUnitQuizRecord(level, u);
       const words = getUnitWords(level, u);
       const wordCount = words ? words.length : 50;
+      const unitDisplayName = `Unit ${u}`;
   
       let statusHTML = '';
       if (record && record.completed) {
