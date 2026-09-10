@@ -1362,11 +1362,24 @@
   }
 
   function openUnitQuizLevelCategory() {
-  showPage('pageUnitQuizLevel');
-  const grid = document.getElementById('unitQuizLevelGrid');
-  grid.innerHTML = '';
-
-  for (let i = 1; i <= 7; i++) {
+    showPage('pageUnitQuizLevel');
+    const grid = document.getElementById('unitQuizLevelGrid');
+    grid.innerHTML = '';
+  
+    const totalUnits = 10; // 每個 Level 的總單元數
+  
+    for (let i = 1; i <= 7; i++) {
+      let completedCount = 0;
+      for (let u = 1; u <= totalUnits; u++) {
+        const record = getUnitQuizRecord(i, u);
+        if (record && record.completed) {
+          completedCount++;
+        }
+      }
+      
+      // 計算單元完成百分比
+      const quizPercent = Math.round((completedCount / totalUnits) * 100);
+  
       const item = document.createElement('div');
       item.className = 'grid-item';
       item.onclick = () => openUnitQuizUnitList(i);
@@ -1375,8 +1388,16 @@
           <div class="title">${LEVEL_NAMES[i]}</div>
           <div class="subtitle">${(i - 1) * 1000 + 1} - ${i * 1000} 字</div>
         </div>
-        <div style="font-size: 0.8rem; color: var(--accent-yellow); margin-top: 12px; font-weight: bold;">
-          刷題進度
+        <div class="grid-progress-container">
+          <div>
+            <div class="progress-label">
+              <span>刷題進度 (${completedCount}/${totalUnits})</span>
+              <span>${quizPercent}%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill green" style="width: ${quizPercent}%;"></div>
+            </div>
+          </div>
         </div>
       `;
       grid.appendChild(item);
@@ -1394,7 +1415,7 @@
     if (!container) return;
   
     container.innerHTML = '';
-    const totalUnits = 10; // 每個 Level 預設的單元數
+    const totalUnits = 10;
   
     for (let u = 1; u <= totalUnits; u++) {
       const record = getUnitQuizRecord(level, u);
@@ -1404,22 +1425,24 @@
       let statusHTML = '';
       if (record && record.completed) {
         statusHTML = `
-          <div style="color: #4cd964; font-weight: bold; font-size: 0.85rem; margin-top: 6px;">✓ 已完成</div>
-          <div style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 2px;">答對率 <span style="color: #ff9500; font-weight: bold;">${record.accuracy}%</span></div>
+          <div style="color: var(--accent-green); font-weight: bold; font-size: 0.85rem; margin-top: 8px;">✓ 已完成</div>
+          <div style="color: var(--text-secondary); font-size: 0.75rem; margin-top: 2px;">正確率 <span style="color: var(--accent-yellow); font-weight: bold;">${record.accuracy}%</span></div>
         `;
       } else {
         statusHTML = `
-          <div style="color: #ff9500; font-size: 0.85rem; margin-top: 8px;">刷題進度</div>
+          <div style="color: var(--text-secondary); font-size: 0.85rem; margin-top: 8px; opacity: 0.7;">✕ 未完成</div>
         `;
       }
   
       const card = document.createElement('div');
-      card.className = 'menu-card';
-      card.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px; text-align: center; cursor: pointer;';
+      card.className = 'grid-item';
+      card.style.cssText = 'display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 16px; text-align: center; cursor: pointer;';
       card.onclick = () => openUnitQuizModeSelect(level, u);
       card.innerHTML = `
-        <h2 style="font-size: 1.2rem; color: #ff9500; font-weight: bold; margin-bottom: 2px;">Unit ${u}</h2>
-        <div style="font-size: 0.85rem; color: var(--text-secondary);">${wordCount} 個單字</div>
+        <div>
+          <h2 style="font-size: 1.2rem; color: var(--accent-yellow); font-weight: bold; margin-bottom: 2px;">Unit ${u}</h2>
+          <div style="font-size: 0.8rem; color: var(--text-secondary);">${wordCount} 個單字</div>
+        </div>
         ${statusHTML}
       `;
       container.appendChild(card);
