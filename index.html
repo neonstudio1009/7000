@@ -436,6 +436,21 @@
       color: var(--text-primary);
       line-height: 1.5;
     }
+    /* 頂部導覽列固定置頂 */
+    .top-bar, .card-header { 
+      position: sticky;
+      top: -16px; /* 抵銷 page 的內距 */
+      z-index: 400;
+      background-color: var(--bg-main);
+      padding-top: 16px;
+      margin-top: -16px;
+      padding-bottom: 12px; 
+      border-bottom: 1px solid var(--border-color); 
+      margin-bottom: 12px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+    }
   </style>
 </head>
 <body>
