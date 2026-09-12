@@ -2971,6 +2971,18 @@ function onSelectOption(selectedIndex, correctIndex) {
     document.getElementById('pastExamTransBox').classList.add('show');
   }
 }
+  // 在處理答題（handleQuizAnswer 或顯示解析）的位置加入：
+const transBox = document.getElementById('pastExamTransBox');
+const transText = document.getElementById('pastExamTransText');
+
+if (transText && currentQuizTarget) {
+  const sourceHTML = currentQuizTarget.source ? `<div style="color: var(--accent-yellow); font-weight: bold; margin-bottom: 6px;">📌 出處：${currentQuizTarget.source}</div>` : '';
+  const transHTML = currentQuizTarget.translation ? `<div><b>全句翻譯：</b>${currentQuizTarget.translation}</div>` : '';
+  const explHTML = currentQuizTarget.explanation ? `<div style="margin-top: 4px;"><b>重點解析：</b>${currentQuizTarget.explanation}</div>` : '';
+
+  transText.innerHTML = sourceHTML + transHTML + explHTML;
+  if (transBox) transBox.classList.add('show');
+}
 </script>
 </body>
 </html>
