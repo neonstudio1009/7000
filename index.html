@@ -2890,6 +2890,75 @@ function saveUnitQuizRecord(level, unit, accuracy) {
     localStorage.setItem('unit_quiz_records', JSON.stringify(records));
   } catch(e) {}
 }
+// 1. 全域模式變數
+let currentQuizMode = 'word'; // 'word' 或 'exam'
+
+// 2. 主大廳入口事件
+function openPastExamMode() {
+  currentQuizMode = 'exam';
+  switchPage('pageQuiz'); // 切換到答題頁
+  updateQuizTabUI('exam');
+  startQuiz(); // 開始測驗
+}
+
+// 3. 頁籤切換事件
+function switchQuizTab(mode) {
+  if (currentQuizMode === mode) return;
+  currentQuizMode = mode;
+  updateQuizTabUI(mode);
+  startQuiz();
+}
+
+function updateQuizTabUI(mode) {
+  document.getElementById('tabModeWord').classList.toggle('active', mode === 'word');
+  document.getElementById('tabModeExam').classList.toggle('active', mode === 'exam');
+}
+
+// 4. 渲染題目邏輯
+function renderQuestion() {
+  // 隱藏翻譯解析區
+  document.getElementById('pastExamTransBox').classList.remove('show');
+  
+  const quizWord = document.getElementById('quizWord');
+  const phoneticWrap = document.getElementById('quizPhoneticWrap');
+
+  if (currentQuizMode === 'exam') {
+    // 取得歷屆真題資料
+    const currentQ = EXAM_QUESTIONS[currentQuizIndex];
+    
+    quizWord.textContent = currentQ.question;
+    quizWord.style.fontSize = '1.1rem'; // 題目句子較長，縮小字級
+    quizWord.style.textAlign = 'left';
+    phoneticWrap.style.display = 'none'; // 真題模式隱藏單字音標
+    
+    renderOptions(currentQ.options, currentQ.answer);
+  } else {
+    // 原本單字模式邏輯
+    quizWord.style.fontSize = '2rem';
+    quizWord.style.textAlign = 'center';
+    phoneticWrap.style.display = 'flex';
+    
+    // ...執行原本單字渲染程式碼...
+  }
+}
+
+// 5. 點擊選項與顯示解析
+function onSelectOption(selectedIndex, correctIndex) {
+  // 答題判定與計分 logic ...
+
+  // 若為真題模式，顯示全句翻譯與解析
+  if (currentQuizMode === 'exam') {
+    const currentQ = EXAM_QUESTIONS[currentQuizIndex];
+    const transTextEl = document.getElementById('pastExamTransText');
+    
+    transTextEl.innerHTML = `
+      <p><strong>翻譯：</strong>${currentQ.translation}</p>
+      <p style="margin-top: 6px; color: var(--text-secondary);">${currentQ.explanation}</p>
+    `;
+    
+    document.getElementById('pastExamTransBox').classList.add('show');
+  }
+}
 </script>
 </body>
 </html>
