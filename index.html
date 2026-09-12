@@ -377,6 +377,60 @@
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
+    /* 模式切換頁籤 */
+    .mode-tab-container {
+      display: flex;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 14px;
+      gap: 4px;
+    }
+    .mode-tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: bold;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mode-tab-btn.active {
+      background: var(--accent-yellow);
+      color: #000;
+    }
+    
+    /* 歷屆試題專屬中文翻譯區塊（預設隱藏） */
+    .exam-trans-box {
+      background: var(--card-inner-bg);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 14px;
+      text-align: left;
+      display: none; /* 預設隱藏 */
+    }
+    .exam-trans-box.show {
+      display: block; /* 答題完成後透過 JS 新增 .show 顯示 */
+    }
+    .exam-trans-title {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .exam-trans-text {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
   </style>
 </head>
 <body>
@@ -446,6 +500,13 @@
         <div>
           <h2 style="font-size: 1.2rem;">副本冒險地下城</h2>
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">BOSS 討伐戰 / 拼字地下城</p>
+        </div>
+      </div>
+      <div class="menu-card" onclick="openPastExamMode()">
+        <div style="font-size: 2rem;">🏛️</div>
+        <div>
+          <h2 style="font-size: 1.2rem;">歷屆真題特訓</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">歷屆大考試題實戰 / 詳解與全句翻譯</p>
         </div>
       </div>
     </div>
@@ -983,7 +1044,7 @@
       <button id="gameModalBtn" class="custom-modal-btn" onclick="closeGameModal()">確定</button>
     </div>
   </div>
-
+  <script src="data/exam_questions.js"></script>
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
   <script src="data/level3.js"></script>
