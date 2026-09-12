@@ -2766,6 +2766,30 @@
     updateLobbyStats();
     showPage('pageLobby');
   };
+  // 初始化歷史紀錄（首次載入設定為首頁）
+  window.addEventListener('DOMContentLoaded', () => {
+    history.replaceState({ pageId: 'pageLobby' }, '', '#pageLobby');
+  });
+
+  // 監聽手機與瀏覽器「返回鍵」事件
+  window.addEventListener('popstate', async (event) => {
+    if (event.state && event.state.pageId) {
+      // 一頁一頁回到上一步
+      showPage(event.state.pageId, true);
+    } else {
+      // 已退至最頂層（大廳），跳出確認退出彈窗
+      const confirmExit = await customConfirm("確定要退出速讀單字系統嗎？");
+      if (!confirmExit) {
+        // 使用者點擊「取消」，維持在大廳頁面
+        history.pushState({ pageId: 'pageLobby' }, '', '#pageLobby');
+      } else {
+        // 使用者點擊「確定」，如果做成 Android APK 可呼叫原生退出
+        if (navigator.app && navigator.app.exitApp) {
+          navigator.app.exitApp();
+        }
+      }
+    }
+  });
 </script>
 </body>
 </html>
