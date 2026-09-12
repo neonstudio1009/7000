@@ -725,13 +725,21 @@
     </div>
 
     <!-- 7. 答題頁面 -->
+    <!-- 7. 答題頁面（整合雙模式切換） -->
     <div id="pageQuiz" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="confirmExitQuiz()">‹</button>
         <div class="bar-title" id="quizProgressTitle">題目 1/10</div>
         <button id="quizStarBtn" class="star-btn" onclick="toggleCurrentQuizWordStar()">★</button>
       </div>
-
+    
+      <!-- 模式切換頁籤 -->
+      <div class="mode-tab-container">
+        <button id="tabModeWord" class="mode-tab-btn active" onclick="switchQuizTab('word')">🔤 單字測驗</button>
+        <button id="tabModeExam" class="mode-tab-btn" onclick="switchQuizTab('exam')">🏛️ 歷屆真題特訓</button>
+      </div>
+    
+      <!-- 題目卡片區 -->
       <div class="quiz-card">
         <div class="quiz-word" id="quizWord">word</div>
         <div class="card-phonetic" id="quizPhoneticWrap" style="justify-content: center; margin-bottom: 0;">
@@ -739,8 +747,15 @@
           <button class="audio-icon" id="quizAudioBtn" onclick="speakText(currentQuizTarget.word)">🔊</button>
         </div>
       </div>
-
+    
+      <!-- 選項容器 -->
       <div class="quiz-options" id="quizOptionsContainer"></div>
+    
+      <!-- 歷屆考題專屬中文翻譯區（預設隱藏，答題完畢後加入 class "show" 顯示） -->
+      <div id="pastExamTransBox" class="exam-trans-box">
+        <div class="exam-trans-title">💡 題目全句翻譯與解析</div>
+        <div class="exam-trans-text" id="pastExamTransText">答題後此處將顯示題目翻譯與重點解析。</div>
+      </div>
     </div>
 
     <!-- 8. 錯題單字卡頁面 -->
