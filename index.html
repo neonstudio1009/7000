@@ -1367,10 +1367,16 @@
   let currentBrowserTab = 'wrong';
   let currentFamTab = 'know';
 
-  function showPage(pageId) {
+  // 修改後的 showPage 函數（支援歷史紀錄）
+  function showPage(pageId, isBack = false) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
+
+    // 當非「返回觸發」且當前狀態不同時，寫入瀏覽歷史
+    if (!isBack && history.state?.pageId !== pageId) {
+      history.pushState({ pageId: pageId }, '', '#' + pageId);
+    }
 
     const bottomNav = document.getElementById('mainBottomNav');
     const mainBtn = document.getElementById('navMainBtn');
