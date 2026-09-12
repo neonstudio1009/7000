@@ -377,60 +377,6 @@
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
     }
-    /* 模式切換頁籤 */
-    .mode-tab-container {
-      display: flex;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 4px;
-      margin-bottom: 14px;
-      gap: 4px;
-    }
-    .mode-tab-btn {
-      flex: 1;
-      padding: 10px;
-      border: none;
-      background: transparent;
-      color: var(--text-secondary);
-      font-weight: bold;
-      font-size: 0.9rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-    .mode-tab-btn.active {
-      background: var(--accent-yellow);
-      color: #000;
-    }
-    
-    /* 歷屆試題專屬中文翻譯區塊（預設隱藏） */
-    .exam-trans-box {
-      background: var(--card-inner-bg);
-      border-left: 4px solid var(--accent-blue);
-      border-radius: 10px;
-      padding: 14px;
-      margin-top: 14px;
-      text-align: left;
-      display: none; /* 預設隱藏 */
-    }
-    .exam-trans-box.show {
-      display: block; /* 答題完成後透過 JS 新增 .show 顯示 */
-    }
-    .exam-trans-title {
-      font-size: 0.85rem;
-      color: var(--accent-blue);
-      font-weight: bold;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .exam-trans-text {
-      font-size: 0.95rem;
-      color: var(--text-primary);
-      line-height: 1.5;
-    }
   </style>
 </head>
 <body>
@@ -500,13 +446,6 @@
         <div>
           <h2 style="font-size: 1.2rem;">副本冒險地下城</h2>
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">BOSS 討伐戰 / 拼字地下城</p>
-        </div>
-      </div>
-      <div class="menu-card" onclick="openPastExamMode()">
-        <div style="font-size: 2rem;">🏛️</div>
-        <div>
-          <h2 style="font-size: 1.2rem;">歷屆真題特訓</h2>
-          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">歷屆大考試題實戰 / 詳解與全句翻譯</p>
         </div>
       </div>
     </div>
@@ -725,38 +664,22 @@
     </div>
 
     <!-- 7. 答題頁面 -->
-    <!-- 7. 答題頁面（整合雙模式切換） -->
     <div id="pageQuiz" class="page">
       <div class="top-bar">
         <button class="back-btn" onclick="confirmExitQuiz()">‹</button>
         <div class="bar-title" id="quizProgressTitle">題目 1/10</div>
         <button id="quizStarBtn" class="star-btn" onclick="toggleCurrentQuizWordStar()">★</button>
       </div>
-    
-      <!-- 模式切換頁籤 -->
-      <div class="mode-tab-container">
-        <button id="tabModeWord" class="mode-tab-btn active" onclick="switchQuizTab('word')">🔤 單字測驗</button>
-        <button id="tabModeExam" class="mode-tab-btn" onclick="switchQuizTab('exam')">🏛️ 歷屆真題特訓</button>
-      </div>
-    
-      <!-- 題目卡片區 -->
+
       <div class="quiz-card">
-        <div id="quizSourceTag" style="font-size: 0.85rem; color: var(--accent-yellow); font-weight: bold; margin-bottom: 8px; display: none;"></div>
         <div class="quiz-word" id="quizWord">word</div>
         <div class="card-phonetic" id="quizPhoneticWrap" style="justify-content: center; margin-bottom: 0;">
           <span id="quizPhonetic">[ word ]</span>
           <button class="audio-icon" id="quizAudioBtn" onclick="speakText(currentQuizTarget.word)">🔊</button>
         </div>
       </div>
-    
-      <!-- 選項容器 -->
+
       <div class="quiz-options" id="quizOptionsContainer"></div>
-    
-      <!-- 歷屆考題專屬中文翻譯區（預設隱藏，答題完畢後加入 class "show" 顯示） -->
-      <div id="pastExamTransBox" class="exam-trans-box">
-        <div class="exam-trans-title">💡 題目全句翻譯與解析</div>
-        <div class="exam-trans-text" id="pastExamTransText">答題後此處將顯示題目翻譯與重點解析。</div>
-      </div>
     </div>
 
     <!-- 8. 錯題單字卡頁面 -->
@@ -1060,7 +983,7 @@
       <button id="gameModalBtn" class="custom-modal-btn" onclick="closeGameModal()">確定</button>
     </div>
   </div>
-  <script src="data/exam_questions.js"></script>
+
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
   <script src="data/level3.js"></script>
@@ -1924,17 +1847,6 @@
     const qItem = quizQueue[currentQuizIndex];
     currentQuizTarget = qItem.wordObj || qItem;
     currentQuizMode = qItem.mode || 'en2zh';
-    
-    //處理題目出處顯示
-    const sourceTag = document.getElementById('quizSourceTag');
-    if (sourceTag) {
-      if (currentQuizTarget.source) {
-        sourceTag.innerText = `🏛️ 出處：${currentQuizTarget.source}`;
-        sourceTag.style.display = 'block';
-      } else {
-        sourceTag.style.display = 'none';
-      }
-    }
 
     const allWords = getAllAvailableWords();
 
@@ -2902,88 +2814,6 @@ function saveUnitQuizRecord(level, unit, accuracy) {
     localStorage.setItem('unit_quiz_records', JSON.stringify(records));
   } catch(e) {}
 }
-// 1. 全域模式變數
-let currentQuizMode = 'word'; // 'word' 或 'exam'
-
-// 2. 主大廳入口事件
-function openPastExamMode() {
-  currentQuizMode = 'exam';
-  switchPage('pageQuiz'); // 切換到答題頁
-  updateQuizTabUI('exam');
-  startQuiz(); // 開始測驗
-}
-
-// 3. 頁籤切換事件
-function switchQuizTab(mode) {
-  if (currentQuizMode === mode) return;
-  currentQuizMode = mode;
-  updateQuizTabUI(mode);
-  startQuiz();
-}
-
-function updateQuizTabUI(mode) {
-  document.getElementById('tabModeWord').classList.toggle('active', mode === 'word');
-  document.getElementById('tabModeExam').classList.toggle('active', mode === 'exam');
-}
-
-// 4. 渲染題目邏輯
-function renderQuestion() {
-  // 隱藏翻譯解析區
-  document.getElementById('pastExamTransBox').classList.remove('show');
-  
-  const quizWord = document.getElementById('quizWord');
-  const phoneticWrap = document.getElementById('quizPhoneticWrap');
-
-  if (currentQuizMode === 'exam') {
-    // 取得歷屆真題資料
-    const currentQ = EXAM_QUESTIONS[currentQuizIndex];
-    
-    quizWord.textContent = currentQ.question;
-    quizWord.style.fontSize = '1.1rem'; // 題目句子較長，縮小字級
-    quizWord.style.textAlign = 'left';
-    phoneticWrap.style.display = 'none'; // 真題模式隱藏單字音標
-    
-    renderOptions(currentQ.options, currentQ.answer);
-  } else {
-    // 原本單字模式邏輯
-    quizWord.style.fontSize = '2rem';
-    quizWord.style.textAlign = 'center';
-    phoneticWrap.style.display = 'flex';
-    
-    // ...執行原本單字渲染程式碼...
-  }
-}
-
-// 5. 點擊選項與顯示解析
-function onSelectOption(selectedIndex, correctIndex) {
-  // 答題判定與計分 logic ...
-
-  // 若為真題模式，顯示全句翻譯與解析
-  if (currentQuizMode === 'exam') {
-    const currentQ = EXAM_QUESTIONS[currentQuizIndex];
-    const transTextEl = document.getElementById('pastExamTransText');
-    
-    transTextEl.innerHTML = `
-      <p><strong>翻譯：</strong>${currentQ.translation}</p>
-      <p style="margin-top: 6px; color: var(--text-secondary);">${currentQ.explanation}</p>
-    `;
-    
-    document.getElementById('pastExamTransBox').classList.add('show');
-  }
-}
-  // 在處理答題（handleQuizAnswer 或顯示解析）的位置加入：
-const transBox = document.getElementById('pastExamTransBox');
-const transText = document.getElementById('pastExamTransText');
-
-if (transText && currentQuizTarget) {
-  const sourceHTML = currentQuizTarget.source ? `<div style="color: var(--accent-yellow); font-weight: bold; margin-bottom: 6px;">📌 出處：${currentQuizTarget.source}</div>` : '';
-  const transHTML = currentQuizTarget.translation ? `<div><b>全句翻譯：</b>${currentQuizTarget.translation}</div>` : '';
-  const explHTML = currentQuizTarget.explanation ? `<div style="margin-top: 4px;"><b>重點解析：</b>${currentQuizTarget.explanation}</div>` : '';
-
-  transText.innerHTML = sourceHTML + transHTML + explHTML;
-  if (transBox) transBox.classList.add('show');
-}
-  
 </script>
 </body>
 </html>
