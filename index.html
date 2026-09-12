@@ -19,13 +19,19 @@
       --border-color: #2c2c2c;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-tap-highlight-color: transparent; -webkit-tap-highlight-color: transparent; /* 清除點擊時的透明藍/灰色高亮區塊 */
-    -webkit-touch-callout: none;             /* 禁用 iOS/Android 行動端長按跳出複製選單 */
-    -webkit-user-select: none;               /* Safari / Chrome 防選取 */
-    -khtml-user-select: none;                /* Konqueror 防選取 */
-    -moz-user-select: none;                  /* Firefox 防選取 */
-    -ms-user-select: none;                   /* IE/Edge 防選取 */
-    user-select: none;}
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+      -webkit-tap-highlight-color: transparent; 
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
     body { background-color: #000; color: var(--text-primary); display: flex; justify-content: center; min-height: 100vh; overflow-x: hidden; }
 
     .app-container { width: 100%; max-width: 480px; background-color: var(--bg-main); min-height: 100vh; display: flex; flex-direction: column; position: relative; }
@@ -277,7 +283,8 @@
     .modal-actions .btn { flex: 1; padding: 10px 0; border-radius: 8px; border: none; font-size: 15px; cursor: pointer; transition: background 0.2s; }
     .btn-secondary { background: #333333; color: #cccccc; }
     .btn-primary { background: #3d3d3d; color: #ffffff; font-weight: bold; }
-    /* ===== 第六區塊：副本冒險地下城樣式 ===== */
+
+    /* 副本冒險地下城樣式 */
     .boss-card {
       background: linear-gradient(135deg, #2a0808 0%, #1a1a1a 100%);
       border: 1px solid #7f1d1d;
@@ -320,7 +327,7 @@
     }
     .spelling-tile:active { transform: translateY(2px); box-shadow: 0 1px 0 #111; }
     .spelling-tile.used { opacity: 0.15; pointer-events: none; }
-    /* 自訂彈窗背景遮罩 */
+
     .custom-modal-overlay {
       position: fixed;
       top: 0;
@@ -335,7 +342,6 @@
       z-index: 9999;
     }
     
-    /* 彈窗主體 */
     .custom-modal-box {
       background: #181818;
       border: 1px solid #333;
@@ -376,6 +382,59 @@
     @keyframes popIn {
       from { transform: scale(0.8); opacity: 0; }
       to { transform: scale(1); opacity: 1; }
+    }
+
+    .mode-tab-container {
+      display: flex;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 14px;
+      gap: 4px;
+    }
+    .mode-tab-btn {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-weight: bold;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .mode-tab-btn.active {
+      background: var(--accent-yellow);
+      color: #000;
+    }
+    
+    .exam-trans-box {
+      background: var(--card-inner-bg);
+      border-left: 4px solid var(--accent-blue);
+      border-radius: 10px;
+      padding: 14px;
+      margin-top: 14px;
+      text-align: left;
+      display: none;
+    }
+    .exam-trans-box.show {
+      display: block;
+    }
+    .exam-trans-title {
+      font-size: 0.85rem;
+      color: var(--accent-blue);
+      font-weight: bold;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .exam-trans-text {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.5;
     }
   </style>
 </head>
@@ -448,9 +507,16 @@
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">BOSS 討伐戰 / 拼字地下城</p>
         </div>
       </div>
+
+      <div class="menu-card" onclick="openPastExamMode()">
+        <div style="font-size: 2rem;">🏛️</div>
+        <div>
+          <h2 style="font-size: 1.2rem;">歷屆真題特訓</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">歷屆大考試題實戰 / 詳解與全句翻譯</p>
+        </div>
+      </div>
     </div>
     
-
     <!-- 12. 植樹場頁面 -->
     <div id="pageTreeFarm" class="page has-bottom-nav">
       <div class="top-bar">
@@ -670,16 +736,24 @@
         <div class="bar-title" id="quizProgressTitle">題目 1/10</div>
         <button id="quizStarBtn" class="star-btn" onclick="toggleCurrentQuizWordStar()">★</button>
       </div>
-
+    
+     
+    
       <div class="quiz-card">
+        <div id="quizSourceTag" style="font-size: 0.85rem; color: var(--accent-yellow); font-weight: bold; margin-bottom: 8px; display: none;"></div>
         <div class="quiz-word" id="quizWord">word</div>
         <div class="card-phonetic" id="quizPhoneticWrap" style="justify-content: center; margin-bottom: 0;">
           <span id="quizPhonetic">[ word ]</span>
-          <button class="audio-icon" id="quizAudioBtn" onclick="speakText(currentQuizTarget.word)">🔊</button>
+          <button class="audio-icon" id="quizAudioBtn" onclick="speakText(currentQuizTarget ? currentQuizTarget.word : '')">🔊</button>
         </div>
       </div>
-
+    
       <div class="quiz-options" id="quizOptionsContainer"></div>
+    
+      <div id="pastExamTransBox" class="exam-trans-box">
+        <div class="exam-trans-title">💡 題目全句翻譯與解析</div>
+        <div class="exam-trans-text" id="pastExamTransText">答題後此處將顯示題目翻譯與重點解析。</div>
+      </div>
     </div>
 
     <!-- 8. 錯題單字卡頁面 -->
@@ -809,6 +883,7 @@
 
       <div class="word-list" id="famBrowserListContainer"></div>
     </div>
+
     <!-- 13. 副本冒險地下城大廳 -->
     <div id="pageBattleDungeonLobby" class="page">
       <div class="top-bar">
@@ -976,7 +1051,7 @@
       </div>
     </div>
   </div>
-  <!-- 自訂遊戲彈窗 -->
+
   <div id="gameModal" class="custom-modal-overlay" style="display: none;">
     <div class="custom-modal-box">
       <div id="gameModalText" class="custom-modal-text"></div>
@@ -984,6 +1059,7 @@
     </div>
   </div>
 
+  <script src="data/exam_questions.js"></script>
   <script src="data/level1.js"></script>
   <script src="data/level2.js"></script>
   <script src="data/level3.js"></script>
@@ -1252,6 +1328,21 @@
     return map[wordStr] || null;
   }
 
+  function getUnitQuizRecord(level, unit) {
+    try {
+      const records = JSON.parse(localStorage.getItem('unit_quiz_records')) || {};
+      return records[`${level}_${unit}`] || null;
+    } catch(e) { return null; }
+  }
+
+  function saveUnitQuizRecord(level, unit, accuracy) {
+    try {
+      const records = JSON.parse(localStorage.getItem('unit_quiz_records')) || {};
+      records[`${level}_${unit}`] = { completed: true, accuracy: accuracy };
+      localStorage.setItem('unit_quiz_records', JSON.stringify(records));
+    } catch(e) {}
+  }
+
   let currentLevel = 1;
   let currentUnit = 1;
   let currentWords = [];
@@ -1264,24 +1355,23 @@
   let quizQueue = [];
   let currentQuizIndex = 0;
   let currentQuizTarget = null;
-  let currentQuizMode = 'en2zh';
+  let currentQuestionType = 'en2zh';
   let quizCorrectCount = 0;
   let quizWrongCount = 0;
   let quizWrongList = []; 
   let wrongReviewIndex = 0;
   let feedbackTimer = null;
   let isWrongQuizMode = false;
+  let isUnitQuiz = false;
 
   let currentBrowserTab = 'wrong';
   let currentFamTab = 'know';
 
-  /* 頁面切換與底部導覽列邏輯 */
   function showPage(pageId) {
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
 
-    // 僅在大廳與植樹場顯示底部選單，其餘完全隱藏避免蓋住按鈕
     const bottomNav = document.getElementById('mainBottomNav');
     const mainBtn = document.getElementById('navMainBtn');
     const farmBtn = document.getElementById('navFarmBtn');
@@ -1366,7 +1456,7 @@
     const grid = document.getElementById('unitQuizLevelGrid');
     grid.innerHTML = '';
   
-    const totalUnits = 20; // 每個 Level 包含的單元總數
+    const totalUnits = 20;
   
     for (let i = 1; i <= 7; i++) {
       let completedCount = 0;
@@ -1418,7 +1508,6 @@
   
     container.innerHTML = '';
   
-    // 計算該 Level 的全域單元範圍
     const startUnit = (level - 1) * 20 + 1;
     const endUnit = level * 20;
   
@@ -1454,7 +1543,6 @@
     }
   }
 
-  // 開啟單元刷題模式選擇頁面時，動態設定點擊事件與題目數量標示
   function openUnitQuizModeSelect(level, unit) {
     unitQuizLevel = level;
     unitQuizUnit = unit;
@@ -1491,9 +1579,6 @@
     }
   }
 
-  let isUnitQuiz = false; // 全域新增標記
-  
-  // 啟動單元刷題（確保每一個單字都出題且不重複）
   function startUnitQuiz(mode) {
     isUnitQuiz = true;
     const originalWords = getUnitWords(unitQuizLevel, unitQuizUnit);
@@ -1528,6 +1613,7 @@
     showPage('pageQuiz');
     renderQuizQuestion();
   }
+
   function openUnitList(level) {
     currentLevel = level;
     showPage('pageUnitList');
@@ -1641,6 +1727,7 @@
       modalOnCloseCallback = null;
     }
   }
+
   function renderCard() {
     const item = currentWords[currentCardIndex];
     if (!item) return;
@@ -1718,7 +1805,6 @@
     setWordFamiliarity(item.word, newStatus);
     updateCardFamiliarityUI(newStatus);
 
-    // 標記我很熟獎勵水滴
     if (newStatus === 'know') {
       addFarmResource(1, 0);
     }
@@ -1813,7 +1899,7 @@
   }
 
   function startQuizByPin() {
-    isUnitQuiz = false; // 重置標記
+    isUnitQuiz = false;
     const count = parseInt(pinString, 10);
     if (isNaN(count) || count <= 0) {
       alert("請輸入有效的題數！");
@@ -1838,47 +1924,86 @@
     renderQuizQuestion();
   }
 
+  function switchQuizTab(tab) {
+    document.getElementById('tabModeWord').classList.toggle('active', tab === 'word');
+    document.getElementById('tabModeExam').classList.toggle('active', tab === 'exam');
+    const transBox = document.getElementById('pastExamTransBox');
+    if (transBox) transBox.classList.remove('show');
+
+    if (tab === 'exam') {
+      openPastExamMode();
+    } else {
+      renderQuizQuestion();
+    }
+  }
+
+  function openPastExamMode() {
+    if (typeof EXAM_QUESTIONS === 'undefined' || !EXAM_QUESTIONS || EXAM_QUESTIONS.length === 0) {
+      alert('歷屆試題資料載入中或未提供！');
+      return;
+    }
+    quizQueue = [...EXAM_QUESTIONS].sort(() => 0.5 - Math.random());
+    currentQuizIndex = 0;
+    quizCorrectCount = 0;
+    quizWrongCount = 0;
+    quizWrongList = [];
+    showPage('pageQuiz');
+    renderQuizQuestion();
+  }
+
   function renderQuizQuestion() {
     if (currentQuizIndex >= quizQueue.length) {
       showQuizResultModal();
       return;
     }
 
+    const transBox = document.getElementById('pastExamTransBox');
+    if (transBox) transBox.classList.remove('show');
+  
     const qItem = quizQueue[currentQuizIndex];
     currentQuizTarget = qItem.wordObj || qItem;
-    currentQuizMode = qItem.mode || 'en2zh';
-
+    currentQuestionType = qItem.mode || 'en2zh';
+    
+    const sourceTag = document.getElementById('quizSourceTag');
+    if (sourceTag) {
+      if (currentQuizTarget.source) {
+        sourceTag.innerText = `🏛️ 出處：${currentQuizTarget.source}`;
+        sourceTag.style.display = 'block';
+      } else {
+        sourceTag.style.display = 'none';
+      }
+    }
+  
     const allWords = getAllAvailableWords();
-
     document.getElementById('quizProgressTitle').innerText = `題目 ${currentQuizIndex + 1}/${quizQueue.length}`;
     
     const starBtn = document.getElementById('quizStarBtn');
     if (isWordStarred(currentQuizTarget)) starBtn.classList.add('active');
     else starBtn.classList.remove('active');
-
+  
     const container = document.getElementById('quizOptionsContainer');
     container.innerHTML = '';
-
+  
     const distractors = allWords
       .filter(w => w.word !== currentQuizTarget.word)
       .sort(() => 0.5 - Math.random())
       .slice(0, 3);
-
-    if (currentQuizMode === 'en2zh') {
-      document.getElementById('quizWord').innerText = currentQuizTarget.word || '';
+  
+    if (currentQuestionType === 'en2zh') {
+      document.getElementById('quizWord').innerText = currentQuizTarget.word || currentQuizTarget.question || '';
       document.getElementById('quizPhoneticWrap').style.display = 'flex';
       document.getElementById('quizPhonetic').innerText = currentQuizTarget.phonetic || currentQuizTarget.kk || '';
-
-      const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
-
+  
+      const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || currentQuizTarget.answerText || '');
+  
       let choices = distractors.map(d => ({
         isCorrect: false,
         text: (d.pos || '') + " " + (d.trans || d.translation || d.meaning || '')
       }));
-
+  
       choices.push({ isCorrect: true, text: targetTrans });
       choices.sort(() => 0.5 - Math.random());
-
+  
       choices.forEach(c => {
         const btn = document.createElement('button');
         btn.className = 'quiz-opt-btn';
@@ -1886,21 +2011,21 @@
         btn.onclick = () => handleQuizAnswer(c.isCorrect);
         container.appendChild(btn);
       });
-
-      speakText(currentQuizTarget.word);
+  
+      if (currentQuizTarget.word) speakText(currentQuizTarget.word);
     } else {
       const targetTrans = (currentQuizTarget.pos || '') + " " + (currentQuizTarget.trans || currentQuizTarget.translation || currentQuizTarget.meaning || '');
       document.getElementById('quizWord').innerText = targetTrans;
       document.getElementById('quizPhoneticWrap').style.display = 'none';
-
+  
       let choices = distractors.map(d => ({
         isCorrect: false,
         text: d.word || ''
       }));
-
+  
       choices.push({ isCorrect: true, text: currentQuizTarget.word || '' });
       choices.sort(() => 0.5 - Math.random());
-
+  
       choices.forEach(c => {
         const btn = document.createElement('button');
         btn.className = 'quiz-opt-btn';
@@ -1909,7 +2034,7 @@
         container.appendChild(btn);
       });
     }
-
+  
     const unknownBtn = document.createElement('button');
     unknownBtn.className = 'quiz-opt-btn quiz-opt-unknown';
     unknownBtn.innerText = '❓ 我不知道';
@@ -1920,14 +2045,23 @@
   function handleQuizAnswer(isCorrect) {
     if (isCorrect) {
       quizCorrectCount++;
-      addFarmResource(1, 0); // 答對題目獲得水滴
-      if (isWrongQuizMode) {
+      addFarmResource(1, 0);
+      if (isWrongQuizMode && currentQuizTarget.word) {
         removeWrongWordLS(currentQuizTarget.word);
       }
     } else {
       quizWrongCount++;
       quizWrongList.push(currentQuizTarget);
-      addWrongWordLS(currentQuizTarget);
+      if (currentQuizTarget.word) addWrongWordLS(currentQuizTarget);
+    }
+
+    if (currentQuizTarget.explanation || currentQuizTarget.translation) {
+      const transBox = document.getElementById('pastExamTransBox');
+      const transText = document.getElementById('pastExamTransText');
+      if (transBox && transText) {
+        transText.innerText = (currentQuizTarget.translation || '') + "\n" + (currentQuizTarget.explanation || '');
+        transBox.classList.add('show');
+      }
     }
 
     const modal = document.getElementById('instantFeedbackModal');
@@ -1980,6 +2114,10 @@
   }
 
   function openWordDetailModal(item) {
+    if (!item) {
+      closeWordDetailModal();
+      return;
+    }
     const pos = item.pos || item.partOfSpeech || '';
     const trans = item.trans || item.translation || item.meaning || item.ch || '';
     const phonetic = item.phonetic || item.kk || item.phoneticSymbol || '';
@@ -2123,7 +2261,7 @@
     `;
 
     updateWrongStarState();
-    speakText(item.word);
+    if (item.word) speakText(item.word);
   }
 
   function prevWrongCard() {
@@ -2181,7 +2319,7 @@
   }
 
   function startWrongBookQuiz(mode) {
-    isUnitQuiz = false; // 重置標記
+    isUnitQuiz = false;
     let sourceWords = [];
     if (mode === 'wrong') {
       sourceWords = getWrongWordsLS();
@@ -2367,12 +2505,6 @@
       container.appendChild(div);
     });
   }
-  // 全域禁止右鍵與行動端長按跳出選單
-  document.addEventListener('contextmenu', (e) => e.preventDefault());
-  window.onload = () => {
-    updateLobbyStats();
-    showPage('pageLobby');
-  };
 
   function customConfirm(message) {
     return new Promise((resolve) => {
@@ -2392,21 +2524,15 @@
         cancelBtn.removeEventListener('click', onCancel);
       };
   
-      const onOk = () => {
-        cleanup();
-        resolve(true);
-      };
-  
-      const onCancel = () => {
-        cleanup();
-        resolve(false);
-      };
+      const onOk = () => { cleanup(); resolve(true); };
+      const onCancel = () => { cleanup(); resolve(false); };
   
       okBtn.addEventListener('click', onOk);
       cancelBtn.addEventListener('click', onCancel);
     });
   }
-/* ==========================================
+
+  /* ==========================================
      第六區塊：副本冒險地下城邏輯 (Boss & Spelling)
      ========================================== */
 
@@ -2418,74 +2544,61 @@
   let bossHp = 1000;
   let maxBossHp = 1000;
   let playerHp = 100;
-  let maxPlayerHp = 100;
-  let bossTimeLeft = 60;
   let bossCombo = 0;
-  let bossTimerId = null;
-  let currentBossTarget = null;
+  let bossTimer = 60;
+  let bossInterval = null;
+  let bossCurrentTarget = null;
 
   function startBossBattle() {
     const allWords = getAllAvailableWords();
     if (allWords.length === 0) {
-      alert("尚無可用的單字資料！");
+      alert("暫無可用的單字庫！");
       return;
     }
-
     bossHp = 1000;
+    maxBossHp = 1000;
     playerHp = 100;
-    bossTimeLeft = 60;
     bossCombo = 0;
+    bossTimer = 60;
 
-    updateBossUI();
     showPage('pageBossBattle');
-    renderBossQuestion();
+    updateBossUI();
 
-    if (bossTimerId) clearInterval(bossTimerId);
-    bossTimerId = setInterval(() => {
-      bossTimeLeft--;
-      document.getElementById('bossTimerText').innerText = `⏱️ ${bossTimeLeft} 秒`;
-
-      if (bossTimeLeft <= 0) {
-        clearInterval(bossTimerId);
-        finishBossBattle(false, "⏰ 時間到！ BOSS 逃跑了...");
+    if (bossInterval) clearInterval(bossInterval);
+    bossInterval = setInterval(() => {
+      bossTimer--;
+      document.getElementById('bossTimerText').innerText = `⏱️ ${bossTimer} 秒`;
+      if (bossTimer <= 0 || playerHp <= 0 || bossHp <= 0) {
+        endBossBattle();
       }
     }, 1000);
+
+    renderBossQuestion();
   }
 
   function updateBossUI() {
-    const bossPercent = Math.max(0, Math.round((bossHp / maxBossHp) * 100));
+    const hpPercent = Math.max(0, Math.round((bossHp / maxBossHp) * 100));
     document.getElementById('bossHpText').innerText = `${bossHp} / ${maxBossHp}`;
-    document.getElementById('bossHpBar').style.width = `${bossPercent}%`;
-
-    document.getElementById('playerHpText').innerText = `❤️ 玩家 HP: ${playerHp}/${maxPlayerHp}`;
+    document.getElementById('bossHpBar').style.width = `${hpPercent}%`;
+    document.getElementById('playerHpText').innerText = `❤️ 玩家 HP: ${playerHp}/100`;
     document.getElementById('bossComboBadge').innerText = `🔥 Combo x${bossCombo}`;
   }
 
   function renderBossQuestion() {
-    if (bossHp <= 0 || playerHp <= 0) return;
-
     const allWords = getAllAvailableWords();
-    currentBossTarget = allWords[Math.floor(Math.random() * allWords.length)];
+    bossCurrentTarget = allWords[Math.floor(Math.random() * allWords.length)];
 
-    document.getElementById('bossQuizWord').innerText = currentBossTarget.word || '';
+    document.getElementById('bossQuizWord').innerText = bossCurrentTarget.word;
+
+    const distractors = allWords.filter(w => w.word !== bossCurrentTarget.word).sort(() => 0.5 - Math.random()).slice(0, 3);
+    const targetTrans = (bossCurrentTarget.pos || '') + " " + (bossCurrentTarget.trans || bossCurrentTarget.meaning || bossCurrentTarget.translation || '');
+
+    let choices = distractors.map(d => ({ isCorrect: false, text: (d.pos || '') + " " + (d.trans || d.meaning || d.translation || '') }));
+    choices.push({ isCorrect: true, text: targetTrans });
+    choices.sort(() => 0.5 - Math.random());
 
     const container = document.getElementById('bossQuizOptions');
     container.innerHTML = '';
-
-    const distractors = allWords
-      .filter(w => w.word !== currentBossTarget.word)
-      .sort(() => 0.5 - Math.random())
-      .slice(0, 3);
-
-    const targetTrans = (currentBossTarget.pos || '') + " " + (currentBossTarget.trans || currentBossTarget.translation || currentBossTarget.meaning || '');
-
-    let choices = distractors.map(d => ({
-      isCorrect: false,
-      text: (d.pos || '') + " " + (d.trans || d.translation || d.meaning || '')
-    }));
-
-    choices.push({ isCorrect: true, text: targetTrans });
-    choices.sort(() => 0.5 - Math.random());
 
     choices.forEach(c => {
       const btn = document.createElement('button');
@@ -2495,46 +2608,42 @@
       container.appendChild(btn);
     });
 
-    speakText(currentBossTarget.word);
+    speakText(bossCurrentTarget.word);
   }
 
   function handleBossAnswer(isCorrect) {
     if (isCorrect) {
       bossCombo++;
-      const baseDmg = 120;
-      const dmg = Math.floor(baseDmg * (1 + (bossCombo - 1) * 0.25));
+      const dmg = 80 + bossCombo * 20;
       bossHp = Math.max(0, bossHp - dmg);
-
-      if (bossHp <= 0) {
-        clearInterval(bossTimerId);
-        addFarmResource(15, 1);
-        finishBossBattle(true, "🎉 討伐成功！勇者獲得 15 滴水與肥料獎勵！");
-        return;
-      }
+      addFarmResource(2, 0);
     } else {
       bossCombo = 0;
-      playerHp = Math.max(0, playerHp - 25);
-      addWrongWordLS(currentBossTarget);
-
-      if (playerHp <= 0) {
-        clearInterval(bossTimerId);
-        finishBossBattle(false, "💀 你已被 BOSS 擊敗！回去多加修練吧！");
-        return;
-      }
+      playerHp = Math.max(0, playerHp - 20);
     }
 
     updateBossUI();
-    renderBossQuestion();
+
+    if (bossHp <= 0 || playerHp <= 0) {
+      endBossBattle();
+    } else {
+      renderBossQuestion();
+    }
   }
 
-  function finishBossBattle(isWin, message) {
-    alert(message);
-    showPage('pageBattleDungeonLobby');
+  function endBossBattle() {
+    if (bossInterval) clearInterval(bossInterval);
+    if (bossHp <= 0) {
+      addFarmResource(10, 2);
+      showCustomModal("🎉 討伐成功！你擊敗了詞彙巨龍！獲得額外獎勵 10 滴水滴 + 2 罐肥料！", () => showPage('pageBattleDungeonLobby'));
+    } else {
+      showCustomModal("☠️ 討伐失敗！挑戰時間結束或玩家體力耗盡。", () => showPage('pageBattleDungeonLobby'));
+    }
   }
 
   async function confirmExitBoss() {
-    if (await customConfirm("確定要放棄討伐 BOSS 並返回嗎？")) {
-      if (bossTimerId) clearInterval(bossTimerId);
+    if (await customConfirm("確定要離開 BOSS 討伐戰嗎？")) {
+      if (bossInterval) clearInterval(bossInterval);
       showPage('pageBattleDungeonLobby');
     }
   }
@@ -2542,21 +2651,20 @@
   /* --- 2. 字母拼字地下城 --- */
   let spellingQueue = [];
   let spellingIndex = 0;
-  let currentSpellingWord = null;
-  let currentSelectedLetters = [];
-  let currentPoolLetters = [];
-  let spellingRewardCount = 0;
+  let spellingRewardWater = 0;
+  let currentSpellingWordObj = null;
+  let selectedTiles = [];
 
   function startSpellingDungeon() {
-    const allWords = getAllAvailableWords().filter(w => w.word && /^[a-zA-Z]+$/.test(w.word.trim()));
+    const allWords = getAllAvailableWords().filter(w => w.word && w.word.length >= 3 && /^[a-zA-Z]+$/.test(w.word));
     if (allWords.length === 0) {
-      alert("尚無適合拼寫的純英文單字！");
+      alert("尚無足夠單字可進行拼字挑戰！");
       return;
     }
 
-    spellingQueue = [...allWords].sort(() => 0.5 - Math.random()).slice(0, 10);
+    spellingQueue = allWords.sort(() => 0.5 - Math.random()).slice(0, 10);
     spellingIndex = 0;
-    spellingRewardCount = 0;
+    spellingRewardWater = 0;
 
     showPage('pageSpellingDungeon');
     renderSpellingQuestion();
@@ -2564,256 +2672,94 @@
 
   function renderSpellingQuestion() {
     if (spellingIndex >= spellingQueue.length) {
-      showCustomModal(`🎉 恭喜通關拼字地下城！累計獲得 ${spellingRewardCount} 滴水滴！`);
-      showPage('pageBattleDungeonLobby');
+      showCustomModal(`🎉 拼字地下城通關！累計獲得 +${spellingRewardWater} 滴水滴！`, () => showPage('pageBattleDungeonLobby'));
       return;
     }
 
-    currentSpellingWord = spellingQueue[spellingIndex];
-    const targetStr = currentSpellingWord.word.trim().toLowerCase();
+    currentSpellingWordObj = spellingQueue[spellingIndex];
+    selectedTiles = [];
 
     document.getElementById('spellingProgressText').innerText = `關卡 ${spellingIndex + 1}/${spellingQueue.length}`;
-    document.getElementById('spellingScoreText').innerText = `💧 累計獎勵: +${spellingRewardCount}`;
+    document.getElementById('spellingScoreText').innerText = `💧 累計獎勵: +${spellingRewardWater}`;
+    document.getElementById('spellingMeaning').innerText = `${currentSpellingWordObj.pos || ''} ${currentSpellingWordObj.trans || currentSpellingWordObj.meaning || ''}`;
 
-    const pos = currentSpellingWord.pos || currentSpellingWord.partOfSpeech || '';
-    const trans = currentSpellingWord.trans || currentSpellingWord.translation || currentSpellingWord.meaning || '';
-    document.getElementById('spellingMeaning').innerText = `${pos} ${trans}`.trim();
+    const wordUpper = currentSpellingWordObj.word.toUpperCase();
+    const letters = wordUpper.split('').sort(() => 0.5 - Math.random());
 
-    currentSelectedLetters = [];
-    currentPoolLetters = targetStr.split('').map((char, id) => ({ id, char, used: false })).sort(() => 0.5 - Math.random());
-
-    updateSpellingBoard();
-    speakText(targetStr);
-  }
-
-  function updateSpellingBoard() {
     const slotsContainer = document.getElementById('spellingSlots');
     slotsContainer.innerHTML = '';
-
-    const targetLen = currentSpellingWord.word.trim().length;
-    for (let i = 0; i < targetLen; i++) {
+    for (let i = 0; i < wordUpper.length; i++) {
       const slot = document.createElement('div');
       slot.className = 'spelling-slot';
-      if (i < currentSelectedLetters.length) {
-        slot.innerText = currentSelectedLetters[i].char.toUpperCase();
-        slot.onclick = () => deselectSpellingLetter(i);
-      }
+      slot.innerText = '';
       slotsContainer.appendChild(slot);
     }
 
     const poolContainer = document.getElementById('spellingPool');
     poolContainer.innerHTML = '';
-
-    currentPoolLetters.forEach(item => {
+    letters.forEach((char, idx) => {
       const tile = document.createElement('div');
-      tile.className = `spelling-tile ${item.used ? 'used' : ''}`;
-      tile.innerText = item.char.toUpperCase();
-      tile.onclick = () => selectSpellingLetter(item.id);
+      tile.className = 'spelling-tile';
+      tile.innerText = char;
+      tile.dataset.index = idx;
+      tile.onclick = () => handleTileClick(tile, char);
       poolContainer.appendChild(tile);
     });
+
+    speakCurrentSpellingWord();
   }
 
-  function selectSpellingLetter(id) {
-    const item = currentPoolLetters.find(p => p.id === id);
-    if (!item || item.used) return;
+  function handleTileClick(tileEl, char) {
+    if (tileEl.classList.contains('used')) return;
 
-    item.used = true;
-    currentSelectedLetters.push(item);
-    updateSpellingBoard();
-  }
+    tileEl.classList.add('used');
+    selectedTiles.push({ tileEl, char });
 
-  function deselectSpellingLetter(index) {
-    if (index < 0 || index >= currentSelectedLetters.length) return;
-
-    const removed = currentSelectedLetters.splice(index, 1)[0];
-    const poolItem = currentPoolLetters.find(p => p.id === removed.id);
-    if (poolItem) poolItem.used = false;
-
-    updateSpellingBoard();
+    const slots = document.querySelectorAll('.spelling-slot');
+    if (slots[selectedTiles.length - 1]) {
+      slots[selectedTiles.length - 1].innerText = char;
+    }
   }
 
   function clearSpellingSlots() {
-    currentSelectedLetters = [];
-    currentPoolLetters.forEach(p => p.used = false);
-    updateSpellingBoard();
+    selectedTiles.forEach(item => item.tileEl.classList.remove('used'));
+    selectedTiles = [];
+    document.querySelectorAll('.spelling-slot').forEach(s => s.innerText = '');
   }
 
-  async function submitSpellingAnswer() {
-    const targetStr = currentSpellingWord.word.trim().toLowerCase();
-    const userStr = currentSelectedLetters.map(l => l.char).join('');
-  
-    if (userStr === targetStr) {
-      spellingRewardCount++;
-      addFarmResource(1, 0);
-      await showCustomModal("🎯 拼寫正確！ (+1 水滴)");
+  function submitSpellingAnswer() {
+    const userAns = selectedTiles.map(t => t.char).join('');
+    const targetAns = currentSpellingWordObj.word.toUpperCase();
+
+    if (userAns === targetAns) {
+      spellingRewardWater += 2;
+      addFarmResource(2, 0);
       spellingIndex++;
       renderSpellingQuestion();
     } else {
-      await showCustomModal("❌ 拼寫錯誤，請再試一次！");
+      alert("拼寫錯誤，請重新嘗試！");
       clearSpellingSlots();
     }
   }
 
   function speakCurrentSpellingWord() {
-    if (currentSpellingWord && currentSpellingWord.word) {
-      speakText(currentSpellingWord.word);
+    if (currentSpellingWordObj && currentSpellingWordObj.word) {
+      speakText(currentSpellingWordObj.word);
     }
   }
 
   async function confirmExitSpelling() {
-    if (await customConfirm("確定要離開拼字地下城嗎？")) {
+    if (await customConfirm("確定要離開字母拼字地下城嗎？")) {
       showPage('pageBattleDungeonLobby');
     }
   }
-  // 1. 使用者點擊字母時的處理函式
-function selectLetter(letter) {
-  // 假設 currentAnswer 是儲存玩家已點選字母的陣列
-  if (currentAnswer.length < targetWord.length) {
-    currentAnswer.push(letter);
-    updateUI(); // 更新畫面的格子
 
-    // ⚠️ 關鍵：當填滿最後一個字母時，自動觸發檢查
-    if (currentAnswer.length === targetWord.length) {
-      checkAnswer();
-    }
-  }
-}
-
-// 2. 驗證答案函式
-function checkAnswer() {
-  // ⚠️ 關鍵：加上 .join('') 轉字串，並用 .toLowerCase() 統一轉小寫比對
-  const userString = currentAnswer.join('').toLowerCase();
-  const targetString = targetWord.trim().toLowerCase();
-
-  if (userString === targetString) {
-    // 拼對了！觸發獎勵與下一關
-    handleCorrectAnswer();
-  } else {
-    // 拼錯了！震動或提示
-    handleWrongAnswer();
-  }
-}
-// 陣列隨機洗牌工具（Fisher-Yates 演算法）
-function shuffleArray(array) {
-  const arr = [...array];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-}
-
-// 單一題目生成器（含干擾選項）
-function createUnitQuestion(targetWord, unitWords, type) {
-  // 優先使用同單元其他單字作為干擾選項，若不足則調用全域 ALL_WORDS
-  let pool = unitWords.filter(w => w.en !== targetWord.en);
-  if (pool.length < 3 && typeof ALL_WORDS !== 'undefined') {
-    const extra = ALL_WORDS.filter(w => w.en !== targetWord.en && !pool.some(p => p.en === w.en));
-    pool = pool.concat(extra);
-  }
-
-  const distractors = shuffleArray(pool).slice(0, 3);
-  const options = shuffleArray([targetWord, ...distractors]);
-
-  return {
-    word: targetWord,
-    type: type, // 'zh-to-en' 或 'en-to-zh'
-    promptText: type === 'zh-to-en' ? targetWord.zh : targetWord.en,
-    correctAnswer: type === 'zh-to-en' ? targetWord.en : targetWord.zh,
-    options: options.map(opt => (type === 'zh-to-en' ? opt.en : opt.zh))
+  // 全域禁止右鍵與行動端長按跳出選單
+  document.addEventListener('contextmenu', (e) => e.preventDefault());
+  window.onload = () => {
+    updateLobbyStats();
+    showPage('pageLobby');
   };
-}
-// 取得 Unit 刷題紀錄
-function getUnitQuizRecord(level, unit) {
-  const data = localStorage.getItem(`quiz_record_${level}_${unit}`);
-  return data ? JSON.parse(data) : null;
-}
-
-// 儲存 Unit 刷題紀錄（在測驗結束時呼叫）
-function saveUnitQuizRecord(level, unit, correct, total) {
-  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
-  const record = {
-    completed: true,
-    accuracy: accuracy,
-    time: Date.now()
-  };
-  localStorage.setItem(`quiz_record_${level}_${unit}`, JSON.stringify(record));
-}
-function renderUnitQuizLevelList() {
-  const container = document.getElementById('unitQuizLevelGrid');
-  if (!container) return;
-
-  const levels = [
-    { level: 1, title: 'Level 1 - 初級基礎單字', range: '1 - 1000 字', totalUnits: 10 },
-    { level: 2, title: 'Level 2 - 初中級基礎單字', range: '1001 - 2000 字', totalUnits: 10 },
-    { level: 3, title: 'Level 3 - 學測中級核心單字', range: '2001 - 3000 字', totalUnits: 10 },
-    { level: 4, title: 'Level 4 - 學測中級高頻單字', range: '3001 - 4000 字', totalUnits: 10 },
-    { level: 5, title: 'Level 5 - 學測中高級核心單字', range: '4001 - 5000 字', totalUnits: 10 },
-    { level: 6, title: 'Level 6 - 學測中高級高頻單字', range: '5001 - 6000 字', totalUnits: 10 },
-    { level: 7, title: 'Level 7 - 學測高級核心單字', range: '6001 - 7000 字', totalUnits: 10 },
-  ];
-
-  container.innerHTML = '';
-
-  levels.forEach(item => {
-    // 計算已完成的 Unit 數量
-    let completedCount = 0;
-    for (let u = 1; u <= item.totalUnits; u++) {
-      const rec = getUnitQuizRecord(item.level, u);
-      if (rec && rec.completed) completedCount++;
-    }
-    const percent = Math.round((completedCount / item.totalUnits) * 100);
-
-    const card = document.createElement('div');
-    card.className = 'menu-card';
-    card.style.cssText = 'padding: 16px; display: flex; flex-direction: column; justify-content: space-between; cursor: pointer;';
-    card.onclick = () => openUnitQuizUnitList(item.level);
-
-    card.innerHTML = `
-      <div>
-        <h2 style="font-size: 1.1rem; color: #ff9500; font-weight: bold; line-height: 1.3;">${item.title}</h2>
-        <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 4px;">${item.range}</div>
-      </div>
-      
-      <!-- 刷題進度條區塊 -->
-      <div style="margin-top: 14px;">
-        <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 6px;">
-          <span>刷題進度</span>
-          <span>${completedCount} / ${item.totalUnits} 單元 (${percent}%)</span>
-        </div>
-        <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.12); border-radius: 3px; overflow: hidden;">
-          <div style="width: ${percent}%; height: 100%; background: #ff9500; border-radius: 3px; transition: width 0.3s ease;"></div>
-        </div>
-      </div>
-    `;
-    container.appendChild(card);
-  });
-}
-  /* 單元刷題紀錄儲存與讀取 */
-function getUnitQuizRecords() {
-  try { return JSON.parse(localStorage.getItem('unit_quiz_records')) || {}; }
-  catch(e) { return {}; }
-}
-
-function getUnitQuizRecord(level, unit) {
-  try {
-    const records = JSON.parse(localStorage.getItem('unit_quiz_records')) || {};
-    return records[`${level}_${unit}`] || null;
-  } catch(e) {
-    return null;
-  }
-}
-
-function saveUnitQuizRecord(level, unit, accuracy) {
-  try {
-    const records = JSON.parse(localStorage.getItem('unit_quiz_records')) || {};
-    records[`${level}_${unit}`] = { 
-      completed: true, 
-      accuracy: isNaN(accuracy) ? 0 : accuracy 
-    };
-    localStorage.setItem('unit_quiz_records', JSON.stringify(records));
-  } catch(e) {}
-}
 </script>
 </body>
 </html>
