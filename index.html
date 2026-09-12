@@ -1924,6 +1924,17 @@
     const qItem = quizQueue[currentQuizIndex];
     currentQuizTarget = qItem.wordObj || qItem;
     currentQuizMode = qItem.mode || 'en2zh';
+    
+    //處理題目出處顯示
+    const sourceTag = document.getElementById('quizSourceTag');
+    if (sourceTag) {
+      if (currentQuizTarget.source) {
+        sourceTag.innerText = `🏛️ 出處：${currentQuizTarget.source}`;
+        sourceTag.style.display = 'block';
+      } else {
+        sourceTag.style.display = 'none';
+      }
+    }
 
     const allWords = getAllAvailableWords();
 
