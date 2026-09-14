@@ -2687,6 +2687,9 @@
     } else {
       bossCombo = 0;
       playerHp = Math.max(0, playerHp - 20);
+      if (currentBossWord && currentBossWord.word) {
+        addWrongWordLS(currentBossWord);
+      }
     }
 
     
@@ -2698,9 +2701,7 @@
       renderBossQuestion();
     }
     
-    if (currentBossWord && currentBossWord.word) {
-      addWrongWordLS(currentBossWord);
-    }
+    
   }
 
   function endBossBattle() {
