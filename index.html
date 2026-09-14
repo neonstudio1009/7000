@@ -2276,8 +2276,17 @@
           cursor: pointer;
         `;
         
-        row.onclick = () => openWordDetailModal(item);
-
+        row.onclick = () => {
+          // 開啟單字卡
+          openWordDetailModal(item);
+          
+          // 動態將單字卡彈窗置頂
+          const detailModal = document.getElementById('wordDetailModal');
+          if (detailModal) {
+            detailModal.style.zIndex = '2000';
+          }
+        };
+        
         const statusTag = isWrong 
           ? `<span style="color: var(--accent-red); font-weight: bold; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); padding: 2px 8px; border-radius: 6px;">❌ 答錯</span>`
           : `<span style="color: var(--accent-green); font-weight: bold; font-size: 0.8rem; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 6px;">✅ 答對</span>`;
