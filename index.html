@@ -1041,16 +1041,25 @@
   <div class="modal-overlay" id="quizResultModal">
     <div class="modal-card" style="text-align: center;">
       <h2 style="font-size: 1.5rem; color: var(--accent-yellow); margin-bottom: 8px;">🎉 測驗完成！</h2>
-      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">以下是本次測驗答題統計</p>
+      <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 16px;">以下是本次測驗答題統計與單字統整</p>
 
       <div style="display: flex; justify-content: center; margin-bottom: 16px;">
         <canvas id="pieChartCanvas" width="160" height="160"></canvas>
       </div>
 
-      <div style="font-size: 1.1rem; color: #fff; font-weight: bold; margin-bottom: 12px;" id="resultAccuracyText"></div>
-      <div style="font-size: 0.9rem; color: var(--text-secondary);" id="resultDetailText"></div>
+      <div style="font-size: 1.1rem; color: #fff; font-weight: bold; margin-bottom: 4px;" id="resultAccuracyText"></div>
+      <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 12px;" id="resultDetailText"></div>
 
-      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 16px;">
+      <!-- 本次刷題單字統整表單 -->
+      <div style="text-align: left; font-size: 0.9rem; font-weight: bold; color: var(--accent-yellow); margin-top: 10px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center;">
+        <span>📋 本回單字統整表</span>
+        <span style="font-size: 0.75rem; color: var(--text-secondary); font-weight: normal;">(點擊單字可查看詳情)</span>
+      </div>
+      <div id="quizSummaryList" style="max-height: 200px; overflow-y: auto; border: 1px solid var(--border-color); border-radius: 12px; padding: 4px 8px; background: var(--card-inner-bg); margin-bottom: 14px;">
+        <!-- 系統自動繪製單字統整列表 -->
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
         <button class="modal-btn secondary-btn" id="reviewWrongBtn" onclick="startWrongWordsReview()">查看錯題卡片</button>
         <button class="modal-btn" onclick="finishQuizAndReturn()">退出並返回主選單</button>
       </div>
