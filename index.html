@@ -2251,8 +2251,50 @@
       reviewBtn.style.opacity = '1';
     }
 
-    drawPieChartCanvas('pieChartCanvas', quizCorrectCount, quizWrongCount);
+    // 動態生成「本回單字統整表單」
+    const summaryContainer = document.getElementById('quizSummaryList');
+    if (summaryContainer) {
+      summaryContainer.innerHTML = '';
+      
+      quizQueue.forEach((qItem, idx) => {
+        const item = qItem.wordObj || qItem;
+        const targetWord = item.word || item.question || `題目 ${idx + 1}`;
+        
+        // 判定該字是否答錯
+        const isWrong = quizWrongList.some(w => (w.word || w.question) === targetWord);
+        
+        const pos = item.pos || item.partOfSpeech || '';
+        const trans = item.trans || item.translation || item.meaning || item.ch || item.answerText || '';
+        
+        const row = document.createElement('div');
+        row.style.cssText = `
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 8px 6px;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+          cursor: pointer;
+        `;
+        
+        row.onclick = () => openWordDetailModal(item);
 
+        const statusTag = isWrong 
+          ? `<span style="color: var(--accent-red); font-weight: bold; font-size: 0.8rem; background: rgba(239, 68, 68, 0.15); padding: 2px 8px; border-radius: 6px;">❌ 答錯</span>`
+          : `<span style="color: var(--accent-green); font-weight: bold; font-size: 0.8rem; background: rgba(16, 185, 129, 0.15); padding: 2px 8px; border-radius: 6px;">✅ 答對</span>`;
+
+        row.innerHTML = `
+          <div style="text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 70%;">
+            <span style="font-weight: bold; color: var(--accent-yellow); font-size: 0.95rem;">${targetWord}</span>
+            <span style="color: var(--text-secondary); font-size: 0.8rem; margin-left: 6px;">${pos} ${trans}</span>
+          </div>
+          <div>${statusTag}</div>
+        `;
+        
+        summaryContainer.appendChild(row);
+      });
+    }
+
+    drawPieChartCanvas('pieChartCanvas', quizCorrectCount, quizWrongCount);
     document.getElementById('quizResultModal').classList.add('active');
   }
 
