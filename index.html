@@ -2689,6 +2689,9 @@
       playerHp = Math.max(0, playerHp - 20);
     }
 
+    if (currentBossWord && currentBossWord.word) {
+      addWrongWordLS(currentBossWord);
+    }
     updateBossUI();
 
     if (bossHp <= 0 || playerHp <= 0) {
