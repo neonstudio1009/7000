@@ -1161,6 +1161,50 @@
     updateFarmUI();
     return true;
   }
+  /* 自動連續澆水控制 */
+  let waterTimer = null;
+  let waterInterval = null;
+  
+  function stopAutoWater() {
+    if (waterTimer) clearTimeout(waterTimer);
+    if (waterInterval) clearInterval(waterInterval);
+    waterTimer = null;
+    waterInterval = null;
+  }
+  
+  function startAutoWater(e) {
+    if (e && e.cancelable) e.preventDefault(); // 防止手機長按選取文字或跳出選單
+  
+    stopAutoWater(); // 確保舊計時器已清除
+  
+    // 按下的瞬間先澆水一次
+    const success = waterTree();
+    if (!success) return;
+  
+    // 按住超過 300ms 後開始連續自動澆水（每 150ms 扣 1 滴）
+    waterTimer = setTimeout(() => {
+      waterInterval = setInterval(() => {
+        const ok = waterTree();
+        if (!ok) stopAutoWater(); // 若水滴用完則自動停止
+      }, 150);
+    }, 300);
+  }
+  
+  // 綁定澆水按鈕的滑鼠與觸控事件
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btnWaterTree');
+    if (!btn) return;
+  
+    // 電腦滑鼠事件
+    btn.addEventListener('mousedown', startAutoWater);
+    btn.addEventListener('mouseup', stopAutoWater);
+    btn.addEventListener('mouseleave', stopAutoWater);
+  
+    // 手機觸控事件
+    btn.addEventListener('touchstart', startAutoWater, { passive: false });
+    btn.addEventListener('touchend', stopAutoWater);
+    btn.addEventListener('touchcancel', stopAutoWater);
+  });
 
   function fertilizeTree() {
     let data = getFarmData();
