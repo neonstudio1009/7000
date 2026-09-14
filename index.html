@@ -1151,13 +1151,15 @@
     let data = getFarmData();
     if (data.water <= 0) {
       alert("水滴不足！去多背單字或刷題答對題目即可獲取水滴喔！");
-      return;
+      stopAutoWater(); // 水滴不足時停止長按連發
+      return false;
     }
     data.water -= 1;
     data.exp += 10;
     checkTreeLevelUp(data);
     saveFarmData(data);
     updateFarmUI();
+    return true;
   }
 
   function fertilizeTree() {
