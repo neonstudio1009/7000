@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
+  <!-- 3D 賽博量子植樹場所需之 Three.js 引擎與軌道控制庫 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>速讀單字系統</title>
@@ -143,42 +146,37 @@
     .progress-label { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--text-secondary); margin-bottom: 2px; }
 
     /* 植樹場樣式 */
+    /* 3D 賽博量子植樹場樣式 */
     .farm-tree-stage {
       width: 100%;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 20px;
-      padding: 24px;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      background: rgba(17, 24, 39, 0.85);
+      border: 1px solid rgba(0, 240, 255, 0.3);
+      border-radius: 16px;
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.15);
     }
-    .tree-icon-large {
-      font-size: 5.5rem;
-      margin: 16px 0;
-      transition: transform 0.3s ease;
-    }
-    .farm-actions {
-      display: flex;
-      gap: 12px;
-      width: 100%;
-    }
+    .farm-actions { display: flex; gap: 12px; width: 100%; margin-top: 12px; }
     .farm-btn {
-      flex: 1;
-      padding: 14px;
-      border-radius: 14px;
-      border: none;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
+      flex: 1; padding: 12px; border-radius: 10px; border: none;
+      font-size: 0.9rem; font-weight: bold; cursor: pointer;
+      display: flex; flex-direction: column; align-items: center; gap: 2px;
+      text-transform: uppercase; transition: all 0.2s ease;
     }
-    .farm-btn-water { background: #1e3a8a; color: #93c5fd; border: 1px solid #2563eb; }
-    .farm-btn-fertilizer { background: #365314; color: #bef264; border: 1px solid #65a30d; }
+    .farm-btn-water { 
+      background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); 
+      color: #e0f2fe; border: 1px solid #38bdf8; 
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.3); 
+    }
+    .farm-btn-fertilizer { 
+      background: linear-gradient(135deg, #7e22ce 0%, #6b21a8 100%); 
+      color: #fae8ff; border: 1px solid #c084fc; 
+      box-shadow: 0 0 10px rgba(192, 132, 252, 0.3); 
+    }
+    .grid-progress-container { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; width: 100%; }
+    .progress-bar-wrap { width: 100%; height: 8px; background-color: rgba(255, 255, 255, 0.1); border-radius: 4px; overflow: hidden; }
+    .progress-bar-fill.cyan { background: linear-gradient(90deg, #00f0ff, #7000ff); box-shadow: 0 0 8px #00f0ff; }
+    .progress-label { display: flex; justify-content: space-between; font-size: 0.75rem; color: #9ca3af; }
 
     .word-list { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
     .word-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 10px; padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; }
@@ -533,54 +531,60 @@
     </div>
     
     <!-- 12. 植樹場頁面 -->
+    <!-- 12. 3D 賽博量子植樹場頁面 -->
     <div id="pageTreeFarm" class="page has-bottom-nav">
       <div class="top-bar">
         <div style="width: 24px;"></div>
-        <div class="bar-title">🌲 綠色學習植樹場</div>
+        <div class="bar-title">⚡ CYBER BIO-MATRIX (3D)</div>
         <div style="width: 24px;"></div>
       </div>
-
-      <div class="grid-container" style="margin-bottom: 12px;">
+    
+      <div class="grid-container" style="margin-bottom: 8px;">
         <div class="stat-card">
-          <div class="title" id="farmWaterCount">💧 0</div>
-          <div class="subtitle">水滴 (學習/刷題獲得)</div>
+          <div class="title" id="farmWaterCount" style="color: #00f0ff;">💧 0</div>
+          <div class="subtitle">數據水滴 (Data Drops)</div>
         </div>
         <div class="stat-card">
-          <div class="title" id="farmFertilizerCount">🧪 0</div>
-          <div class="subtitle">肥料 (每日登入/副本獲得)</div>
+          <div class="title" id="farmFertilizerCount" style="color: #ff007f;">🧪 0</div>
+          <div class="subtitle">量子催化劑 (Catalyst)</div>
         </div>
       </div>
-
-      <div class="farm-tree-stage">
-        <div style="font-size: 0.85rem; color: var(--text-secondary);" id="treeStageName">階段 1/5：種子發芽</div>
-        <div class="tree-icon-large" id="treeEmoji">🌱</div>
-        <div style="font-size: 1.2rem; font-weight: bold; color: var(--accent-yellow); margin-bottom: 12px;" id="treeTitle">知識幼苗</div>
-
-        <div class="grid-progress-container" style="width: 100%;">
+    
+      <!-- 3D WebGL 繪圖視窗容器 -->
+      <div id="treeFarm3DContainer" style="width: 100%; height: 340px; position: relative; border-radius: 16px; overflow: hidden; background: #030712; border: 1px solid rgba(0, 240, 255, 0.3); box-shadow: inset 0 0 20px rgba(0, 240, 255, 0.15); touch-action: none;">
+        <div id="canvas3DHolder" style="width: 100%; height: 100%;"></div>
+        
+        <button id="btnResetCamera" onclick="reset3DCamera()" style="position: absolute; top: 10px; right: 10px; background: rgba(17, 24, 39, 0.85); color: #00f0ff; border: 1px solid #00f0ff; padding: 6px 12px; border-radius: 20px; font-size: 0.75rem; font-weight: bold; cursor: pointer; z-index: 10; display: none; text-shadow: 0 0 5px #00f0ff;">全景重置</button>
+        <div id="cameraHint" style="position: absolute; top: 10px; left: 10px; background: rgba(3, 7, 18, 0.7); color: #00f0ff; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; pointer-events: none; z-index: 10; border: 1px solid rgba(0, 240, 255, 0.2);">▲ 旋轉 | 雙指縮放 | 點擊矩陣塊放大</div>
+      </div>
+    
+      <!-- 當前選取地塊控制器 -->
+      <div class="farm-tree-stage" style="margin-top: 10px;">
+        <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+          <div style="font-size: 1rem; font-weight: bold; color: #00f0ff;" id="selectedPlotTitle">POD #1 [ACTIVE]</div>
+          <div style="font-size: 0.8rem; color: #ff007f; font-weight: bold;" id="treeStageName">階段 1/5：量子發芽</div>
+        </div>
+    
+        <div class="grid-progress-container">
           <div class="progress-label">
-            <span>成長經驗值</span>
-            <span id="treeExpText">0 / 50</span>
+            <span>能量充能進度</span>
+            <span id="treeExpText" style="color: #00f0ff;">0 / 50</span>
           </div>
-          <div class="progress-bar-wrap" style="height: 10px;">
-            <div class="progress-bar-fill green" id="treeExpBar" style="width: 0%;"></div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-fill cyan" id="treeExpBar" style="width: 0%;"></div>
           </div>
         </div>
-      </div>
-
-      <div class="farm-actions" style="margin-top: 14px;">
-        <button id="btnWaterTree" class="farm-btn farm-btn-water">
-          <div>💧 澆水</div>
-          <span style="font-size: 0.75rem; opacity: 0.8;">消耗 1 水滴 (+10 EXP)</span>
-        </button>
-        <button class="farm-btn farm-btn-fertilizer" onclick="fertilizeTree()">
-          <div>🧪 施肥</div>
-          <span style="font-size: 0.75rem; opacity: 0.8;">消耗 1 肥料 (+30 EXP)</span>
-        </button>
-      </div>
-
-      <div class="stat-card" style="margin-top: 14px; width: 100%;">
-        <div class="title" id="farmHarvestCount" style="color: var(--accent-green);">🌳 0 棵</div>
-        <div class="subtitle">累計培育完成的森林樹木</div>
+    
+        <div class="farm-actions">
+          <button id="btnWaterTree" class="farm-btn farm-btn-water">
+            <div>💧 數據注入 (連發)</div>
+            <span style="font-size: 0.7rem; opacity: 0.8;">-1 水滴 (+10 EXP)</span>
+          </button>
+          <button class="farm-btn farm-btn-fertilizer" onclick="fertilizeSelectedTree()">
+            <div>🧪 量子催化</div>
+            <span style="font-size: 0.7rem; opacity: 0.8;">-1 催化劑 (+30 EXP)</span>
+          </button>
+        </div>
       </div>
     </div>
 
@@ -1104,146 +1108,415 @@
   };
 
   /* 植樹場系統 LocalStorage 資料操作 */
+  /* 3D 賽博量子植樹場核心邏輯 */
+  const TREE_STAGES = [
+    { name: "PHASE 1: QUANTUM CORE", title: "量子發芽", maxExp: 50 },
+    { name: "PHASE 2: HOLO-SPROUT", title: "全息嫩芽", maxExp: 120 },
+    { name: "PHASE 3: CYBER TREE", title: "結晶鋼樹", maxExp: 220 },
+    { name: "PHASE 4: BIO-MATRIX", title: "量子矩陣樹", maxExp: 350 },
+    { name: "PHASE 5: DATA HARVEST", title: "豐收數據樹", maxExp: 500 }
+  ];
+  
   function getFarmData() {
-    try {
-      return JSON.parse(localStorage.getItem('farm_data')) || { water: 10, fertilizer: 2, exp: 0, level: 1, harvested: 0 };
-    } catch(e) {
-      return { water: 10, fertilizer: 2, exp: 0, level: 1, harvested: 0 };
+    let data;
+    try { data = JSON.parse(localStorage.getItem('farm_data')); } catch(e) {}
+    if (!data || typeof data !== 'object') {
+      data = { water: 25, fertilizer: 5, harvested: 0, plots: [] };
     }
+    if (!data.plots || !Array.isArray(data.plots) || data.plots.length < 25) {
+      data.plots = [];
+      for (let i = 0; i < 25; i++) data.plots.push({ exp: 0, level: 1 });
+    }
+    return data;
   }
-
-  function saveFarmData(data) {
-    localStorage.setItem('farm_data', JSON.stringify(data));
-  }
-
+  
+  function saveFarmData(data) { localStorage.setItem('farm_data', JSON.stringify(data)); }
+  
   function addFarmResource(waterCount, fertilizerCount) {
     let data = getFarmData();
     data.water = (data.water || 0) + waterCount;
     data.fertilizer = (data.fertilizer || 0) + fertilizerCount;
     saveFarmData(data);
   }
-
-  const TREE_STAGES = [
-    { name: "階段 1/5：種子發芽", title: "知識幼苗", emoji: "🌱", maxExp: 50 },
-    { name: "階段 2/5：持續灌溉", title: "茁壯嫩芽", emoji: "🌿", maxExp: 120 },
-    { name: "階段 3/5：穩固根基", title: "小樹苗", emoji: "🪴", maxExp: 220 },
-    { name: "階段 4/5：茂盛生長", title: "參天大樹", emoji: "🌳", maxExp: 350 },
-    { name: "階段 5/5：結實果樹", title: "豐收果樹", emoji: "🍎", maxExp: 500 }
-  ];
-
+  
+  /* 3D WebGL 全息引擎變數 */
+  let selectedPlotIndex = 0;
+  let scene, camera, renderer, controls;
+  let plotMeshes = [];
+  let treeGroupMeshes = [];
+  let particleList = [];
+  let rotatingRings = [];
+  let targetCameraPos = null, targetLookAt = null;
+  
+  function init3DFarmEngine() {
+    const container = document.getElementById('canvas3DHolder');
+    if (!container || renderer) return;
+  
+    scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x030712);
+    scene.fog = new THREE.FogExp2(0x030712, 0.04);
+  
+    camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
+    camera.position.set(0, 8, 9);
+  
+    renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    container.appendChild(renderer.domElement);
+  
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.maxPolarAngle = Math.PI / 2 - 0.05;
+  
+    const ambientLight = new THREE.AmbientLight(0x00f0ff, 0.4);
+    scene.add(ambientLight);
+  
+    const mainDirLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    mainDirLight.position.set(5, 12, 8);
+    scene.add(mainDirLight);
+  
+    const cyanLight = new THREE.PointLight(0x00f0ff, 2, 12);
+    cyanLight.position.set(-5, 4, -5);
+    scene.add(cyanLight);
+  
+    const magentaLight = new THREE.PointLight(0xff007f, 2, 12);
+    magentaLight.position.set(5, 4, 5);
+    scene.add(magentaLight);
+  
+    createSciFiGrid();
+    setupRaycaster(container);
+    animate3D();
+  }
+  
+  function createSciFiGrid() {
+    const spacing = 1.3;
+    const offset = (5 - 1) * spacing / 2.0;
+    const farmData = getFarmData();
+  
+    for (let r = 0; r < 5; r++) {
+      for (let c = 0; c < 5; c++) {
+        const index = r * 5 + c;
+        const x = c * spacing - offset;
+        const z = r * spacing - offset;
+  
+        const podGroup = new THREE.Group();
+        podGroup.position.set(x, 0, z);
+  
+        const baseGeo = new THREE.CylinderGeometry(0.58, 0.65, 0.2, 6);
+        const baseMat = new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.85, roughness: 0.2 });
+        const baseMesh = new THREE.Mesh(baseGeo, baseMat);
+        baseMesh.position.y = -0.1;
+        podGroup.add(baseMesh);
+  
+        const edgesGeo = new THREE.EdgesGeometry(baseGeo);
+        const edgesMat = new THREE.LineBasicMaterial({ color: 0x00f0ff, linewidth: 2 });
+        const wireframe = new THREE.LineSegments(edgesGeo, edgesMat);
+        baseMesh.add(wireframe);
+  
+        baseMesh.userData = { plotIndex: index, wireframe: wireframe };
+        scene.add(podGroup);
+        plotMeshes[index] = baseMesh;
+  
+        const plotInfo = farmData.plots[index] || { level: 1 };
+        const treeGroup = createHighTechTreeMesh(plotInfo.level);
+        treeGroup.position.set(x, 0.02, z);
+        scene.add(treeGroup);
+        treeGroupMeshes[index] = treeGroup;
+      }
+    }
+  }
+  
+  function createHighTechTreeMesh(level) {
+    const group = new THREE.Group();
+    if (level === 1) {
+      const core = new THREE.Mesh(new THREE.OctahedronGeometry(0.12), new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00a8ff, emissiveIntensity: 0.8 }));
+      core.position.y = 0.25;
+      group.add(core);
+      const ring = new THREE.Mesh(new THREE.TorusGeometry(0.2, 0.015, 8, 24), new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true }));
+      ring.rotation.x = Math.PI / 2; ring.position.y = 0.25;
+      group.add(ring); rotatingRings.push(ring);
+    } else if (level === 2) {
+      const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.03, 0.35, 8), new THREE.MeshStandardMaterial({ color: 0x111827, metalness: 0.9 }));
+      stem.position.y = 0.175; group.add(stem);
+      const leaf = new THREE.Mesh(new THREE.TetrahedronGeometry(0.16), new THREE.MeshStandardMaterial({ color: 0x10b981, emissive: 0x059669, emissiveIntensity: 0.6, transparent: true, opacity: 0.85 }));
+      leaf.position.set(0.08, 0.32, 0); leaf.scale.set(0.6, 1.2, 0.4); group.add(leaf);
+    } else if (level === 3) {
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.07, 0.65, 6), new THREE.MeshStandardMaterial({ color: 0x1f2937, metalness: 0.8 }));
+      trunk.position.y = 0.325; group.add(trunk);
+      const crown = new THREE.Mesh(new THREE.DodecahedronGeometry(0.32), new THREE.MeshStandardMaterial({ color: 0xc084fc, emissive: 0x7e22ce, emissiveIntensity: 0.5 }));
+      crown.position.y = 0.72; group.add(crown);
+    } else if (level === 4) {
+      const trunk = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.12, 0.9, 8), new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9 }));
+      trunk.position.y = 0.45; group.add(trunk);
+      const f1 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.48, 0), new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x0284c7, emissiveIntensity: 0.6 }));
+      const f2 = new THREE.Mesh(new THREE.IcosahedronGeometry(0.55, 1), new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true }));
+      f1.position.set(0, 1.05, 0); f2.position.set(0, 1.05, 0);
+      group.add(f1); group.add(f2); rotatingRings.push(f2);
+    } else {
+      // 1. 幾何金屬主幹 + 霓虹邊線
+      const trunkGeo = new THREE.CylinderGeometry(0.08, 0.16, 1.1, 6);
+      const trunkMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.95, roughness: 0.1 });
+      const trunk = new THREE.Mesh(trunkGeo, trunkMat);
+      trunk.position.y = 0.55;
+      
+      const trunkWire = new THREE.LineSegments(
+        new THREE.EdgesGeometry(trunkGeo),
+        new THREE.LineBasicMaterial({ color: 0x00f0ff, transparent: true, opacity: 0.6 })
+      );
+      trunk.add(trunkWire);
+      group.add(trunk);
+  
+      // 2. 雙層量子樹冠 (內層金色晶核 + 外層賽博青藍全息外殼)
+      const innerCoreMat = new THREE.MeshStandardMaterial({
+        color: 0xffd700, emissive: 0xd97706, emissiveIntensity: 0.9, metalness: 0.4, roughness: 0.2
+      });
+      const innerCore = new THREE.Mesh(new THREE.DodecahedronGeometry(0.48), innerCoreMat);
+      innerCore.position.y = 1.35;
+      group.add(innerCore);
+  
+      const outerHoloMat = new THREE.MeshBasicMaterial({ color: 0x00f0ff, wireframe: true, transparent: true, opacity: 0.75 });
+      const outerHolo = new THREE.Mesh(new THREE.IcosahedronGeometry(0.68, 1), outerHoloMat);
+      outerHolo.position.y = 1.35;
+      group.add(outerHolo);
+      rotatingRings.push(outerHolo); // 加入自動旋轉列表
+  
+      // 3. 雙軌旋轉全息環 (霓虹紫軌道)
+      const ringGeo = new THREE.TorusGeometry(0.8, 0.012, 8, 32);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0xff007f, wireframe: true });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      ring.rotation.x = Math.PI / 3;
+      ring.position.y = 1.35;
+      group.add(ring);
+      rotatingRings.push(ring); // 加入自動旋轉列表
+  
+      // 4. 懸浮量子數據節點 (發光青藍核)
+      const nodeMat = new THREE.MeshStandardMaterial({ color: 0x00f0ff, emissive: 0x00a8ff, emissiveIntensity: 1.0 });
+      const nodeGeo = new THREE.OctahedronGeometry(0.08);
+      const nodePositions = [
+        [0.45, 1.35, 0.3], [-0.45, 1.25, 0.35], [0.15, 1.7, 0.45],
+        [-0.3, 1.55, -0.45], [0.4, 1.15, -0.4], [0, 0.95, 0.5]
+      ];
+      nodePositions.forEach(pos => {
+        const node = new THREE.Mesh(nodeGeo, nodeMat);
+        node.position.set(...pos);
+        group.add(node);
+      });
+    }
+    return group;
+  }
+  
+  function setupRaycaster(container) {
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    let pointerDownPos = { x: 0, y: 0 };
+  
+    container.addEventListener('pointerdown', (e) => { pointerDownPos = { x: e.clientX, y: e.clientY }; });
+    container.addEventListener('pointerup', (e) => {
+      if (Math.hypot(e.clientX - pointerDownPos.x, e.clientY - pointerDownPos.y) > 6) return;
+      const rect = container.getBoundingClientRect();
+      mouse.x = ((e.clientX - rect.left) / container.clientWidth) * 2 - 1;
+      mouse.y = -((e.clientY - rect.top) / container.clientHeight) * 2 + 1;
+      raycaster.setFromCamera(mouse, camera);
+      const intersects = raycaster.intersectObjects(plotMeshes);
+      if (intersects.length > 0) selectPlot(intersects[0].object.userData.plotIndex, true);
+    });
+  }
+  
+  function selectPlot(index, zoomIn = true) {
+    selectedPlotIndex = index;
+    updatePlotHighlight();
+    updateFarmUI();
+    const targetMesh = plotMeshes[index];
+    if (!targetMesh) return;
+    const targetPos = targetMesh.parent.position;
+    if (zoomIn) {
+      targetLookAt = new THREE.Vector3(targetPos.x, 0.5, targetPos.z);
+      targetCameraPos = new THREE.Vector3(targetPos.x, targetPos.y + 2.4, targetPos.z + 2.8);
+      document.getElementById('btnResetCamera').style.display = 'block';
+    }
+  }
+  
+  function reset3DCamera() {
+    targetLookAt = new THREE.Vector3(0, 0, 0);
+    targetCameraPos = new THREE.Vector3(0, 8, 9);
+    document.getElementById('btnResetCamera').style.display = 'none';
+  }
+  
+  function updatePlotHighlight() {
+    plotMeshes.forEach((mesh, idx) => {
+      mesh.userData.wireframe.material.color.setHex((idx === selectedPlotIndex) ? 0xff007f : 0x00f0ff);
+    });
+  }
+  
+  function refreshPlotTreeMesh(index) {
+    const farmData = getFarmData();
+    const plotInfo = farmData.plots[index];
+    if (!plotInfo) return;
+    if (treeGroupMeshes[index]) scene.remove(treeGroupMeshes[index]);
+    const spacing = 1.3, offset = (5 - 1) * spacing / 2.0;
+    const x = (index % 5) * spacing - offset;
+    const z = Math.floor(index / 5) * spacing - offset;
+    const newTree = createHighTechTreeMesh(plotInfo.level);
+    newTree.position.set(x, 0.02, z);
+    scene.add(newTree);
+    treeGroupMeshes[index] = newTree;
+  }
+  
+  function spawn3DParticles(type, index) {
+    const spacing = 1.3, offset = (5 - 1) * spacing / 2.0;
+    const originX = (index % 5) * spacing - offset;
+    const originZ = Math.floor(index / 5) * spacing - offset;
+    const pMat = new THREE.MeshBasicMaterial({ color: (type === 'water') ? 0x00f0ff : 0xff007f, wireframe: true });
+    const pGeo = new THREE.BoxGeometry(0.04, 0.04, 0.04);
+    for (let i = 0; i < 20; i++) {
+      const p = new THREE.Mesh(pGeo, pMat);
+      p.position.set(originX + (Math.random() - 0.5) * 0.5, 0.1 + Math.random() * 0.2, originZ + (Math.random() - 0.5) * 0.5);
+      p.userData = { vy: 0.03 + Math.random() * 0.03, life: 35 };
+      scene.add(p); particleList.push(p);
+    }
+  }
+  
+  function animate3D() {
+    requestAnimationFrame(animate3D);
+    if (targetCameraPos && targetLookAt) {
+      camera.position.lerp(targetCameraPos, 0.08);
+      controls.target.lerp(targetLookAt, 0.08);
+      if (camera.position.distanceTo(targetCameraPos) < 0.02) { targetCameraPos = null; targetLookAt = null; }
+    }
+    rotatingRings.forEach(r => { r.rotation.z += 0.02; });
+    for (let i = particleList.length - 1; i >= 0; i--) {
+      const p = particleList[i];
+      p.position.y += p.userData.vy;
+      p.userData.life -= 1;
+      if (p.userData.life <= 0) { scene.remove(p); particleList.splice(i, 1); }
+    }
+    controls.update();
+    renderer.render(scene, camera);
+  }
+  
   function updateFarmUI() {
     const data = getFarmData();
-    const currentStage = TREE_STAGES[Math.min(data.level - 1, TREE_STAGES.length - 1)];
-
+    const plotInfo = data.plots[selectedPlotIndex] || { exp: 0, level: 1 };
+    const currentStage = TREE_STAGES[Math.min(plotInfo.level - 1, TREE_STAGES.length - 1)];
+  
     const waterEl = document.getElementById('farmWaterCount');
     const fertEl = document.getElementById('farmFertilizerCount');
+    const plotTitleEl = document.getElementById('selectedPlotTitle');
     const stageNameEl = document.getElementById('treeStageName');
-    const emojiEl = document.getElementById('treeEmoji');
-    const titleEl = document.getElementById('treeTitle');
     const expTextEl = document.getElementById('treeExpText');
     const expBarEl = document.getElementById('treeExpBar');
-    const harvestEl = document.getElementById('farmHarvestCount');
-
+  
     if (waterEl) waterEl.innerText = `💧 ${data.water}`;
     if (fertEl) fertEl.innerText = `🧪 ${data.fertilizer}`;
+    if (plotTitleEl) plotTitleEl.innerText = `POD #${selectedPlotIndex + 1} [ACTIVE]`;
     if (stageNameEl) stageNameEl.innerText = currentStage.name;
-    if (emojiEl) emojiEl.innerText = currentStage.emoji;
-    if (titleEl) titleEl.innerText = currentStage.title;
-
-    const percent = Math.min(100, Math.round((data.exp / currentStage.maxExp) * 100));
-    if (expTextEl) expTextEl.innerText = `${data.exp} / ${currentStage.maxExp}`;
+  
+    const percent = Math.min(100, Math.round((plotInfo.exp / currentStage.maxExp) * 100));
+    if (expTextEl) expTextEl.innerText = `${plotInfo.exp} / ${currentStage.maxExp}`;
     if (expBarEl) expBarEl.style.width = `${percent}%`;
-    if (harvestEl) harvestEl.innerText = `🌳 ${data.harvested} 棵`;
   }
-
-  function waterTree() {
+  
+  function waterSelectedTree() {
     let data = getFarmData();
-    if (data.water <= 0) {
-      alert("水滴不足！去多背單字或刷題答對題目即可獲取水滴喔！");
-      stopAutoWater(); // 水滴不足時停止長按連發
+    let plot = data.plots[selectedPlotIndex]; // 1. 先宣告 plot
+    const maxStage = TREE_STAGES.length; // 2. 先計算 maxStage 與 maxExp
+    const maxExp = TREE_STAGES[maxStage - 1].maxExp;
+  
+    // 3. 再進行條件判斷
+    if (plot.level >= maxStage && plot.exp >= maxExp) {
+      stopAutoWater();
+      alert("該地塊已培育至最高階段，無法再繼續澆水！");
       return false;
     }
+    if (data.water <= 0) { 
+      stopAutoWater(); 
+      alert("數據水滴不足！去背單字或刷題即可獲取水滴。"); 
+      return false; 
+    }
+  
     data.water -= 1;
-    data.exp += 10;
-    checkTreeLevelUp(data);
+    plot.exp += 10;
+    spawn3DParticles('water', selectedPlotIndex);
+    checkPlotLevelUp(data, plot);
     saveFarmData(data);
     updateFarmUI();
     return true;
   }
-  /* 自動連續澆水控制 */
-  let waterTimer = null;
-  let waterInterval = null;
   
+  let waterTimer = null, waterInterval = null;
   function stopAutoWater() {
     if (waterTimer) clearTimeout(waterTimer);
     if (waterInterval) clearInterval(waterInterval);
-    waterTimer = null;
+    waterTimer = null; 
     waterInterval = null;
   }
   
   function startAutoWater(e) {
-    if (e && e.cancelable) e.preventDefault(); // 防止手機長按選取文字或跳出選單
-  
-    stopAutoWater(); // 確保舊計時器已清除
-  
-    // 按下的瞬間先澆水一次
-    const success = waterTree();
-    if (!success) return;
-  
-    // 按住超過 300ms 後開始連續自動澆水（每 150ms 扣 1 滴）
+    if (e && e.cancelable) e.preventDefault();
+    stopAutoWater();
+    if (!waterSelectedTree()) return;
     waterTimer = setTimeout(() => {
       waterInterval = setInterval(() => {
-        const ok = waterTree();
-        if (!ok) stopAutoWater(); // 若水滴用完則自動停止
+        if (!waterSelectedTree()) stopAutoWater();
       }, 150);
     }, 300);
   }
   
-  // 綁定澆水按鈕的滑鼠與觸控事件
-  document.addEventListener('DOMContentLoaded', () => {
-    const btn = document.getElementById('btnWaterTree');
-    if (!btn) return;
-  
-    // 電腦滑鼠事件
-    btn.addEventListener('mousedown', startAutoWater);
-    btn.addEventListener('mouseup', stopAutoWater);
-    btn.addEventListener('mouseleave', stopAutoWater);
-  
-    // 手機觸控事件
-    btn.addEventListener('touchstart', startAutoWater, { passive: false });
-    btn.addEventListener('touchend', stopAutoWater);
-    btn.addEventListener('touchcancel', stopAutoWater);
-  });
-
-  function fertilizeTree() {
+  function fertilizeSelectedTree() {
     let data = getFarmData();
-    if (data.fertilizer <= 0) {
-      alert("肥料不足！每日連續登入即可領取更多肥料！");
+    let plot = data.plots[selectedPlotIndex]; // 1. 先宣告 plot
+    const maxStage = TREE_STAGES.length; // 2. 先計算 maxStage 與 maxExp
+    const maxExp = TREE_STAGES[maxStage - 1].maxExp;
+  
+    if (plot.level >= maxStage && plot.exp >= maxExp) {
+      alert("該地塊已培育至最高階段，無法再繼續催化！");
       return;
     }
+    if (data.fertilizer <= 0) { 
+      alert("量子催化劑不足！每日登入即可獲得！"); 
+      return; 
+    }
+  
     data.fertilizer -= 1;
-    data.exp += 30;
-    checkTreeLevelUp(data);
+    plot.exp += 30;
+    spawn3DParticles('fertilizer', selectedPlotIndex);
+    checkPlotLevelUp(data, plot);
     saveFarmData(data);
     updateFarmUI();
   }
-
-  function checkTreeLevelUp(data) {
-    const currentStage = TREE_STAGES[Math.min(data.level - 1, TREE_STAGES.length - 1)];
-    if (data.exp >= currentStage.maxExp) {
-      if (data.level < TREE_STAGES.length) {
-        data.level += 1;
-        data.exp = 0;
-        alert(`🎉 恭喜！你的小樹升級成「${TREE_STAGES[data.level - 1].title}」了！`);
+  
+  function checkPlotLevelUp(data, plot) {
+    const maxStage = TREE_STAGES.length;
+    const currentStage = TREE_STAGES[Math.min(plot.level - 1, maxStage - 1)];
+  
+    if (plot.exp >= currentStage.maxExp) {
+      if (plot.level < maxStage) {
+        plot.level += 1;
+        plot.exp = 0;
+        refreshPlotTreeMesh(selectedPlotIndex);
       } else {
-        data.harvested += 1;
-        data.level = 1;
-        data.exp = 0;
-        data.water += 5;
-        alert("🎉 太棒了！樹木培育完成了！已收入你的森林庫，並獲得額外獎勵 5 滴水！");
+        plot.level = maxStage;
+        plot.exp = currentStage.maxExp;
+        stopAutoWater();
+        refreshPlotTreeMesh(selectedPlotIndex);
+        alert(`⚡ 量子數據庫同步完成！地塊 #${selectedPlotIndex + 1} 已達最終狀態！`);
       }
     }
   }
+  
+  document.addEventListener('DOMContentLoaded', () => {
+    const btn = document.getElementById('btnWaterTree');
+    if (btn) {
+      btn.addEventListener('mousedown', startAutoWater);
+      btn.addEventListener('mouseup', stopAutoWater);
+      btn.addEventListener('mouseleave', stopAutoWater);
+      btn.addEventListener('touchstart', startAutoWater, { passive: false });
+      btn.addEventListener('touchend', stopAutoWater);
+      btn.addEventListener('touchcancel', stopAutoWater);
+    }
+  });
 
   /* LocalStorage 連續登入與進度維護功能 */
   function checkAndUpdateLoginStreak() {
@@ -1442,16 +1715,16 @@
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
     const target = document.getElementById(pageId);
     if (target) target.classList.add('active');
-
+  
     // 當非「返回觸發」且當前狀態不同時，寫入瀏覽歷史
     if (!isBack && history.state?.pageId !== pageId) {
       history.pushState({ pageId: pageId }, '', '#' + pageId);
     }
-
+  
     const bottomNav = document.getElementById('mainBottomNav');
     const mainBtn = document.getElementById('navMainBtn');
     const farmBtn = document.getElementById('navFarmBtn');
-
+  
     if (bottomNav) {
       if (pageId === 'pageLobby' || pageId === 'pageTreeFarm') {
         bottomNav.style.display = 'flex';
@@ -1468,9 +1741,17 @@
         bottomNav.style.display = 'none';
       }
     }
-
+  
     if (pageId === 'pageLobby') updateLobbyStats();
-    if (pageId === 'pageTreeFarm') updateFarmUI();
+  
+    // 進入 3D 植樹場時，更新 UI 並啟動 Three.js 賽博引擎
+    if (pageId === 'pageTreeFarm') {
+      updateFarmUI();
+      setTimeout(() => {
+        init3DFarmEngine();
+        selectPlot(selectedPlotIndex, false);
+      }, 50);
+    }
   }
 
   function switchMainTab(tab) {
