@@ -926,6 +926,15 @@
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">亂序字母拼盤，挑戰單字拼寫能力</p>
         </div>
       </div>
+
+      <!-- 第三個副本：無盡刷題地下城 -->
+      <div class="menu-card" onclick="startEndlessDungeon()">
+        <div style="font-size: 2rem;">♾️</div>
+        <div>
+          <h2 style="font-size: 1.1rem;">無盡刷題地下城</h2>
+          <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">無限刷題無壓力！題型隨機混搭，隨時撤離結算獎勵</p>
+        </div>
+      </div>
     </div>
 
     <!-- 14. BOSS 討伐戰頁面 -->
@@ -994,13 +1003,93 @@
       </div>
     </div>
 
+    <!-- 16. 無盡刷題地下城頁面 -->
+    <div id="pageEndlessDungeon" class="page">
+      <div style="width: 100%; max-width: 500px; margin: 0 auto; box-sizing: border-box; display: flex; flex-direction: column; min-height: 85vh; padding: 12px 16px;">
+        
+        <!-- 頂部列 -->
+        <div class="top-bar">
+          <button class="back-btn" onclick="confirmEvacuateEndlessDungeon()">‹</button>
+          <div class="bar-title">♾️ 無盡刷題地下城</div>
+          <div style="width: 24px;"></div>
+        </div>
+    
+        <!-- 即時統計狀態列 -->
+        <div class="status-row" style="margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: var(--accent-yellow, #f59e0b);" id="endlessCountText">已答: 0 題</span>
+          <span style="color: var(--accent-green, #10b981);" id="endlessAccText">正確率: 100%</span>
+          <span style="color: #00f0ff;" id="endlessRewardText">💧 +0 水滴</span>
+        </div>
+    
+        <!-- 答題卡片區塊 -->
+        <div class="quiz-card" style="margin-top: 4px; width: 100%; box-sizing: border-box;">
+          <div class="quiz-word" id="endlessQuizWord" style="word-break: break-word;">word</div>
+          <div class="card-phonetic" id="endlessPhoneticWrap" style="display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 0;">
+            <span id="endlessPhonetic">[ word ]</span>
+            <button class="audio-icon" id="endlessAudioBtn" onclick="speakEndlessWord()">🔊</button>
+          </div>
+        </div>
+    
+        <!-- 4個選項容器 -->
+        <div class="quiz-options" id="endlessQuizOptions" style="margin-top: 16px; display: flex; flex-direction: column; gap: 10px; width: 100%; box-sizing: border-box;"></div>
+    
+        <!-- 最底部的撤離按鈕 -->
+        <div style="margin-top: auto; padding-top: 20px; padding-bottom: 12px; width: 100%;">
+          <button class="modal-btn secondary-btn" style="border-color: #ef4444; color: #ef4444; font-size: 1rem; font-weight: bold; width: 100%; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;" onclick="confirmEvacuateEndlessDungeon()">
+            <span>🚪 撤離地下城 (結束結算)</span>
+          </button>
+        </div>
+        
+      </div>
+    </div>
+    
+    <!-- 16-A. 無盡刷題 - 撤離二次確認彈窗 -->
+    <div id="endlessConfirmModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); z-index: 99999; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.2s;">
+      <div class="modal-card" style="background: #18181b; border: 1px solid #3f3f46; border-radius: 16px; padding: 24px; width: 88%; max-width: 360px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+        <div style="font-size: 2.5rem; margin-bottom: 8px;">🚪</div>
+        <h3 style="font-size: 1.2rem; font-weight: bold; color: #fff; margin-bottom: 8px;">確定撤離地下城？</h3>
+        <p style="font-size: 0.85rem; color: #a1a1aa; margin-bottom: 20px; line-height: 1.4;">現在撤離將進行成績結算，並領取本次獲得的數據水滴。</p>
+        <div style="display: flex; gap: 12px;">
+          <button onclick="closeEndlessConfirmModal()" style="flex: 1; padding: 12px; border-radius: 12px; border: 1px solid #3f3f46; background: #27272a; color: #e4e4e7; font-weight: bold; cursor: pointer;">繼續刷題</button>
+          <button onclick="executeEndlessSettlement()" style="flex: 1; padding: 12px; border-radius: 12px; border: none; background: #ef4444; color: #fff; font-weight: bold; cursor: pointer;">確定結算</button>
+        </div>
+      </div>
+    </div>
+    
+    <!-- 16-B. 無盡刷題 - 結算單字清單彈窗 -->
+    <div id="endlessResultModal" class="modal-overlay" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 100000; justify-content: center; align-items: center; padding: 16px; box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.2s;">
+      <div class="modal-card" style="background: #121214; border: 1px solid #27272a; border-radius: 20px; padding: 20px; width: 100%; max-width: 420px; max-height: 90vh; display: flex; flex-direction: column; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.8); box-sizing: border-box;">
+        
+        <div style="font-size: 1.3rem; font-weight: bold; color: #fff; margin-bottom: 4px;">🎉 測驗完成！</div>
+        <div style="font-size: 0.85rem; color: #9ca3af; margin-bottom: 16px;">以下是本次測驗答題統計與單字統整</div>
+    
+        <div style="background: #18181b; border-radius: 16px; padding: 16px; margin-bottom: 16px; border: 1px solid #27272a;">
+          <div id="endlessResultAccBadge" style="width: 72px; height: 72px; border-radius: 50%; background: #10b981; margin: 0 auto 12px auto; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: #fff; font-weight: bold;">100%</div>
+          <div id="endlessResultAccText" style="font-size: 1.1rem; font-weight: bold; color: #fff; margin-bottom: 4px;">正確率：100%</div>
+          <div id="endlessResultStatsText" style="font-size: 0.82rem; color: #a1a1aa; line-height: 1.4;">總題數：0 題 | 答對：0 題 | 答錯：0 題</div>
+          <div id="endlessResultWaterText" style="font-size: 0.85rem; color: #00f0ff; font-weight: bold; margin-top: 6px;">💧 獲得數據水滴：+0</div>
+        </div>
+    
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; padding: 0 4px;">
+          <span style="font-weight: bold; color: #f59e0b; font-size: 0.95rem; display: flex; align-items: center; gap: 4px;">📄 本回單字統整表</span>
+          <span style="font-size: 0.75rem; color: #6b7280;">(點擊單字可聽發音)</span>
+        </div>
+    
+        <div id="endlessWordListContainer" style="flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; padding-right: 4px; margin-bottom: 16px; max-height: 220px;"></div>
+    
+        <button onclick="closeEndlessResultModalAndExit()" style="width: 100%; padding: 14px; border-radius: 9999px; border: none; background: #f59e0b; color: #000; font-size: 1rem; font-weight: bold; cursor: pointer;">退出並返回主選單</button>
+      </div>
+    </div>
+
     <!-- 固定底部導覽列 -->
     <nav id="mainBottomNav" class="bottom-nav">
       <button id="navMainBtn" class="nav-btn active" onclick="switchMainTab('main')">🏠 主畫面</button>
       <button id="navFarmBtn" class="nav-btn" onclick="switchMainTab('farm')">🌲 植樹場</button>
     </nav>
-
   </div>
+
+  
+  
 
   <div class="modal-overlay" id="instantFeedbackModal" onclick="skipInstantFeedback()">
     <div class="modal-card" style="text-align: center;" onclick="event.stopPropagation()">
@@ -3202,7 +3291,294 @@
       }
     }
   });
+  /* ===================================================
+   無盡刷題地下城 (Endless Dungeon) 修正版核心邏輯
+   =================================================== */
+let endlessStats = {
+  total: 0,
+  correct: 0,
+  wrong: 0,
+  waterEarned: 0,
+  currentWordObj: null,
+  currentMode: 'en2zh',
+  history: []
+};
+
+// 開啟無盡刷題副本
+function startEndlessDungeon() {
+  const allWords = typeof getAllAvailableWords === 'function' ? getAllAvailableWords() : [];
+  if (!allWords || allWords.length < 4) {
+    alert("單字庫數據不足（至少需要 4 個單字），無法開啟無盡刷題地下城！");
+    return;
+  }
+
+  // 重置統計數據與歷史紀錄
+  endlessStats = {
+    total: 0,
+    correct: 0,
+    wrong: 0,
+    waterEarned: 0,
+    currentWordObj: null,
+    currentMode: 'en2zh',
+    history: []
+  };
+
+  // 關閉並隱藏彈窗
+  closeEndlessConfirmModal();
+  closeEndlessResultModal();
+
+  updateEndlessStatusUI();
+  if (typeof showPage === 'function') showPage('pageEndlessDungeon');
+  renderEndlessQuestion();
+}
+
+// 更新頂部數據顯示
+function updateEndlessStatusUI() {
+  const countEl = document.getElementById('endlessCountText');
+  const accEl = document.getElementById('endlessAccText');
+  const rewardEl = document.getElementById('endlessRewardText');
+
+  const acc = endlessStats.total > 0 ? Math.round((endlessStats.correct / endlessStats.total) * 100) : 100;
+
+  if (countEl) countEl.innerText = `已答: ${endlessStats.total} 題`;
+  if (accEl) accEl.innerText = `正確率: ${acc}%`;
+  if (rewardEl) rewardEl.innerText = `💧 +${endlessStats.waterEarned} 水滴`;
+}
+
+// 發音當前題目英文單字
+function speakEndlessWord() {
+  if (endlessStats.currentWordObj && endlessStats.currentWordObj.word) {
+    if (typeof speakText === 'function') {
+      speakText(endlessStats.currentWordObj.word);
+    } else if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(endlessStats.currentWordObj.word);
+      u.lang = 'en-US';
+      window.speechSynthesis.speak(u);
+    }
+  }
+}
+
+// 隨機渲染下一題
+function renderEndlessQuestion() {
+  const allWords = typeof getAllAvailableWords === 'function' ? getAllAvailableWords() : [];
+  if (!allWords || allWords.length < 4) return;
+
+  // 隨機選取目標單字
+  const targetIndex = Math.floor(Math.random() * allWords.length);
+  const targetWord = allWords[targetIndex];
+  endlessStats.currentWordObj = targetWord;
+
+  // 隨機決定題型: 看英選中 (en2zh) 或 看中選英 (zh2en)
+  endlessStats.currentMode = Math.random() < 0.5 ? 'en2zh' : 'zh2en';
+
+  // 抽樣干擾選項（確保不重複單字）
+  const uniqueWords = allWords.filter(w => w.word !== targetWord.word);
+  uniqueWords.sort(() => 0.5 - Math.random());
   
+  const options = [targetWord, ...uniqueWords.slice(0, 3)];
+  options.sort(() => 0.5 - Math.random());
+
+  // UI 元件參照
+  const quizWordEl = document.getElementById('endlessQuizWord');
+  const phoneticWrap = document.getElementById('endlessPhoneticWrap');
+  const phoneticEl = document.getElementById('endlessPhonetic');
+  const optionsContainer = document.getElementById('endlessQuizOptions');
+
+  const pos = targetWord.pos || targetWord.partOfSpeech || '';
+  const trans = targetWord.trans || targetWord.translation || targetWord.meaning || targetWord.ch || '';
+  const phonetic = targetWord.phonetic || targetWord.kk || targetWord.phoneticSymbol || '';
+
+  if (endlessStats.currentMode === 'en2zh') {
+    // 看英文選中文
+    if (quizWordEl) quizWordEl.innerText = targetWord.word;
+    if (phoneticWrap) phoneticWrap.style.display = 'flex';
+    if (phoneticEl) {
+      phoneticEl.style.display = 'inline';
+      phoneticEl.innerText = phonetic ? `[ ${phonetic} ]` : '';
+    }
+  } else {
+    // 看中文選英文
+    if (quizWordEl) quizWordEl.innerText = `${pos} ${trans}`.trim();
+    if (phoneticWrap) phoneticWrap.style.display = 'none';
+  }
+
+  // 渲染選項按鈕
+  if (optionsContainer) {
+    optionsContainer.innerHTML = '';
+    options.forEach((optWord) => {
+      const btn = document.createElement('button');
+      btn.className = 'quiz-opt-btn';
+
+      const optPos = optWord.pos || optWord.partOfSpeech || '';
+      const optTrans = optWord.trans || optWord.translation || optWord.meaning || optWord.ch || '';
+
+      if (endlessStats.currentMode === 'en2zh') {
+        btn.innerText = `${optPos} ${optTrans}`.trim();
+      } else {
+        btn.innerText = optWord.word;
+      }
+
+      btn.onclick = () => handleEndlessAnswer(optWord.word === targetWord.word, targetWord);
+      optionsContainer.appendChild(btn);
+    });
+  }
+}
+
+// 處理答題點擊
+function handleEndlessAnswer(isCorrect, targetWord) {
+  endlessStats.total += 1;
+
+  const wordPos = targetWord.pos || targetWord.partOfSpeech || '';
+  const wordTrans = targetWord.trans || targetWord.translation || targetWord.meaning || targetWord.ch || '';
+  
+  // 紀錄答題歷程
+  endlessStats.history.push({
+    word: targetWord.word,
+    pos: wordPos,
+    trans: wordTrans,
+    isCorrect: isCorrect
+  });
+
+  if (isCorrect) {
+    endlessStats.correct += 1;
+    endlessStats.waterEarned += 1;
+    if (typeof addFarmResource === 'function') addFarmResource(1, 0);
+  } else {
+    endlessStats.wrong += 1;
+    if (typeof addWrongWordLS === 'function') addWrongWordLS(targetWord);
+  }
+
+  updateEndlessStatusUI();
+  renderEndlessQuestion();
+}
+
+/* ---------------- 彈窗控制邏輯 (已修復 pointer-events 阻擋點擊問題) ---------------- */
+
+// 點擊撤離按鈕或返回箭頭
+function confirmEvacuateEndlessDungeon() {
+  if (endlessStats.total === 0) {
+    if (typeof showPage === 'function') showPage('pageBattleDungeonLobby');
+    return;
+  }
+  const modal = document.getElementById('endlessConfirmModal');
+  if (modal) {
+    modal.style.display = 'flex';
+    modal.style.pointerEvents = 'auto';
+    modal.style.opacity = '1';
+    modal.classList.add('active');
+  }
+}
+
+// 關閉撤離確認彈窗
+function closeEndlessConfirmModal() {
+  const modal = document.getElementById('endlessConfirmModal');
+  if (modal) {
+    modal.style.display = 'none';
+    modal.style.pointerEvents = 'none';
+    modal.style.opacity = '0';
+    modal.classList.remove('active');
+  }
+}
+
+// 關閉結算彈窗
+function closeEndlessResultModal() {
+  const resModal = document.getElementById('endlessResultModal');
+  if (resModal) {
+    resModal.style.display = 'none';
+    resModal.style.pointerEvents = 'none';
+    resModal.style.opacity = '0';
+    resModal.classList.remove('active');
+  }
+}
+
+// 確定結算：關閉確認視窗並開啟成績與單字統整彈窗
+function executeEndlessSettlement() {
+  closeEndlessConfirmModal();
+
+  const total = endlessStats.total;
+  const correct = endlessStats.correct;
+  const wrong = endlessStats.wrong;
+  const water = endlessStats.waterEarned;
+  const acc = total > 0 ? Math.round((correct / total) * 100) : 100;
+
+  // 更新結算數值與徽章顏色
+  const badgeEl = document.getElementById('endlessResultAccBadge');
+  if (badgeEl) {
+    badgeEl.innerText = `${acc}%`;
+    if (acc >= 80) badgeEl.style.background = '#10b981';
+    else if (acc >= 60) badgeEl.style.background = '#f59e0b';
+    else badgeEl.style.background = '#ef4444';
+  }
+
+  const accText = document.getElementById('endlessResultAccText');
+  if (accText) accText.innerText = `正確率：${acc}%`;
+
+  const statsText = document.getElementById('endlessResultStatsText');
+  if (statsText) statsText.innerText = `總題數：${total} 題 | 答對：${correct} 題 | 答錯：${wrong} 題`;
+
+  const waterText = document.getElementById('endlessResultWaterText');
+  if (waterText) waterText.innerText = `💧 獲得數據水滴：+${water}`;
+
+  // 渲染單字統整列表
+  const container = document.getElementById('endlessWordListContainer');
+  if (container) {
+    container.innerHTML = '';
+    endlessStats.history.forEach(item => {
+      const card = document.createElement('div');
+      card.style.cssText = `
+        background: #1c1c1e;
+        border-radius: 10px;
+        padding: 10px 14px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+        border: 1px solid #2c2c2e;
+        cursor: pointer;
+      `;
+      card.onclick = () => {
+        if (typeof speakText === 'function') {
+          speakText(item.word);
+        } else if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+          const u = new SpeechSynthesisUtterance(item.word);
+          u.lang = 'en-US';
+          window.speechSynthesis.speak(u);
+        }
+      };
+
+      const tagColor = item.isCorrect ? '#10b981' : '#ef4444';
+      const tagBg = item.isCorrect ? 'rgba(16, 185, 129, 0.15)' : 'rgba(239, 68, 68, 0.15)';
+      const tagText = item.isCorrect ? '✓ 答對' : '✕ 答錯';
+
+      card.innerHTML = `
+        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 8px;">
+          <span style="font-weight: bold; color: #f59e0b; font-size: 1rem; margin-right: 8px;">${item.word}</span>
+          <span style="font-size: 0.85rem; color: #a1a1aa;">${item.pos} ${item.trans}</span>
+        </div>
+        <div style="background: ${tagBg}; color: ${tagColor}; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 6px; white-space: nowrap; flex-shrink: 0;">
+          ${tagText}
+        </div>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  const resModal = document.getElementById('endlessResultModal');
+  if (resModal) {
+    resModal.style.display = 'flex';
+    resModal.style.pointerEvents = 'auto';
+    resModal.style.opacity = '1';
+    resModal.classList.add('active');
+  }
+}
+
+// 關閉結算彈窗並返回副本大廳
+function closeEndlessResultModalAndExit() {
+  closeEndlessResultModal();
+  if (typeof showPage === 'function') showPage('pageBattleDungeonLobby');
+}
 </script>
 </body>
 </html>
