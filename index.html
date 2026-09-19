@@ -3292,7 +3292,7 @@
     }
   });
   /* ===================================================
-   無盡刷題地下城 (Endless Dungeon) 修正版核心邏輯
+   無盡刷寶搜打撤 (Endless Dungeon) 修正版核心邏輯
    =================================================== */
 let endlessStats = {
   total: 0,
@@ -3308,7 +3308,7 @@ let endlessStats = {
 function startEndlessDungeon() {
   const allWords = typeof getAllAvailableWords === 'function' ? getAllAvailableWords() : [];
   if (!allWords || allWords.length < 4) {
-    alert("單字庫數據不足（至少需要 4 個單字），無法開啟無盡刷題地下城！");
+    alert("單字庫數據不足（至少需要 4 個單字），無法開啟無盡刷寶搜打撤！");
     return;
   }
 
