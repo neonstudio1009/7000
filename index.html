@@ -931,7 +931,7 @@
       <div class="menu-card" onclick="startEndlessDungeon()">
         <div style="font-size: 2rem;">♾️</div>
         <div>
-          <h2 style="font-size: 1.1rem;">無盡刷寶搜打撤</h2>
+          <h2 style="font-size: 1.1rem;">無盡刷題搜打撤</h2>
           <p style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px;">無限刷題無壓力！題型隨機混搭，隨時撤離結算獎勵</p>
         </div>
       </div>
@@ -1010,7 +1010,7 @@
         <!-- 頂部列 -->
         <div class="top-bar">
           <button class="back-btn" onclick="confirmEvacuateEndlessDungeon()">‹</button>
-          <div class="bar-title">♾️ 無盡刷寶搜打撤</div>
+          <div class="bar-title">♾️ 無盡刷題搜打撤</div>
           <div style="width: 24px;"></div>
         </div>
     
@@ -3292,7 +3292,7 @@
     }
   });
   /* ===================================================
-   無盡刷寶搜打撤 (Endless Dungeon) 修正版核心邏輯
+   無盡刷題搜打撤 (Endless Dungeon) 修正版核心邏輯
    =================================================== */
 let endlessStats = {
   total: 0,
@@ -3308,7 +3308,7 @@ let endlessStats = {
 function startEndlessDungeon() {
   const allWords = typeof getAllAvailableWords === 'function' ? getAllAvailableWords() : [];
   if (!allWords || allWords.length < 4) {
-    alert("單字庫數據不足（至少需要 4 個單字），無法開啟無盡刷寶搜打撤！");
+    alert("單字庫數據不足（至少需要 4 個單字），無法開啟無盡刷題搜打撤！");
     return;
   }
 
