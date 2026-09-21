@@ -3117,6 +3117,7 @@
     } else {
       bossCombo = 0;
       playerHp = Math.max(0, playerHp - 20);
+      addWrongWordLS(currentBossWord);
       try {
         if (currentBossWord && currentBossWord.word) {
           addWrongWordLS(currentBossWord);
