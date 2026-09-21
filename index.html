@@ -3118,13 +3118,7 @@
       bossCombo = 0;
       playerHp = Math.max(0, playerHp - 20);
       addWrongWordLS(currentBossWord);
-      try {
-        if (currentBossWord && currentBossWord.word) {
-          addWrongWordLS(currentBossWord);
-        }
-      } catch (error) {
-        console.error("錯題紀錄寫入失敗:", error);
-      }
+      
     }
 
     
